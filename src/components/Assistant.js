@@ -8,7 +8,6 @@ import handleSpeak from "../function/handleSpeak";
 import image from "../images/animation.gif";
 // const appId = "8b461380-b198-4740-b55b-3b1456820091";
 // const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -33,6 +32,29 @@ const Assistant = () => {
           setIsDialogOpen(false);
         }
       },
+      matchInterim: true,
+    },
+    {
+      command: ["搜尋"],
+      callback: () => {
+        console.log("ss", finalTranscript.split(" ").pop());
+        fetch("http://localhost:3000/api/hello", {
+          mode: "no-cors",
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            console.log(res);
+            return res;
+          })
+          .then((data) => {
+            console.log(data);
+          });
+      },
+      isFuzzyMatch: true, // 模糊匹配
+      bestMatchOnly: true,
       matchInterim: true,
     },
     {
