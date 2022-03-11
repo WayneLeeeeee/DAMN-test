@@ -4,6 +4,7 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import {
   Backdrop,
+  Box,
   Dialog,
   DialogContent,
   DialogContentText,
@@ -194,33 +195,33 @@ const Assistant = () => {
   console.log("第二監聽: ", displayText);
   console.log(recipeResult);
   return (
-    <div>
-      <Dialog
+    <div className='assistant'>
+      {/* <Dialog
         open={isDialogOpen}
         sx={{
           backdropFilter: "blur(10px)",
           //other styles here
         }}
-      >
-        {recipeResult?.map((recipe) => (
-          <RecipeCard recipeData={recipe} />
-        ))}
-      </Dialog>
+      ></Dialog> */}
 
       <Dialog
-        fullWidth
+        className="dialogContainer"
+        maxWidth="sm"
         open={isDialogOpen}
         TransitionComponent={Transition}
         keepMounted
         onClose={isDialogOpen}
         aria-describedby="alert-dialog-slide-description"
-        backdropComponent={{ display: "none" }}
-        // sx={{
-        //   backdropFilter: "blur(10px)",
-        //   //other styles here
-        // }}
       >
-        <DialogTitle sx={{ color: "#fff" }}>
+        <Box
+        // sx={{ width: "100%", position: "absolute", top: 0, height: "100%" }}
+        >
+          {recipeResult?.map((recipe) => (
+            <RecipeCard recipeData={recipe} />
+          ))}
+        </Box>
+
+        <DialogTitle sx={{ color: "#444545" }}>
           {transcript.split(" ").pop()}
         </DialogTitle>
         <DialogContent>
