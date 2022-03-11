@@ -87,5 +87,6 @@
       "ALGOLIASEARCH_APPLICATION_ID",
       "ALGOLIASEARCH_SEARCH_ONLY_KEY"
     ]
-  }
+  },
+   "proxy": "http://localhost:3000"
 }
