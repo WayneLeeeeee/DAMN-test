@@ -25,7 +25,7 @@ function useSearch(index = "ingredients", value, userId) {
   // 第一個 參數 只接受  ingredients, recipes, users 其中一項，沒寫預設就是 ingredients
   // 如果 index 是 fridge 需要第三個參數 userId
   // 第二個 參數 是查詢的字或詞
-  // 第三個 參數 userId 是為了搜尋 冰箱、食材 需要的
+  // 第三個 參數 userId 是為了搜尋 冰箱食材 需要的
   let algolia = client.initIndex(index);
 
   if (index === "fridge") {

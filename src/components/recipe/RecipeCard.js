@@ -6,11 +6,26 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { actionTypes } from "../../reducer";
+import { useStateValue } from "../../StateProvider";
+const RecipeCard = ({ recipeData,index }) => {
+  let navigate = useNavigate();
+  const [{ isAssistantModelOpen }, dispatch] = useStateValue();
 
-const RecipeCard = ({ recipeData }) => {
+  const goToRecipeDetailPage = () => {
+    console.log(recipeData.objectID);
+    navigate(`/recipe/${recipeData.objectID}`);
+    dispatch({
+      type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+      isAssistantModelOpen: false,
+    });
+  };
+
+ // useEffect(() => {}, [recipeData]);
   return (
-    <Card sx={{ display: "flex", my: 2, mx: 2 }}>
+    <Card sx={{ display: "flex", my: 2, mx: 2 }} onClick={goToRecipeDetailPage}>
       <Box sx={{ display: "flex", flexDirection: "column", flex: "1" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
@@ -21,7 +36,7 @@ const RecipeCard = ({ recipeData }) => {
             color="text.secondary"
             component="div"
           >
-            Mac Miller
+            {index + 1}
           </Typography>
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
