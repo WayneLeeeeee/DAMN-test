@@ -83,6 +83,10 @@ function App() {
         {/* 想用的，可以打開註解 */}
         <Assistant />
       </Router>
+
+      {/* 想用的，可以打開註解 */}
+      <Assistant /> 
+
     </div>
   );
 }
