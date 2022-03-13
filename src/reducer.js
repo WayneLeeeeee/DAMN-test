@@ -11,8 +11,8 @@ export const initialState = {
   },
   navbarBtnId: 0,
   isUpdated: false,
-  
-  checkedList: []
+  isAssistantModelOpen: false,
+  checkedList: [],
 };
 
 export const actionTypes = {
@@ -22,6 +22,7 @@ export const actionTypes = {
   SET_ISUPDATED: "SET_ISUPDATED",
   SET_UPDATE_RECIPE_DATA: "SET_UPDATE_RECIPE_DATA",
   SET_CHECKEDLIST: "SET_CHECKEDLIST",
+  SET_IS_ASSISTANT_MODEL_OPEN: "SET_IS_ASSISTANT_MODEL_OPEN",
 };
 
 const reducer = (state, action) => {
@@ -51,6 +52,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         checkedList: action.checkedList,
+      };
+    case actionTypes.SET_IS_ASSISTANT_MODEL_OPEN:
+      return {
+        ...state,
+        isAssistantModelOpen: action.isAssistantModelOpen,
       };
 
     default:

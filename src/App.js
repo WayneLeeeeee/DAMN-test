@@ -61,25 +61,32 @@ function App() {
                 <Route path="recipe/search" element={<RecipeSearchPage />} />
               </Route>
 
-          {/* fridge */}
-          <Route path="/fridge">
-            <Route index element={<FridgePage />} />
-            <Route path="creatshoppinglist" element={<CreateShoppinglist />} />
-            <Route path="fridgemanage" element={<FridgeManagePage />} />
-            <Route path="shoppinglist" element={<ShoppingListPage />} />
-            <Route path="sendfoodlist" element={<SendFoodListPage />} />
-            <Route path="checkfoodlist" element={<CheckFoodListPage />} />
-            <Route path="search" element={<FridgeSearchResult/>} />
-          </Route>
+              {/* fridge */}
+              <Route path="/fridge">
+                <Route index element={<FridgePage />} />
+                <Route
+                  path="creatshoppinglist"
+                  element={<CreateShoppinglist />}
+                />
+                <Route path="fridgemanage" element={<FridgeManagePage />} />
+                <Route path="shoppinglist" element={<ShoppingListPage />} />
+                <Route path="sendfoodlist" element={<SendFoodListPage />} />
+                <Route path="checkfoodlist" element={<CheckFoodListPage />} />
+                <Route path="search" element={<FridgeSearchResult />} />
+              </Route>
 
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="*" element={<NotFound />} />
             </>
           )}
         </Routes>
+        {/* 想用的，可以打開註解 */}
+        <Assistant />
       </Router>
+
       {/* 想用的，可以打開註解 */}
-      {/* <Assistant /> */}
+      <Assistant /> 
+
     </div>
   );
 }

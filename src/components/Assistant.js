@@ -4,6 +4,7 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import {
   Backdrop,
+  Box,
   Dialog,
   DialogContent,
   DialogContentText,
@@ -24,14 +25,20 @@ import sound from "../public/sound/sound.mp3";
 import useSearch from "../hooks/useSearch";
 import algoliaSearch from "../function/algoliaSearch";
 import RecipeCard from "../components/recipe/RecipeCard";
+import { actionTypes } from "../reducer";
+import { useStateValue } from "../StateProvider";
+import { useNavigate } from "react-router-dom";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const speechsdk = require("microsoft-cognitiveservices-speech-sdk");
 
 const Assistant = () => {
+  let navigate = useNavigate();
   const [playSound] = useSound(sound);
-  const [isDialogOpen, setIsDialogOpen] = useState(true); // need to set global state
+  //const [isDialogOpen, setIsDialogOpen] = useState(false); // need to set global state
+  const [{ isAssistantModelOpen }, dispatch] = useStateValue();
+  console.log(isAssistantModelOpen);
   const [displayText, setDisplayText] = useState("");
   const [AIResponse, setAIResponse] = useState("");
   const [recipeResult, setRecipeResult] = useState(null);
@@ -41,6 +48,25 @@ const Assistant = () => {
       intent: "Recipe.Search",
       callback: (entities) => {
         handleRecipeSearch(entities);
+      },
+    },
+    {
+      intent: "Utilities.SelectItem",
+      callback: (entities) => {
+        // 利用語音控制並開啟第幾道的食譜
+        const number = entities.ordinal[0];
+        const index = number - 1;
+        if (!recipeResult) {
+          displayAndSpeakResponse("您需要先講出查詢何種食譜，我才能為您開啟");
+          return;
+        }
+
+        displayAndSpeakResponse(`幫您開啟第${number}道食譜`);
+        navigate(`/recipe/${recipeResult[index]?.objectID}`);
+        dispatch({
+          type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+          isAssistantModelOpen: false,
+        });
       },
     },
     {
@@ -70,7 +96,10 @@ const Assistant = () => {
       callback: () => {
         clearIntent();
         displayAndSpeakResponse("我在");
-        setIsDialogOpen(true);
+        dispatch({
+          type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+          isAssistantModelOpen: true,
+        });
         delayPlaySound();
         delaySTTFromMic();
       },
@@ -79,10 +108,13 @@ const Assistant = () => {
     },
   ];
 
-  // 執行 RecipeSearch 意圖
+  // 語音執行 Recipe.Search 意圖
   const handleRecipeSearch = async (entities) => {
     const foods = entities.Foods;
+    if (!foods) return;
+
     const recipe = entities.Recipe;
+
     const result = await algoliaSearch("recipes", foods[0][0]);
     if (foods?.length < 0 || !isArray(foods) || result?.length <= 0) {
       displayAndSpeakResponse("沒有找到符合需求的項目");
@@ -134,12 +166,23 @@ const Assistant = () => {
   }, []);
 
   // 小當家彈出視窗 開關
-  const handleDialogOpen = () => {
-    setIsDialogOpen(true ? false : true);
+  const handleDialogClose = () => {
+    //console.log("click", isDialogOpen);
+    // setIsDialogOpen(false);
+    dispatch({
+      type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+      isAssistantModelOpen: false,
+    });
     setRecipeResult(null);
     setAIResponse("");
     setDisplayText("");
   };
+  useEffect(() => {
+    if (!isAssistantModelOpen) {
+      setAIResponse("");
+      setDisplayText("");
+    }
+  }, [isAssistantModelOpen]);
 
   // 命令用語音 stt => speech to text
   const sttFromMic = async () => {
@@ -180,47 +223,39 @@ const Assistant = () => {
     setAIResponse(text);
   };
 
-  // const useStyles = makeStyles((theme) => ({
-  //   backDrop: {
-  //     backdropFilter: "blur(10px)",
-  //     backgroundColor: "rgba(0,0,30,0.4)",
-  //     color: "#fff",
-  //     zIndex: 1,
-  //   },
-  // }));
-  // const styles = useStyles();
   console.log("第一監聽: ", finalTranscript.split(" ").pop());
   console.log("意圖: ", intentInfo);
   console.log("第二監聽: ", displayText);
   console.log(recipeResult);
   return (
-    <div>
+    <div className="assistant">
       <Dialog
-        open={isDialogOpen}
+        className="dialogContainer"
+        maxWidth="sm"
+        open={isAssistantModelOpen}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleDialogClose}
+        onBackdropClick={handleDialogClose}
+        aria-describedby="alert-dialog-slide-description"
         sx={{
           backdropFilter: "blur(10px)",
           //other styles here
         }}
       >
-        {recipeResult?.map((recipe) => (
-          <RecipeCard recipeData={recipe} />
-        ))}
-      </Dialog>
+        <Box
+        // sx={{ width: "100%", position: "absolute", top: 0, height: "100%" }}
+        >
+          {recipeResult?.map((recipe, index) => (
+            <RecipeCard
+              key={recipe.objectID}
+              recipeData={recipe}
+              index={index}
+            />
+          ))}
+        </Box>
 
-      <Dialog
-        fullWidth
-        open={isDialogOpen}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={isDialogOpen}
-        aria-describedby="alert-dialog-slide-description"
-        backdropComponent={{ display: "none" }}
-        // sx={{
-        //   backdropFilter: "blur(10px)",
-        //   //other styles here
-        // }}
-      >
-        <DialogTitle sx={{ color: "#fff" }}>
+        <DialogTitle sx={{ color: "#444545" }}>
           {transcript.split(" ").pop()}
         </DialogTitle>
         <DialogContent>

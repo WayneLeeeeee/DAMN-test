@@ -842,7 +842,18 @@ img {
   background-color: #e2e2e2 !important;
 }
 
-.css-tlc64q-MuiPaper-root-MuiDialog-paper {
+.assistant .dialogContainer {
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+
+.assistant .dialogContainer .MuiDialog-container {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.assistant .css-tlc64q-MuiPaper-root-MuiDialog-paper {
   margin: 24px 10px !important;
   padding: 8px;
   width: 100% !important;
@@ -851,7 +862,7 @@ img {
   background-color: #c4c4c4 !important;
 }
 
-.voice-recognition {
+.assistant .voice-recognition {
   height: 60px;
   -o-object-fit: cover;
      object-fit: cover;

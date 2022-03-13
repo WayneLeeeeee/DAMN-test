@@ -42,7 +42,7 @@ function IndexMiddle() {
         <HotCard /> */}
       </div>
       <div className="recipeIndexMiddle__title">
-        <h4>推薦</h4>
+        <h4>近期搜尋</h4>
       </div>
       <div className="recipeIndexMiddle__cards-1">
         <div className="recipeIndexMiddle__cards-2">
