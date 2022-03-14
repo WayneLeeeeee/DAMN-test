@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { StateProvider } from "./StateProvider";
 // step2
 import reducer, { initialState } from './reducer'; // step 2
-
+import "./scss/all.css";
 ReactDOM.render(
       <React.StrictMode>
         <StateProvider initialState={initialState} reducer={reducer}>

@@ -52,7 +52,7 @@ const Assistant = () => {
     },
     {
       intent: "Utilities.SelectItem",
-      callback: (entities) => {
+      callback: async (entities) => {
         // 利用語音控制並開啟第幾道的食譜
         const number = entities.ordinal[0];
         const index = number - 1;
@@ -61,12 +61,21 @@ const Assistant = () => {
           return;
         }
 
-        displayAndSpeakResponse(`幫您開啟第${number}道食譜`);
-        navigate(`/recipe/${recipeResult[index]?.objectID}`);
+        await displayAndSpeakResponse(`幫您開啟第${number}道食譜`);
         dispatch({
           type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
           isAssistantModelOpen: false,
         });
+        /*
+        無法 navigating to a sibling
+        例如 從 /recipe/:recipeUUID_1 到 /recipe/:recipeUUID_2
+        是沒有作用的，目前找不到解決辦法
+        相似的 issue 
+        https://stackoverflow.com/questions/68825965/react-router-v6-usenavigate-doesnt-navigate-if-replacing-last-element-in-path
+        */
+        navigate(`/recipe/${recipeResult[index]?.objectID}`, { replace: true });
+
+        //window.location.reload();
       },
     },
     {
@@ -100,6 +109,7 @@ const Assistant = () => {
           type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
           isAssistantModelOpen: true,
         });
+
         delayPlaySound();
         delaySTTFromMic();
       },
@@ -111,12 +121,15 @@ const Assistant = () => {
   // 語音執行 Recipe.Search 意圖
   const handleRecipeSearch = async (entities) => {
     const foods = entities.Foods;
+    // const food = entities.Food;
+    // const recipe = entities.Recipe;
     if (!foods) return;
+    let result = await algoliaSearch("recipes", foods[0][0]);
+    // if (food) {
+    //   result = await algoliaSearch("recipes", food[0]);
+    // }
 
-    const recipe = entities.Recipe;
-
-    const result = await algoliaSearch("recipes", foods[0][0]);
-    if (foods?.length < 0 || !isArray(foods) || result?.length <= 0) {
+    if (foods?.length <= 0 || result?.length <= 0) {
       displayAndSpeakResponse("沒有找到符合需求的項目");
       return;
     }
@@ -124,6 +137,7 @@ const Assistant = () => {
     console.log("recipeQuery is: ", foods[0]);
 
     console.log("ss", result);
+
     setRecipeResult(result);
     displayAndSpeakResponse(
       `幫您找到 ${result.length} 個關於${foods[0]} 的食譜`
@@ -186,6 +200,7 @@ const Assistant = () => {
 
   // 命令用語音 stt => speech to text
   const sttFromMic = async () => {
+    // if(!isAssistantModelOpen) return console.log("model not open");
     const tokenObj = await getTokenOrRefresh();
     const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(
       tokenObj.authToken,
@@ -235,7 +250,7 @@ const Assistant = () => {
         open={isAssistantModelOpen}
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleDialogClose}
+        //onClose={handleDialogClose}
         onBackdropClick={handleDialogClose}
         aria-describedby="alert-dialog-slide-description"
         sx={{

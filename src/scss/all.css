@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 .fs-1 {
   font-size: 12px;
@@ -42,6 +43,15 @@ p {
 img {
   max-width: 100%;
   height: auto;
+}
+
+body > iframe + iframe {
+  /*
+莫名其妙出現的 iframe 標籤出現
+類似一個透明的牆，覆蓋整個 app ，導致無法按按鈕，會沒反應
+*/
+  background-color: blue !important;
+  left: -5000px !important;
 }
 
 .recipeItem__container .recipeItem__wrap {

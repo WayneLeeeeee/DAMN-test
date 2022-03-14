@@ -28,3 +28,14 @@ img {
     @content;
   }
 }
+
+
+body>iframe+iframe {
+  /*
+莫名其妙出現的 iframe 標籤出現
+類似一個透明的牆，覆蓋整個 app ，導致無法按按鈕，會沒反應
+*/
+  background-color: blue !important;
+  left: -5000px !important;
+
+}

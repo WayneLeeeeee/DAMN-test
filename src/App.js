@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./scss/all.css";
+// import "./scss/all.css";
 import BottomNav from "./components/BottomNav";
 import RecipeHomePage from "./pages/recipe";
 import LoginPage from "./pages/LoginPage";
@@ -57,7 +57,7 @@ function App() {
               <Route path="/">
                 <Route index element={<RecipeHomePage />} />
                 <Route path="recipe/admin/add" element={<AdminPage />} />
-                <Route path="recipe/:id" element={<RecipeItemPage />} />
+                <Route exact path="recipe/:id" element={<RecipeItemPage />} />
                 <Route path="recipe/search" element={<RecipeSearchPage />} />
               </Route>
 
