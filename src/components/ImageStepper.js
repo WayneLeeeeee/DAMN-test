@@ -18,6 +18,7 @@ import { MobileStepper } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import useRecognize from "../hooks/useRecognize";
 import ChineseNumber from "chinese-numbers-converter";
+import speak from "../function/speak";
 const images = [
   {
     id: 1,
@@ -53,18 +54,19 @@ function ImageStepper({ data }) {
       intent: "ToDo.ShowNextPage",
       callback: (entities) => {
         if (!entities.Number[0][0])
-          return console.log("out the showNextPage func");
+          return speak("out the showNextPage func");
 
-        const listenedNumber = new ChineseNumber(
-          entities.Number[0][0]
-        ).toArabicString();
+        let listenedNumber = parseInt(
+          new ChineseNumber(entities.Number[0][0]).toArabicString()
+        );
         console.log("listen Number: ", listenedNumber);
         const activeSlide = swiper.activeIndex + 1;
         console.log("activeSlide: ", activeSlide);
         swiper.slideTo(activeSlide + listenedNumber);
+        speak(`為您移動到第${activeSlide + listenedNumber}步`);
         dispatch({
           type: actionTypes.SET_AI_RESPONSE,
-          AIResponse: "",
+          AIResponse: `為您移動到第${activeSlide + listenedNumber}步`,
         });
         dispatch({
           type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
