@@ -7,7 +7,7 @@ const DEFAULT_SPEECH_CONFIG = {
 const speak = (text, config = DEFAULT_SPEECH_CONFIG) => {
   if (typeof window === "undefined") return;
 
-  console.log(process.env.AZURE_REGION);
+  //console.log(process.env.AZURE_REGION);
   let speechConfig = sdk.SpeechConfig.fromSubscription(
     "597a30b28d9a46618332e246cdd53dc4",
     "eastasia"
@@ -56,5 +56,9 @@ const speak = (text, config = DEFAULT_SPEECH_CONFIG) => {
   //     }
   //   );
 };
+
+
+
+
 
 export default speak;

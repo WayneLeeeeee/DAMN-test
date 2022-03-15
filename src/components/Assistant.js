@@ -16,10 +16,11 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
-import { debounce, isArray } from "lodash";
+import getTokenOrRefresh from "../function/getTokenOrRefresh";
+import { debounce } from "lodash";
 import speak from "../function/speak";
 import useRecognize from "../hooks/useRecognize";
-import getTokenOrRefresh from "../function/getTokenOrRefresh";
+
 import useSound from "use-sound";
 import sound from "../public/sound/sound.mp3";
 import useSearch from "../hooks/useSearch";
@@ -28,19 +29,22 @@ import RecipeCard from "../components/recipe/RecipeCard";
 import { actionTypes } from "../reducer";
 import { useStateValue } from "../StateProvider";
 import { useNavigate } from "react-router-dom";
+import ChineseNumber from "chinese-numbers-converter";
+
+const speechsdk = require("microsoft-cognitiveservices-speech-sdk");
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const speechsdk = require("microsoft-cognitiveservices-speech-sdk");
 
 const Assistant = () => {
   let navigate = useNavigate();
   const [playSound] = useSound(sound);
   //const [isDialogOpen, setIsDialogOpen] = useState(false); // need to set global state
-  const [{ isAssistantModelOpen }, dispatch] = useStateValue();
-  console.log(isAssistantModelOpen);
-  const [displayText, setDisplayText] = useState("");
-  const [AIResponse, setAIResponse] = useState("");
+  const [{ isAssistantModelOpen, AIResponse, textFromMic }, dispatch] =
+    useStateValue();
+
+  // const [displayText, setDisplayText] = useState("");
+  // const [AIResponse, setAIResponse] = useState("");
   const [recipeResult, setRecipeResult] = useState(null);
   // 命令 stt => speech to text
   let STT_Commands = [
@@ -94,7 +98,7 @@ const Assistant = () => {
     },
   ];
   const [intentInfo, topIntent, clearIntent] = useRecognize(
-    displayText,
+    textFromMic,
     STT_Commands
   );
 
@@ -102,16 +106,21 @@ const Assistant = () => {
   let commands = [
     {
       command: ["小當家"],
-      callback: () => {
+      callback: async () => {
         clearIntent();
         displayAndSpeakResponse("我在");
+        delayPlaySound();
+        sttFromMic();
         dispatch({
           type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
           isAssistantModelOpen: true,
         });
 
-        delayPlaySound();
-        delaySTTFromMic();
+        //console.log("delay 監聽 ", text);
+        // await dispatch({
+        //   type: actionTypes.SET_TEXT_FROM_MIC,
+        //   textFromMic: text,
+        // });
       },
       isFuzzyMatch: true, // 模糊匹配
       bestMatchOnly: true,
@@ -143,11 +152,46 @@ const Assistant = () => {
       `幫您找到 ${result.length} 個關於${foods[0]} 的食譜`
     );
   };
+  const sttFromMic = async () => {
+    // if(!isAssistantModelOpen) return console.log("model not open");
+    const tokenObj = await getTokenOrRefresh();
+    const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(
+      tokenObj.authToken,
+      tokenObj.region
+    );
+    speechConfig.speechRecognitionLanguage = "zh-TW";
 
-  // 延遲 提示音
-  const delayPlaySound = debounce(() => {
-    playSound();
-  }, 1200);
+    const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
+    const recognizer = new speechsdk.SpeechRecognizer(
+      speechConfig,
+      audioConfig
+    );
+
+    const text = recognizer.recognizeOnceAsync((result) => {
+      let displayText;
+      //console.log("result.text: ", result.text);
+      if (result.reason === ResultReason.RecognizedSpeech) {
+        //displayText = `RECOGNIZED: Text=${result.text}`;
+        /*
+        ChineseNumber package
+        將 中文數字 轉成 阿拉伯數字
+        例如： 打開第四道食譜 －> 打開第4道食譜
+        */
+        displayText = new ChineseNumber(result.text).toArabicString();
+        dispatch({
+          type: actionTypes.SET_TEXT_FROM_MIC,
+          textFromMic: displayText,
+        });
+      } else {
+        displayText =
+          "ERROR: Speech was cancelled or could not be recognized. Ensure your microphone is working properly.";
+      }
+      //setDisplayText(result.text);
+      return displayText;
+    });
+
+    return text;
+  };
 
   // 延遲 命令辨識
   const delaySTTFromMic = debounce(async () => {
@@ -156,6 +200,11 @@ const Assistant = () => {
     // 兩秒後應該要有 提示音
     sttFromMic();
   }, 2000);
+
+  // 延遲 提示音
+  const delayPlaySound = debounce(() => {
+    playSound();
+  }, 1200);
 
   const {
     transcript,
@@ -187,61 +236,46 @@ const Assistant = () => {
       type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
       isAssistantModelOpen: false,
     });
+
+    dispatch({
+      type: actionTypes.SET_AI_RESPONSE,
+      AIResponse: "",
+    });
+    dispatch({
+      type: actionTypes.SET_TEXT_FROM_MIC,
+      textFromMic: "",
+    });
     setRecipeResult(null);
-    setAIResponse("");
-    setDisplayText("");
   };
+
   useEffect(() => {
     if (!isAssistantModelOpen) {
-      setAIResponse("");
-      setDisplayText("");
+      dispatch({
+        type: actionTypes.SET_AI_RESPONSE,
+        AIResponse: "",
+      });
+      dispatch({
+        type: actionTypes.SET_TEXT_FROM_MIC,
+        textFromMic: "",
+      });
     }
   }, [isAssistantModelOpen]);
-
-  // 命令用語音 stt => speech to text
-  const sttFromMic = async () => {
-    // if(!isAssistantModelOpen) return console.log("model not open");
-    const tokenObj = await getTokenOrRefresh();
-    const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(
-      tokenObj.authToken,
-      tokenObj.region
-    );
-    speechConfig.speechRecognitionLanguage = "zh-TW";
-
-    const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
-    const recognizer = new speechsdk.SpeechRecognizer(
-      speechConfig,
-      audioConfig
-    );
-    setDisplayText("");
-
-    const text = recognizer.recognizeOnceAsync((result) => {
-      let displayText;
-      // console.log(result.text);
-      if (result.reason === ResultReason.RecognizedSpeech) {
-        //displayText = `RECOGNIZED: Text=${result.text}`;
-        setDisplayText(result.text);
-      } else {
-        displayText =
-          "ERROR: Speech was cancelled or could not be recognized. Ensure your microphone is working properly.";
-      }
-      //setDisplayText(result.text);
-      return result.text;
-    });
-
-    return text;
-  };
+  
 
   // 顯示 AI 回覆 與 說出合成語音
   const displayAndSpeakResponse = async (text) => {
     speak(text);
-    setAIResponse(text);
+    dispatch({
+      type: actionTypes.SET_AI_RESPONSE,
+      AIResponse: text,
+    });
   };
 
   console.log("第一監聽: ", finalTranscript.split(" ").pop());
   console.log("意圖: ", intentInfo);
-  console.log("第二監聽: ", displayText);
-  console.log(recipeResult);
+  console.log("第二監聽: ", textFromMic);
+  //console.log(recipeResult);
+
   return (
     <div className="assistant">
       <Dialog

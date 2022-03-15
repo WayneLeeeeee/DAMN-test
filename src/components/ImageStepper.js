@@ -4,19 +4,20 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useSpeechRecognition } from "react-speech-recognition";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Zoom } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-// import { actionTypes } from "../reducer";
+import { actionTypes } from "../reducer";
 import { useStateValue } from "../StateProvider";
 import { useNavigate } from "react-router-dom";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { MobileStepper } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
+import useRecognize from "../hooks/useRecognize";
+import ChineseNumber from "chinese-numbers-converter";
 const images = [
   {
     id: 1,
@@ -45,33 +46,37 @@ const images = [
 ];
 
 function ImageStepper({ data }) {
-  // AI
-  const commands = [
+  const [{ AIResponse, textFromMic }, dispatch] = useStateValue();
+  // 小當家命令
+  let STT_Commands = [
     {
-      command: ["下一步"],
-      callback: () => {
-        console.log("next swiper: ", swiper);
-        swiper.slideNext();
-        console.log("after next swiper: ");
+      intent: "ToDo.ShowNextPage",
+      callback: (entities) => {
+        if (!entities.Number[0][0])
+          return console.log("out the showNextPage func");
+
+        const listenedNumber = new ChineseNumber(
+          entities.Number[0][0]
+        ).toArabicString();
+        console.log("listen Number: ", listenedNumber);
+        const activeSlide = swiper.activeIndex + 1;
+        console.log("activeSlide: ", activeSlide);
+        swiper.slideTo(activeSlide + listenedNumber);
+        dispatch({
+          type: actionTypes.SET_AI_RESPONSE,
+          AIResponse: "",
+        });
+        dispatch({
+          type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+          isAssistantModelOpen: false,
+        });
       },
-      isFuzzyMatch: true, // 模糊匹配
-      fuzzyMatchingThreshold: 0.8, // 高於 80% 才確定
-      bestMatchOnly: true,
-      // matchInterim: true,
-    },
-    {
-      command: ["上一步"],
-      callback: () => {
-        console.log("prev swiper: ", swiper);
-        swiper?.slidePrev();
-      },
-      isFuzzyMatch: true, // 模糊匹配
-      fuzzyMatchingThreshold: 0.8, // 高於 80% 才確定
-      bestMatchOnly: true,
-      // matchInterim: true,
     },
   ];
-  useSpeechRecognition({ commands });
+  const [intentInfo, topIntent, clearIntent] = useRecognize(
+    textFromMic,
+    STT_Commands
+  );
 
   let navigate = useNavigate();
   const theme = useTheme();

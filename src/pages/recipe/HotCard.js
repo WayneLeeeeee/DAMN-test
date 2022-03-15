@@ -57,8 +57,8 @@ function HotCard({ data }) {
    
   };
 
-  console.log(isLiked);
-  console.log(isLikedId);
+  // console.log(isLiked);
+  // console.log(isLikedId);
 
   //跳轉
   let navigate = useNavigate();

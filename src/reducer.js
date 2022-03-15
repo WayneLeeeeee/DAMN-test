@@ -12,6 +12,8 @@ export const initialState = {
   navbarBtnId: 0,
   isUpdated: false,
   isAssistantModelOpen: false,
+  AIResponse: "",
+  textFromMic: "",
   checkedList: [],
 };
 
@@ -23,6 +25,8 @@ export const actionTypes = {
   SET_UPDATE_RECIPE_DATA: "SET_UPDATE_RECIPE_DATA",
   SET_CHECKEDLIST: "SET_CHECKEDLIST",
   SET_IS_ASSISTANT_MODEL_OPEN: "SET_IS_ASSISTANT_MODEL_OPEN",
+  SET_AI_RESPONSE: "SET_AI_RESPONSE",
+  SET_TEXT_FROM_MIC: "SET_TEXT_FROM_MIC",
 };
 
 const reducer = (state, action) => {
@@ -57,6 +61,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         isAssistantModelOpen: action.isAssistantModelOpen,
+      };
+    case actionTypes.SET_AI_RESPONSE:
+      return {
+        ...state,
+        AIResponse: action.AIResponse,
+      };
+    case actionTypes.SET_TEXT_FROM_MIC:
+      return {
+        ...state,
+        textFromMic: action.textFromMic,
       };
 
     default:

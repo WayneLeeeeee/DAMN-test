@@ -11,7 +11,7 @@ const useRecognize = (text, commands = []) => {
   //console.log(" commandsRef.current : ", commandsRef.current);
 
   useEffect(() => {
-    if (text?.length <= 0) return;
+    if (!text) return "no text";
     recognizeIntent(text);
   }, [text]);
 
@@ -22,11 +22,11 @@ const useRecognize = (text, commands = []) => {
   }, [intentInfo]);
 
   const recognizeIntent = async (text) => {
-    if (text?.length <= 0) return;
+    if (!text) return;
     const response = await fetch(
       `https://damn.cognitiveservices.azure.com/luis/prediction/v3.0/apps/81aad6d8-176f-4f9b-81f7-dcf711b02a38/slots/production/predict?verbose=true&show-all-intents=true&log=true&subscription-key=597a30b28d9a46618332e246cdd53dc4&query=${text}`
     );
-    console.log("fetch data");
+    console.log("recognize Intent");
     const temp_data = await response.json();
     //console.log("top: ", temp_data.prediction.topIntent);
     setTopIntent(temp_data.prediction.topIntent);
