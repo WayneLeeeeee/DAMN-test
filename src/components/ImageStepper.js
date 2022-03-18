@@ -53,28 +53,70 @@ function ImageStepper({ data }) {
     {
       intent: "ToDo.ShowNextPage",
       callback: (entities) => {
-        if (!entities.Number[0][0])
-          return speak("out the showNextPage func");
+        if (!entities.Number[0][0]) return;
 
         let listenedNumber = parseInt(
           new ChineseNumber(entities.Number[0][0]).toArabicString()
         );
         console.log("listen Number: ", listenedNumber);
-        const activeSlide = swiper.activeIndex + 1;
-        console.log("activeSlide: ", activeSlide);
-        swiper.slideTo(activeSlide + listenedNumber);
-        speak(`為您移動到第${activeSlide + listenedNumber}步`);
-        dispatch({
-          type: actionTypes.SET_AI_RESPONSE,
-          AIResponse: `為您移動到第${activeSlide + listenedNumber}步`,
-        });
-        dispatch({
-          type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
-          isAssistantModelOpen: false,
-        });
+        const currentSlide = swiper.activeIndex;
+        const nextSlide = currentSlide + listenedNumber;
+        console.log("nextSlide: ", nextSlide);
+        swiper.slideTo(nextSlide);
+        speakAndCloseModel(nextSlide);
+      },
+    },
+    {
+      intent: "ToDo.ShowPreviousPage",
+      callback: (entities) => {
+        if (!entities.Number[0][0]) return;
+
+        let listenedNumber = parseInt(
+          new ChineseNumber(entities.Number[0][0]).toArabicString()
+        );
+        // console.log("listen Number: ", listenedNumber);
+        const currentSlide = swiper.activeIndex;
+        const prevSlide = currentSlide - listenedNumber;
+        console.log("prevSlide: ", prevSlide);
+        swiper.slideTo(prevSlide);
+        speakAndCloseModel(prevSlide);
+      },
+    },
+    {
+      intent: "ToDo.ShowCertainPage",
+      callback: (entities) => {
+        if (!entities.Number[0][0]) return;
+
+        let listenedNumber = parseInt(
+          new ChineseNumber(entities.Number[0][0]).toArabicString()
+        );
+        swiper.slideTo(listenedNumber);
+        speakAndCloseModel(listenedNumber);
       },
     },
   ];
+
+  const speakAndCloseModel = (speakText) => {
+    if (speakText <= 0) {
+      speak(`為您移動到封面`);
+      dispatch({
+        type: actionTypes.SET_AI_RESPONSE,
+        AIResponse: `為您移動到封面`,
+      });
+    } else {
+      speak(`為您移動到第${speakText}步`);
+      dispatch({
+        type: actionTypes.SET_AI_RESPONSE,
+        AIResponse: `為您移動到第${speakText}步`,
+      });
+    }
+
+    dispatch({
+      type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+      isAssistantModelOpen: false,
+    });
+  };
+
   const [intentInfo, topIntent, clearIntent] = useRecognize(
     textFromMic,
     STT_Commands

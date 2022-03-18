@@ -110,7 +110,7 @@ const Assistant = () => {
         clearIntent();
         displayAndSpeakResponse("我在");
         delayPlaySound();
-        sttFromMic();
+        delaySTTFromMic();
         dispatch({
           type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
           isAssistantModelOpen: true,
@@ -199,7 +199,7 @@ const Assistant = () => {
     // 因為語音辨識會把 “我在“ 一起錄進去
     // 兩秒後應該要有 提示音
     sttFromMic();
-  }, 2000);
+  }, 1800);
 
   // 延遲 提示音
   const delayPlaySound = debounce(() => {
@@ -260,7 +260,7 @@ const Assistant = () => {
       });
     }
   }, [isAssistantModelOpen]);
-  
+
 
   // 顯示 AI 回覆 與 說出合成語音
   const displayAndSpeakResponse = async (text) => {
