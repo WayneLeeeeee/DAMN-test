@@ -62,7 +62,7 @@ const RecipeCard = ({ recipeData,index }) => {
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image={recipeData?.thumbnail.url}
+        src={recipeData?.thumbnail?.url}
         alt="Live from space album cover"
       />
     </Card>
