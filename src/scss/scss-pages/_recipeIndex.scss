@@ -1,14 +1,14 @@
 .recipe__index {
   //IndexTop
-
   .recipeIndexTop {
     background-color: $primary-color;
     width: 100%;
+    height: 160px;
     border-radius: 0 0 20px 20px;
     .recipeIndexTop__slogan {
       display: flex;
       align-items: center;
-      padding-top: 10px;
+      padding: 10px;
       justify-content: center;
       h4 {
         color: white;
@@ -22,32 +22,39 @@
         width: 100%;
       }
     }
+
     .recipeIndexTop__title {
-      padding: 40px 20px 20px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
       h4 {
         color: white;
-        font-size: 18px;
+        font-size: 20px;
         padding-bottom: 10px;
+        padding-left: 20px;
       }
-      .recipeIndexTop__input {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        font-size: 18px;
-        background-color: white;
+      & > .MuiSvgIcon-root {
+        color: white;
+        padding-right: 20px;
+      }
+    }
+    .recipeIndexTop__search {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      input {
+        border: none;
         border-radius: 20px;
-        input {
-          border: none;
-          border-radius: 20px 0 0 20px;
-          color: #c4c4c4;
-          width: 88%;
-          padding-left: 10px;
-          outline: none;
-        }
-        & > .MuiSvgIcon-root {
-          color: #c4c4c4;
-          padding-right: 10px;
-        }
+        color: #444545;
+        width: 100%;
+        padding: 0px 6px;
+        outline: none;
+      }
+      .header {
+        display: none;
+      }
+      .MuiSvgIcon-root {
+        color: #fff;
       }
     }
   }
@@ -86,22 +93,23 @@
         position: relative;
         padding: 0 20px;
         .hotCard__img {
-          width: 243px;
-          height: 200px;
+          width: 280px;
+          height: 240px;
           border-radius: 20px;
         }
-        .MuiCardContent-root {
+        
+        .hotCard__content {
           position: absolute;
-          bottom: 15px;
-          left: 24px;
+          bottom:10px;
+          left: 30px;
           width: 215px;
           height: 105px;
-          background-color: #e9e6e6;
-          padding: 15px 10px;
+          background-image:linear-gradient(180deg,#E9E6E6,#fff);
+          padding: 20px;
           border-radius: 20px;
-          .MuiTypography-root {
+          box-shadow: -4px 4px 8px gray;
+          .h4 {
             font-size: 18px;
-            padding-left: 10px;
           }
           span {
             display: block;
@@ -110,14 +118,16 @@
             background-color: black;
             margin-top: 5px;
           }
-          .hotCard__item {
+          .hotCard__titile{
+            
+          }
+          .hotCard__items {
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             padding-top: 10px;
-            .MuiTypography-root {
+            .hotCard__item {
               display: flex;
               align-items: center;
-              padding: 0 5px;
             }
           }
         }
@@ -126,34 +136,24 @@
 
     //RecommendCard
 
-    .recipeIndexMiddle__cards-1 {
-      width: 100%;
-      height: 100vw;
-      overflow: auto;
-      .recipeIndexMiddle__cards-2 {
-        display: flex;
-        flex-direction: column;
-        @include pad {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
+    .recommendCard{
+      display: flex;
+      padding-left: 20px;
+      .recommendCard__img{
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        padding-right: 20px;
+        img{
+          border-radius: 20px;
         }
-        .MuiPaper-root {
-          // background-color: yellow;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          margin: 30px 0;
-          .MuiCardMedia-root {
-            width: 50%;
-            height: 80%;
-            border-radius: 20px !important;
-            margin: 20px;
-          }
+        .recommendCard__content{
+         
         }
       }
     }
+
+    
+
   }
 }
