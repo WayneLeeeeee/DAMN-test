@@ -100,32 +100,15 @@ const Assistant = () => {
     STT_Commands
   );
 
-  // // 關鍵字喚醒 commands
-  // let commands = [
-  //   {
-  //     command: ["小當家"],
-  //     callback: async () => {
-  //       clearIntent();
-  //       displayAndSpeakResponse("我在");
-  //       delayPlaySound();
-  //       delaySTTFromMic();
-  //       dispatch({
-  //         type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
-  //         isAssistantModelOpen: true,
-  //       });
-
-  //       //console.log("delay 監聽 ", text);
-  //       // await dispatch({
-  //       //   type: actionTypes.SET_TEXT_FROM_MIC,
-  //       //   textFromMic: text,
-  //       // });
-  //     },
-  //     isFuzzyMatch: true, // 模糊匹配
-  //     bestMatchOnly: true,
-  //   },
-  // ];
-
+  // 關鍵字喚醒
   const AI_Awake = () => {
+    /*
+    清除先前資料（）
+    發出 「我在！」語音
+    延遲 發出提示音（要等「我在」講完所以要延遲）
+    延遲 意圖辨識 要等 提示音 發出所以要延遲）
+    打開 小當家 modal (我把 modal 打成 model....) 而且這裡 Dialog == Modal 同樣東西
+    */
     clearIntent();
     displayAndSpeakResponse("我在");
     delayPlaySound();
@@ -143,9 +126,6 @@ const Assistant = () => {
     // const recipe = entities.Recipe;
     if (!foods) return;
     let result = await algoliaSearch("recipes", foods[0][0]);
-    // if (food) {
-    //   result = await algoliaSearch("recipes", food[0]);
-    // }
 
     if (foods?.length <= 0 || result?.length <= 0) {
       displayAndSpeakResponse("沒有找到符合需求的項目");
@@ -162,8 +142,10 @@ const Assistant = () => {
     );
   };
 
-  const sttFromMic = async (mode) => {
+  // 語音辨識
+  const sttFromMic = async (configs) => {
     // if(!isAssistantModelOpen) return console.log("model not open");
+    console.log(configs);
     const tokenObj = await getTokenOrRefresh();
     const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(
       tokenObj.authToken,
@@ -178,41 +160,38 @@ const Assistant = () => {
     );
 
     let text;
-    if (mode === "keywordRecognizer") {
-      console.log("in");
-      recognizer.startContinuousRecognitionAsync(
-        (result) => {
-          console.log(result);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    if (configs.mode === "keywordRecognizer") {
+      recognizer.startContinuousRecognitionAsync();
       //  The event recognizing signals that an intermediate recognition result is received.
-      recognizer.recognizing = function (s, e) {
-        console.log("recognizing text", e.result.text);
-      };
+      // recognizer.recognizing = function (s, e) {
+      //   //console.log("recognizing text", e.result.text);
+      // };
 
       //  The event recognized signals that a final recognition result is received.
       recognizer.recognized = function (script, e) {
         console.log("recognized text", e.result.text);
         const recognizedText = e.result.text;
         if (recognizedText === "小當家。") {
+          // dispatch({
+          //   type: actionTypes.SET_TEXT_FROM_MIC,
+          //   textFromMic: recognizedText,
+          // });
           AI_Awake();
         }
       };
       // console.log("辨別出", text);
-    } else {
+    }
+    if (configs.mode === "intentRecognizer") {
       text = recognizer.recognizeOnceAsync((result) => {
         let displayText;
         //console.log("result.text: ", result.text);
         if (result.reason === ResultReason.RecognizedSpeech) {
           //displayText = `RECOGNIZED: Text=${result.text}`;
           /*
-        ChineseNumber package
-        將 中文數字 轉成 阿拉伯數字
-        例如： 打開第四道食譜 －> 打開第4道食譜
-        */
+          ChineseNumber package
+          將 中文數字 轉成 阿拉伯數字
+          例如： 打開第四道食譜 －> 打開第4道食譜
+          */
           displayText = new ChineseNumber(result.text).toArabicString();
           dispatch({
             type: actionTypes.SET_TEXT_FROM_MIC,
@@ -226,33 +205,43 @@ const Assistant = () => {
         return displayText;
       });
     }
+    if (configs.mode === "stopListening") {
+      recognizer.stopContinuousRecognitionAsync(
+        (result) => {
+          console.log(result);
+        },
+        (err) => console.log(err)
+      );
+    }
 
     return text;
   };
 
-  // 延遲 命令辨識
+  // 延遲 語音辨識
   const delaySTTFromMic = debounce(async () => {
-    // 延遲 2 秒，開啟命令用語音
+    // 延遲 1.8 秒，開啟命令用語音
     // 因為語音辨識會把 “我在“ 一起錄進去
-    // 兩秒後應該要有 提示音
-    sttFromMic();
-  }, 1800);
+    // 1.8 秒後應該要有 提示音
+    sttFromMic({ mode: "intentRecognizer" });
+  }, 2000);
 
   // 延遲 提示音
   const delayPlaySound = debounce(() => {
     playSound();
   }, 1200);
 
-  // 初始化
+  // 初始化元件
   useEffect(() => {
     // SpeechRecognition.startListening({ continuous: true, language: "zh-TW" });
-    sttFromMic("keywordRecognizer");
+    sttFromMic({ mode: "keywordRecognizer" });
+    // 一個 modal 初始化時顯示，提供給使用者 是否開啟語音助理
   }, []);
 
-  // 小當家彈出視窗 開關
+  // 小當家彈出視窗關閉
   const handleDialogClose = () => {
-    //console.log("click", isDialogOpen);
-    // setIsDialogOpen(false);
+    /*
+    清除資料
+    */
     dispatch({
       type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
       isAssistantModelOpen: false,
@@ -290,34 +279,16 @@ const Assistant = () => {
       AIResponse: text,
     });
   };
-
+console.log("第一監聽: ", );
   console.log("意圖: ", intentInfo);
   console.log("第二監聽: ", textFromMic);
   //console.log(recipeResult);
 
-  const handleTest = () => {
-    sttFromMic("keywordRecognizer");
+  const startListening = () => {
+    sttFromMic({ mode: "keywordRecognizer" });
   };
-  const handleTest2 = async () => {
-    const tokenObj = await getTokenOrRefresh();
-    const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(
-      tokenObj.authToken,
-      tokenObj.region
-    );
-    speechConfig.speechRecognitionLanguage = "zh-TW";
-
-    const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
-    const recognizer = new speechsdk.SpeechRecognizer(
-      speechConfig,
-      audioConfig
-    );
-
-    recognizer.stopContinuousRecognitionAsync(
-      (result) => {
-        console.log(result);
-      },
-      (err) => console.log(err)
-    );
+  const stopListening = async () => {
+    sttFromMic({ mode: "stopListening" });
   };
   return (
     <div className="assistant">
@@ -347,14 +318,14 @@ const Assistant = () => {
           ))}
         </Box>
 
-        <DialogTitle sx={{ color: "#444545" }}>2/3294</DialogTitle>
+        <DialogTitle sx={{ color: "#444545" }}>{textFromMic}</DialogTitle>
         <DialogContent>
           <Typography variant="h6" sx={{ color: "rgb(254, 139, 131)" }}>
             {AIResponse}
           </Typography>
         </DialogContent>
-        <button onClick={handleTest}>click</button>
-        <button onClick={handleTest2}>click</button>
+        <button onClick={startListening}>開啟</button>
+        <button onClick={stopListening}>關閉</button>
       </Dialog>
     </div>
   );
