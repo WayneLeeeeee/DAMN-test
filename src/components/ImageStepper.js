@@ -94,6 +94,23 @@ function ImageStepper({ data }) {
         speakAndCloseModel(listenedNumber);
       },
     },
+    {
+      intent: "Utilities.ReadAloud",
+      callback: (entities) => {
+        if (!entities.Number[0][0]) return;
+
+        let listenedNumber = parseInt(
+          new ChineseNumber(entities.Number[0][0]).toArabicString()
+        );
+        swiper.slideTo(listenedNumber);
+        //console.log(displayList[listenedNumber]?.content);
+        speak(displayList[listenedNumber]?.content);
+        dispatch({
+          type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+          isAssistantModelOpen: false,
+        });
+      },
+    },
   ];
 
   const speakAndCloseModel = (speakText) => {
