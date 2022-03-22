@@ -34,6 +34,7 @@ function App() {
   // console.log(user);
 
   useEffect(() => {
+    //console.clear();
     if (!user && localStorage.getItem("userUid")) {
       const userUid = localStorage.getItem("userUid");
       dispatch({

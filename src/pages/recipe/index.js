@@ -9,7 +9,9 @@ function index() {
     <div className="recipe__index">
       {/* <RecipeItemPage /> */}
       <IndexTop />
+
       <IndexMiddle />
+
       <BottomNav />
     </div>
   );

@@ -4,6 +4,7 @@ import HotCard from "./HotCard";
 import RecommendCard from "./RecommendCard";
 import { db } from "../../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import ContributeRecipe from "../../components/recipe/ContributeRecipe";
 
 function IndexMiddle() {
   const [hitoRecipes, setHitoRecipes] = useState([]);
@@ -41,6 +42,9 @@ function IndexMiddle() {
         <HotCard />
         <HotCard /> */}
       </div>
+
+      <ContributeRecipe />
+
       <div className="recipeIndexMiddle__title">
         <h4>近期搜尋</h4>
       </div>

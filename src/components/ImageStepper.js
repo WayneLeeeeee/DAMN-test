@@ -63,7 +63,7 @@ function ImageStepper({ data }) {
         const nextSlide = currentSlide + listenedNumber;
         console.log("nextSlide: ", nextSlide);
         swiper.slideTo(nextSlide);
-        speakAndCloseModel(nextSlide);
+        speakAndCloseModel(`為您移動到第${nextSlide}步`);
       },
     },
     {
@@ -79,7 +79,11 @@ function ImageStepper({ data }) {
         const prevSlide = currentSlide - listenedNumber;
         console.log("prevSlide: ", prevSlide);
         swiper.slideTo(prevSlide);
-        speakAndCloseModel(prevSlide);
+        if (prevSlide === 0) {
+          speakAndCloseModel(`為您移動到封面`);
+          return;
+        }
+        speakAndCloseModel(`為您移動到第${prevSlide}步`);
       },
     },
     {
@@ -91,7 +95,7 @@ function ImageStepper({ data }) {
           new ChineseNumber(entities.Number[0][0]).toArabicString()
         );
         swiper.slideTo(listenedNumber);
-        speakAndCloseModel(listenedNumber);
+        speakAndCloseModel(`為您移動到第${listenedNumber}步`);
       },
     },
     {
@@ -104,29 +108,18 @@ function ImageStepper({ data }) {
         );
         swiper.slideTo(listenedNumber);
         //console.log(displayList[listenedNumber]?.content);
-        speak(displayList[listenedNumber]?.content);
-        dispatch({
-          type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
-          isAssistantModelOpen: false,
-        });
+        const recipeStepContent = displayList[listenedNumber]?.content;
+        speakAndCloseModel(recipeStepContent);
       },
     },
   ];
 
   const speakAndCloseModel = (speakText) => {
-    if (speakText <= 0) {
-      speak(`為您移動到封面`);
-      dispatch({
-        type: actionTypes.SET_AI_RESPONSE,
-        AIResponse: `為您移動到封面`,
-      });
-    } else {
-      speak(`為您移動到第${speakText}步`);
-      dispatch({
-        type: actionTypes.SET_AI_RESPONSE,
-        AIResponse: `為您移動到第${speakText}步`,
-      });
-    }
+    speak(speakText);
+    dispatch({
+      type: actionTypes.SET_AI_RESPONSE,
+      AIResponse: speakText,
+    });
 
     dispatch({
       type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
@@ -218,7 +211,7 @@ function ImageStepper({ data }) {
                 sx={{
                   height: 255,
                   display: "block",
-                  maxWidth: 400,
+                  //maxWidth: 400,
                   overflow: "hidden",
                   width: "100%",
                 }}

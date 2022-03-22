@@ -11,16 +11,21 @@
 @import "./scss-pages/CreateShoppinglist";
 
 // components
-@import "./scss-components/BottomNav";
+// recipe
+
 @import "./scss-components/recipe/IngredientsSelector";
 @import "./scss-components/recipe/CardList";
 @import "./scss-components/recipe/SearchBar";
-@import "./scss-components/Assistant";
+@import "./scss-components/recipe/ContributeRecipe";
 
+// fridge
 @import "./scss-components/fridge/CreateShoppinglistBar";
 @import "./scss-components/fridge/Input";
 @import "./scss-components/fridge/UploadImage";
 @import "./scss-components/fridge/ResultCard";
-
 @import "./scss-components/fridge/FoodCard";
 @import "./scss-components/fridge/FridgeBar";
+
+// global
+@import "./scss-components/BottomNav";
+@import "./scss-components/Assistant";

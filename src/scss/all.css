@@ -46,6 +46,11 @@ img {
   height: auto;
 }
 
+a {
+  text-decoration: none;
+  display: block;
+}
+
 body > iframe + iframe {
   /*
 莫名其妙出現的 iframe 標籤出現
@@ -680,71 +685,6 @@ body > iframe + iframe {
   margin-left: 84px;
 }
 
-.bottomNav {
-  color: #444545 !important;
-}
-
-.bottomNav header {
-  padding: 8px 0;
-  background-color: #fff !important;
-}
-
-.bottomNav .MuiAppBar-positionFixed {
-  bottom: 0;
-  top: unset;
-}
-
-.bottomNav .MuiToolbar-root {
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-}
-
-.bottomNav__button {
-  min-width: 65px;
-  height: 65px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.bottomNav__button > .MuiIconButton-label {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.bottomNav .MuiIconButton-label > a > p {
-  margin: unset;
-}
-
-.bottomNav .active {
-  background-color: #fe8b83 !important;
-}
-
-.bottomNav .active .MuiSvgIcon-root,
-.bottomNav .active p {
-  color: white !important;
-}
-
-.bottomNav .MuiSvgIcon-root {
-  color: #444545;
-}
-
-.bottomNav a {
-  text-decoration: none;
-  display: block;
-}
-
 .ingredientsSelector .inputContainer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -832,30 +772,91 @@ body > iframe + iframe {
   background-color: #e2e2e2 !important;
 }
 
-.assistant .dialogContainer {
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+.contributeRecipe {
+  position: relative;
+  margin-top: 36px;
 }
 
-.assistant .dialogContainer .MuiDialog-container {
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+.contributeRecipe .MuiButtonBase-root {
+  background-color: #fe8b83;
 }
 
-.assistant .css-tlc64q-MuiPaper-root-MuiDialog-paper {
-  margin: 24px 10px !important;
-  padding: 8px;
-  width: 100% !important;
-  position: absolute !important;
-  bottom: 0;
-  background-color: #c4c4c4 !important;
+.contributeRecipe__swiper {
+  height: 300px;
 }
 
-.assistant .voice-recognition {
-  height: 60px;
-  -o-object-fit: cover;
-     object-fit: cover;
+.contributeRecipe_btn {
+  width: 100%;
+  padding: 10px !important;
+  border-radius: 10px !important;
+  font-size: 20px !important;
+  margin-top: 10px;
+  color: #fff !important;
+}
+
+.contributeRecipe_btn .css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #fe8b83;
+}
+
+@media (min-width: 768px) {
+  .contributeRecipe_btn {
+    width: 30%;
+  }
+}
+
+.contributeRecipe__swiperSlide {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.contributeRecipe__swiperSlide .title {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.contributeRecipe .swiper {
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.contributeRecipe .swiper-slide {
+  font-size: 18px;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 40px 60px;
+}
+
+.contributeRecipe .parallax-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 130%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.contributeRecipe .swiper-slide .title {
+  font-size: 41px;
+  font-weight: 300;
+}
+
+.contributeRecipe .swiper-slide .subtitle {
+  font-size: 21px;
+}
+
+.contributeRecipe .swiper-slide .text {
+  font-size: 14px;
+  max-width: 400px;
+  line-height: 1.3;
 }
 
 .topBar .topBar__container {
@@ -1124,5 +1125,93 @@ body > iframe + iframe {
       -ms-flex-direction: column;
           flex-direction: column;
   color: #444545;
+}
+
+.bottomNav {
+  color: #444545 !important;
+  z-index: 999 !important;
+}
+
+.bottomNav header {
+  padding: 8px 0;
+  background-color: #fff !important;
+}
+
+.bottomNav .MuiAppBar-positionFixed {
+  bottom: 0;
+  top: unset;
+}
+
+.bottomNav .MuiToolbar-root {
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.bottomNav__button {
+  min-width: 65px;
+  height: 65px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.bottomNav__button > .MuiIconButton-label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.bottomNav .MuiIconButton-label > a > p {
+  margin: unset;
+}
+
+.bottomNav .active {
+  background-color: #fe8b83 !important;
+}
+
+.bottomNav .active .MuiSvgIcon-root,
+.bottomNav .active p {
+  color: white !important;
+}
+
+.bottomNav a {
+  text-decoration: none;
+  display: block;
+}
+
+.assistant .dialogContainer {
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+
+.assistant .dialogContainer .MuiDialog-container {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.assistant .css-tlc64q-MuiPaper-root-MuiDialog-paper {
+  margin: 24px 10px !important;
+  padding: 8px;
+  width: 100% !important;
+  position: absolute !important;
+  bottom: 0;
+  background-color: #c4c4c4 !important;
+}
+
+.assistant .voice-recognition {
+  height: 60px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 /*# sourceMappingURL=all.css.map */

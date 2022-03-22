@@ -107,6 +107,7 @@ const BottomNav = () => {
   return (
     <ThemeProvider theme={theme}>
       <Paper
+        className="bottomNav"
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0, p: 1 }}
         elevation={5}
       >
