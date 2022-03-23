@@ -685,6 +685,95 @@ body > iframe + iframe {
   margin-left: 84px;
 }
 
+.ProfilePage {
+  overflow: scroll;
+}
+
+.ProfilePage::-webkit-scrollbar {
+  display: none;
+}
+
+.ProfilePage .profile__card {
+  background-color: #FE8B83;
+}
+
+.ProfilePage .profile__progress {
+  width: 200px;
+  margin-left: 150px;
+  margin-top: 50px;
+}
+
+.ProfilePage .profile__avatar {
+  margin-left: 162px;
+  margin-top: -194px;
+  height: 178px;
+  width: 178px;
+}
+
+.ProfilePage .profile__name {
+  text-align: center;
+  font-size: xx-large;
+  margin-top: 20px;
+  font-weight: bolder;
+}
+
+.ProfilePage .profile__button {
+  background-color: #FFD700;
+  margin-left: 200px;
+  border-radius: 20px;
+  width: 100px;
+  margin-top: 10px;
+}
+
+.ProfilePage .profile__buttonName {
+  color: #ffffff !important;
+}
+
+.ProfilePage .profile__tabpanel {
+  overflow: auto;
+}
+
+.ProfilePage .profile__tabpanel::-webkit-scrollbar {
+  display: none;
+}
+
+.ProfilePage .profile__tabs {
+  margin-bottom: -25px;
+  color: #FE8B83;
+}
+
+.ProfilePage .profile__tab1 {
+  padding-left: 125px;
+  padding-right: 100px;
+}
+
+.ProfilePage .profile__tab2 {
+  padding-left: 100px;
+  padding-right: 125px;
+}
+
+.ProfilePage .profile__imagelist {
+  overflow: scroll;
+}
+
+.ProfilePage .profile__imagelist::-webkit-scrollbar {
+  display: none;
+}
+
+.ProfilePage .profile__typography {
+  color: #bab9b9 !important;
+}
+
+.ProfilePage .profile__logout {
+  width: 100px;
+  color: #FE8B83;
+  font-size: larger;
+  font-weight: bolder;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  margin-left: 155px;
+}
+
 .ingredientsSelector .inputContainer {
   display: -webkit-box;
   display: -ms-flexbox;

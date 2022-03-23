@@ -27,6 +27,7 @@
     "lodash": "^4.17.21",
     "microsoft-cognitiveservices-speech-sdk": "^1.20.0",
     "moment": "^2.29.1",
+    "rc-progress": "^3.2.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dotenv": "^0.1.3",
