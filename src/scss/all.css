@@ -976,6 +976,7 @@ body > iframe + iframe {
 
 .foodCard .box {
   width: 100%;
+  border-radius: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -983,7 +984,6 @@ body > iframe + iframe {
   -webkit-box-direction: normal !important;
       -ms-flex-direction: row !important;
           flex-direction: row !important;
-  padding: 60px 0 13px 13px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -1035,6 +1035,11 @@ body > iframe + iframe {
 .foodCard .box .delete-edit-card .editButton {
   padding: 100px 0 0 0;
   color: #418DE1 !important;
+}
+
+.foodCard .checked {
+  -webkit-box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
+          box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
 }
 
 .fridgeBar {
@@ -1124,5 +1129,50 @@ body > iframe + iframe {
       -ms-flex-direction: column;
           flex-direction: column;
   color: #444545;
+}
+
+.maincard {
+  margin-top: 100px;
+  margin-left: 20px;
+  width: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.maincard .ingredientname {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.maincard .selector {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.maincard .selector .MuiOutlinedInput-root {
+  margin-top: 10px;
+}
+
+.maincard .input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.maincard .input .quantity {
+  width: 30%;
 }
 /*# sourceMappingURL=all.css.map */

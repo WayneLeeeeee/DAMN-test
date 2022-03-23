@@ -1,9 +1,11 @@
 .foodCard{
+        
+        //overflow: hidden;
     .box{
         width: 100%;
+        border-radius: 20px;
         display: flex;
-        flex-direction: row !important; 
-        padding: 60px 0 13px 13px;
+        flex-direction: row !important;
         justify-content: center;
         .chickenCard{
             padding: 11px 20px;
@@ -41,6 +43,9 @@
                 color: #418DE1 !important;
             }
         }
+    }
+    .checked{
+        box-shadow: rgba(68,69,69,0.25) 4px 4px;
     }
 
 }

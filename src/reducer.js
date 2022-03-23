@@ -1,7 +1,7 @@
 export const initialState = {
   user: null,
   newRecipeData: {
-    name: "",
+    name: '',
     rating: 2,
     likes: 0,
     serving: 1,
@@ -11,22 +11,22 @@ export const initialState = {
   },
   navbarBtnId: 0,
   isUpdated: false,
-  isAssistantModelOpen: true,
-  AIResponse: "",
-  textFromMic: "",
+  isAssistantModelOpen: false,
+  AIResponse: '',
+  textFromMic: '',
   checkedList: [],
 };
 
 export const actionTypes = {
-  SET_USER: "SET_USER",
-  SET_NEWRECIPEDATA: "SET_NEWRECIPEDATA",
-  SET_BOTTOMNAVBARID: "SET_BOTTOMNAVBARID",
-  SET_ISUPDATED: "SET_ISUPDATED",
-  SET_UPDATE_RECIPE_DATA: "SET_UPDATE_RECIPE_DATA",
-  SET_CHECKEDLIST: "SET_CHECKEDLIST",
-  SET_IS_ASSISTANT_MODEL_OPEN: "SET_IS_ASSISTANT_MODEL_OPEN",
-  SET_AI_RESPONSE: "SET_AI_RESPONSE",
-  SET_TEXT_FROM_MIC: "SET_TEXT_FROM_MIC",
+  SET_USER: 'SET_USER',
+  SET_NEWRECIPEDATA: 'SET_NEWRECIPEDATA',
+  SET_BOTTOMNAVBARID: 'SET_BOTTOMNAVBARID',
+  SET_ISUPDATED: 'SET_ISUPDATED',
+  SET_UPDATE_RECIPE_DATA: 'SET_UPDATE_RECIPE_DATA',
+  SET_CHECKEDLIST: 'SET_CHECKEDLIST',
+  SET_IS_ASSISTANT_MODEL_OPEN: 'SET_IS_ASSISTANT_MODEL_OPEN',
+  SET_AI_RESPONSE: 'SET_AI_RESPONSE',
+  SET_TEXT_FROM_MIC: 'SET_TEXT_FROM_MIC',
 };
 
 const reducer = (state, action) => {
