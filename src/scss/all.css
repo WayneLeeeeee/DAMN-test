@@ -1214,4 +1214,8 @@ body > iframe + iframe {
   -o-object-fit: cover;
      object-fit: cover;
 }
+
+.color-primary {
+  color: #fe8b83 !important;
+}
 /*# sourceMappingURL=all.css.map */

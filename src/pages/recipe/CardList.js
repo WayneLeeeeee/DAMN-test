@@ -11,13 +11,14 @@ import noodle3 from "../../images/noodle3.jpg";
 import noodle4 from "../../images/noodle4.jpg";
 
 function CardList({ data }) {
+  console.log(data)
   return (
     <div className="recipeCardlist">
       <Card sx={{ maxWidth: 500 }}>
         <CardContent className="block"></CardContent>
         {data?.map((recipe) => (
           <CardActionArea className="area" key={recipe.objectID}>
-            <img src={recipe.thumbnail.url} alt="" className="img" />
+            <img src={recipe.thumbnail?.url} alt="" className="img" />
             <CardContent className="content">
               <Typography
                 gutterBottom
