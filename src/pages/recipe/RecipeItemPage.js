@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Tabs from "./Tabs";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Box, ThemeProvider } from "@mui/system";
@@ -8,10 +8,17 @@ import { Paper } from "@mui/material";
 import theme from "../../function/theme";
 import ImageIcon from "@mui/icons-material/Image";
 import ImageStepper from "../../components/ImageStepper";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DinnerDiningIcon from "@mui/icons-material/DinnerDining";
 
 function RecipeItem({ propsData }) {
   const [data, setData] = useState(null);
+  const [iscompleted, setIscompleted] = useState(false);
   let params = useParams();
+  let navigate = useNavigate();
+  const handleGoBackToHomePage = () => navigate("/");
 
   // fetch recipe detail data from fireStore
   const fetchData = async () => {
@@ -24,6 +31,10 @@ function RecipeItem({ propsData }) {
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
+  };
+
+  const handleComplete = () => {
+    setIscompleted(true);
   };
 
   useEffect(() => {
@@ -40,6 +51,14 @@ function RecipeItem({ propsData }) {
 
   return (
     <ThemeProvider theme={theme}>
+      <div className="recipeItem__title">
+        <ArrowBackIosIcon
+          sx={{ color: "#ffffff" }}
+          onClick={handleGoBackToHomePage}
+        />
+        <h3>{data?.name}</h3>
+        <DinnerDiningIcon sx={{ paddingLeft: "10px", fontSize: "32px" }} />
+      </div>
       <Paper
         elevation={3}
         className="recipeItem__container"
@@ -54,6 +73,20 @@ function RecipeItem({ propsData }) {
         {/* 食材 或 步驟 選項 */}
         <Tabs data={data} />
       </Paper>
+      {iscompleted ? (
+        <div className="recipeItem__checkIcon">
+          <CheckCircleIcon sx={{ color: "green" }} />
+          <h4>已完成</h4>
+        </div>
+      ) : (
+        <div className="recipeItem__checkIcon">
+          <CheckCircleOutlineIcon
+            sx={{ color: "red" }}
+            onClick={handleComplete}
+          />
+          <h4>未完成</h4>
+        </div>
+      )}
     </ThemeProvider>
   );
 }

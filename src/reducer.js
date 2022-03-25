@@ -11,7 +11,7 @@ export const initialState = {
   },
   navbarBtnId: 0,
   isUpdated: false,
-  isAssistantModelOpen: true,
+  isAssistantModelOpen: false,
   AIResponse: "",
   textFromMic: "",
   checkedList: [],

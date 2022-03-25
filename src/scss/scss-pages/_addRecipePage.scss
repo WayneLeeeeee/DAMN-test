@@ -1,18 +1,44 @@
-.addRecipePage {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  .stepInputFieldContainer {
-    position: relative;
+.add {
+  .add__title {
+    display: flex;
+    align-items: center;
+    background-color: $primary-color;
+    padding: 20px;
+    color: white;
+    font-size: 32px;
+    & > .MuiSvgIcon-root {
+      font-size: 48px;
+      padding-left: 15px;
+    }
   }
-  .deleteStepBtn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-radius: 50% !important;
-  }
+  .addRecipePage {
+    .stepInputFieldContainer {
+      position: relative;
+    }
+    .deleteStepBtn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-radius: 50% !important;
+    }
 
-  &__submitBtn {
-    background-color: $primary-color !important;
+    &__submitBtn {
+      background-color: $primary-color !important;
+    }
+    .css-1e0ntss-MuiPaper-root-MuiMobileStepper-root {
+      position: fixed;
+      bottom: 0;
+    }
   }
+}
+
+.MuiPaper-root,
+.MuiButton-textPrimary {
+  padding-bottom: 100px;
+  color: $primary-color !important;
+}
+
+.css-mqac5g-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
+  color: #fe8b83;
+
 }

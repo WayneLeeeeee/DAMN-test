@@ -5,6 +5,8 @@ import RecommendCard from "./RecommendCard";
 import { db } from "../../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import ContributeRecipe from "../../components/recipe/ContributeRecipe";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import { useNavigate } from "react-router-dom";
 
 function IndexMiddle() {
   const [hitoRecipes, setHitoRecipes] = useState([]);
@@ -12,6 +14,11 @@ function IndexMiddle() {
     collection(db, "recipes"),
     where("likes", ">=", 80)
   );
+
+  let navigate = useNavigate();
+  const handleRouteToItemPage = () => {
+    navigate(`/recipe/recommend`);
+  };
 
   const fetchHitoRecipes = async () => {
     const querySnapshot = await getDocs(query_hitoRecipes);
@@ -38,20 +45,25 @@ function IndexMiddle() {
         {hitoRecipes?.map((item) => (
           <HotCard key={item.id} data={item} />
         ))}
-        {/* <HotCard />
-        <HotCard />
-        <HotCard /> */}
       </div>
 
       <ContributeRecipe />
 
       <div className="recipeIndexMiddle__title">
-        <h4>近期搜尋</h4>
+        <h4>新手上菜囉！</h4>
       </div>
       <div className="recipeIndexMiddle__cards-1">
-        <div className="recipeIndexMiddle__cards-2">
-          <RecommendCard />
-          <RecommendCard />
+        <RecommendCard />
+        <RecommendCard />
+      </div>
+
+      <div
+        className="recipeIndexMiddle__recommend__recipes-container"
+        
+      >
+        <h5>推薦食譜</h5>
+        <div className="recipeIndexMiddle__recommend__recipes" onClick={handleRouteToItemPage}>
+          <TipsAndUpdatesIcon />
         </div>
       </div>
     </div>

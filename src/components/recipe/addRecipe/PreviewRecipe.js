@@ -12,9 +12,14 @@ import { storage, db } from "../../../firebase";
 import { actionTypes } from "../../../reducer";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import { Paper } from "@mui/material";
+import Tabs from "../../../pages/recipe/Tabs";
+import ImageStepper from "../../ImageStepper";
 const PreviewRecipe = () => {
   const navigate = useNavigate();
   const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
+  const user = localStorage.getItem("user");
 
   console.log();
   // 表單送出
@@ -24,6 +29,7 @@ const PreviewRecipe = () => {
       createdAt: Timestamp.now().toDate(),
       thumbnail: await getRemoteThumbnailURL(),
       steps: await getStepsWithRemoteImageURL(),
+      author: user,
     };
     dispatch({
       type: actionTypes.SET_NEWRECIPEDATA,
@@ -63,7 +69,7 @@ const PreviewRecipe = () => {
     }
 
     // need to clear global state
-    dispatch({       
+    dispatch({
       type: actionTypes.SET_NEWRECIPEDATA,
       newRecipeData: {},
     });
@@ -128,7 +134,19 @@ const PreviewRecipe = () => {
     <ThemeProvider theme={theme}>
       <Box sx={{ p: 4 }}>
         <h3>預覽食譜</h3>
-        <RecipeItem propsData={newRecipeData} />
+        <ThemeProvider theme={theme} sx={{}}>
+          <Paper
+            elevation={3}
+            className="recipeItem__container"
+            sx={{ color: "text.normal", height: "450px", overflow: "auto" }}
+          >
+            <div className="recipeItem__wrap">
+              <img src={newRecipeData?.thumbnail?.url} alt="" />
+            </div>
+            {/* 食材 或 步驟 選項 */}
+            <Tabs data={newRecipeData} />
+          </Paper>
+        </ThemeProvider>
         {/* submit button */}
         <Button
           className="addRecipePage__submitBtn"

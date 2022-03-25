@@ -6,6 +6,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { actionTypes } from "../../../reducer";
 import { useStateValue } from "../../../StateProvider";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
 
 const initStepsList = [{ content: "" }, { content: "" }, { content: "" }];
 
@@ -14,7 +15,7 @@ const RecipeSteps = () => {
   const [{ newRecipeData }, dispatch] = useStateValue();
   useEffect(() => {
     setStepsList(initStepsList);
-    if (newRecipeData?.steps.length !== 0) {
+    if (newRecipeData?.steps?.length !== 0) {
       setStepsList(newRecipeData.steps);
     }
   }, []);
