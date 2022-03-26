@@ -155,7 +155,7 @@ function ImageStepper({ data }) {
 
   // 將 料理名稱、縮圖和步驟內容、圖片放在同一個陣列，以便在滑動時能顯示
   const handleDisplayList = () => {
-    let list = [{ imageURL: data.thumbnail.url, content: data.name }];
+    let list = [];
     data.steps.map((step) => {
       list.push({ imageURL: step.imageURL, content: step.content });
       return list;
@@ -165,14 +165,14 @@ function ImageStepper({ data }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ maxWidth: 400, flexGrow: 1, position: "relative" }}>
+      <Box sx={{ flexGrow: 1, position: "relative" }}>
         {/* top Bar */}
         <Paper
           className="topBar"
           square
           elevation={0}
           sx={{
-            width: "100%",
+            // width: "100%",
             display: "flex",
             alignItems: "center",
             height: 50,
@@ -182,12 +182,7 @@ function ImageStepper({ data }) {
             top: 0,
             zIndex: "2",
           }}
-        >
-          <ArrowBackIosIcon
-            sx={{ color: "#ffffff" }}
-            onClick={handleGoBackToHomePage}
-          />
-        </Paper>
+        ></Paper>
         {/* thumbnail &  steps images */}
         <Swiper
           className="swiper-zoom-container"
@@ -206,18 +201,7 @@ function ImageStepper({ data }) {
         >
           {displayList.map((item, index) => (
             <SwiperSlide key={index}>
-              <Box
-                component="img"
-                sx={{
-                  height: 255,
-                  display: "block",
-                  //maxWidth: 400,
-                  overflow: "hidden",
-                  width: "100%",
-                }}
-                src={item.imageURL}
-                alt={item.content}
-              />
+              <Box component="img" src={item.imageURL} alt={item.content} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -226,11 +210,12 @@ function ImageStepper({ data }) {
           square
           elevation={0}
           sx={{
+            margin: "auto",
+            padding: "25px",
             display: "flex",
             alignItems: "center",
             height: 50,
             pl: 2,
-            bgcolor: "background.default",
           }}
         >
           <Typography>{displayList[swiper?.activeIndex]?.content}</Typography>

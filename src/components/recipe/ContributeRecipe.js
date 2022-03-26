@@ -24,13 +24,11 @@ export default function ContributeRecipe() {
         pagination={{
           clickable: true,
         }}
-        preventClicks={false}
-        preventClicksPropagation={false}
+
         navigation={true}
         modules={[Navigation, Parallax, Pagination]}
         className="contributeRecipe__swiper"
-        // observer: true,
-        //     observeParents: true,
+      
         onSlideChange={() => console.log("slide change")}
       >
         <div
@@ -73,7 +71,7 @@ export default function ContributeRecipe() {
           {/* <div className="subtitle" data-swiper-parallax="-200">
             Subtitle
           </div> */}
-          <Link to="recipe/admin/add">
+          <Link to="recipe/add">
             <Button className="contributeRecipe_btn" variant="contained">
               貢獻食譜
             </Button>

@@ -17,6 +17,8 @@
         "scss-components/recipe/_CardList.scss",
         "scss-components/recipe/_SearchBar.scss",
         "scss-components/recipe/_ContributeRecipe.scss",
+        "scss-pages/_admin.scss",
+        "scss-pages/_recommendPage.scss",
         "scss-components/fridge/_CreateShoppinglistBar.scss",
         "scss-components/fridge/_Input.scss",
         "scss-components/fridge/_UploadImage.scss",

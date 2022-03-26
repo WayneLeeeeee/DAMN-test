@@ -16,38 +16,40 @@ import {
 import { actionTypes } from "../../../reducer";
 import { useStateValue } from "../../../StateProvider";
 import useSearch from "../../../hooks/useSearch";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 // import { useSpeechRecognition } from "react-speech-recognition";
 // import { split } from "lodash";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
+var temp = [];
 
 // mock unit data
 const unitData = [
   { id: 1, name: "公克" },
   { id: 2, name: "斤" },
   { id: 3, name: "半匙" },
+  { id: 3, name: "顆" },
+  { id: 3, name: "把" },
 ];
 const RecipeIngredients = () => {
   const [servingCount, setServingCount] = useState(1);
   const [cookTime, setCookTime] = useState(0);
   const [selectedIngredientTags, setSelectedIngredientTags] = useState([]);
   const [selectedIngredientsInfo, setSelectedIngredientsInfo] = useState([]);
-  const [{ newRecipeData,isUpdated }, dispatch] =
-    useStateValue();
+  const [mainIngredient, setMainIngredient] = useState(false);
+  const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
 
-  
   // const [{ newRecipeData }, dispatch] = useStateValue();
   const [searchTerm, setSearchTerm] = useState("");
   const ingredientsData = useSearch("ingredients", searchTerm);
   // 冰箱查詢
-  const result = useSearch(
-    "fridge",
-    searchTerm,
-    "3HuEsCE9jUlCm68eBQf4"
-  );
+  const result = useSearch("fridge", searchTerm, "3HuEsCE9jUlCm68eBQf4");
   console.log("result: ", result);
+
   // console.log("selectedIngredientTags: ", selectedIngredientTags);
-  
+
   // 以下註解是我用來測試食譜語音搜尋的實驗
   // const commands = [
   //   {
@@ -67,22 +69,36 @@ const RecipeIngredients = () => {
   // ];
   // const { finalTranscript } = useSpeechRecognition({ commands });
 
+  function removeA(arr) {
+    var what,
+      a = arguments,
+      L = a.length,
+      ax;
+    while (L > 1 && arr.length) {
+      what = a[--L];
+      while ((ax = arr.indexOf(what)) !== -1) {
+        arr.splice(ax, 1);
+      }
+    }
+    return arr;
+  }
+
   // 修改份數 serving
   const handleServingCount = (e) => {
     setServingCount(e.target.value);
-      dispatch({
-        type: actionTypes.SET_NEWRECIPEDATA,
-        newRecipeData: { ...newRecipeData, serving: parseInt(e.target.value) },
-      });
+    dispatch({
+      type: actionTypes.SET_NEWRECIPEDATA,
+      newRecipeData: { ...newRecipeData, serving: parseInt(e.target.value) },
+    });
   };
 
   // 修改料理時間 cookTime
   const handleCookTime = (e) => {
-      setCookTime(e.target.value);
-      dispatch({
-        type: actionTypes.SET_NEWRECIPEDATA,
-        newRecipeData: { ...newRecipeData, cookTime: parseInt(e.target.value) },
-      });
+    setCookTime(e.target.value);
+    dispatch({
+      type: actionTypes.SET_NEWRECIPEDATA,
+      newRecipeData: { ...newRecipeData, cookTime: parseInt(e.target.value) },
+    });
   };
 
   // 食材標籤
@@ -97,6 +113,33 @@ const RecipeIngredients = () => {
     });
   };
 
+  const handleMainIngredient = (name) => {
+    const found = temp.find((element) => element === name);
+    if (found) {
+      setMainIngredient(false);
+      removeA(temp, name);
+      dispatch({
+        type: actionTypes.SET_NEWRECIPEDATA,
+        newRecipeData: {
+          ...newRecipeData,
+          ingredientRecommendTags: temp,
+        },
+      });
+    } else {
+      temp.push(name);
+      setMainIngredient(true);
+      dispatch({
+        type: actionTypes.SET_NEWRECIPEDATA,
+        newRecipeData: {
+          ...newRecipeData,
+          ingredientRecommendTags: temp,
+        },
+      });
+    }
+  };
+
+  console.log(temp);
+
   // 選中食材的量
   const handleIngredientCount = (e, id, name) => {
     const info = [...selectedIngredientsInfo];
@@ -105,11 +148,14 @@ const RecipeIngredients = () => {
       name: name,
       count: e.target.value,
     };
-
     setSelectedIngredientsInfo(info);
     dispatch({
       type: actionTypes.SET_NEWRECIPEDATA,
-      newRecipeData: { ...newRecipeData, ingredientsInfo: info },
+      newRecipeData: {
+        ...newRecipeData,
+        ingredientsInfo: info,
+        // ingredientRecommendTags: [info[id].name],
+      },
     });
   };
 
@@ -132,11 +178,11 @@ const RecipeIngredients = () => {
   const onSearchChange = (e) => setSearchTerm(e.target.value);
 
   useEffect(() => {
-    if (newRecipeData.ingredientsInfo.length !== 0) {
+    if (newRecipeData.ingredientsInfo?.length !== 0) {
       setSelectedIngredientsInfo(newRecipeData?.ingredientsInfo);
     }
 
-    if (newRecipeData.ingredientTags.length !== 0) {
+    if (newRecipeData.ingredientTags?.length !== 0) {
       setSelectedIngredientTags(newRecipeData?.ingredientTags);
     }
   }, []);
@@ -144,10 +190,7 @@ const RecipeIngredients = () => {
   return (
     <Box sx={{ p: 2 }}>
       {/*  適合人份  */}
-      <Typography variant="h6" gutterBottom component="div">
-        適合人份
-      </Typography>
-      <FormControl fullWidth sx={{ m: 1 }} required>
+      <FormControl fullWidth sx={{ margin: "20px 0px" }} required>
         <InputLabel htmlFor="outlined-adornment-amount">人數</InputLabel>
         <OutlinedInput
           type="number"
@@ -159,10 +202,7 @@ const RecipeIngredients = () => {
         />
       </FormControl>
       {/*  料理時間  */}
-      <Typography variant="h6" gutterBottom component="div">
-        料理時間
-      </Typography>
-      <FormControl fullWidth sx={{ m: 1 }} required>
+      <FormControl fullWidth sx={{ margin: "20px 0px" }} required>
         <InputLabel htmlFor="outlined-adornment-amount">料理時間</InputLabel>
         <OutlinedInput
           type="number"
@@ -174,23 +214,20 @@ const RecipeIngredients = () => {
         />
       </FormControl>
       {/* 搜尋食材 search bar */}
-      <Typography variant="h6" gutterBottom component="div">
-        所需食材
-      </Typography>
+      <h3>所需食材</h3>
+      <h4 style={{ color: "#FE8B83" }}>核心食材請打勾！</h4>
       <Autocomplete
-        multiple
         id="selectedIngredientTags"
-        freeSolo
-        filterSelectedOptions
-        options={ingredientsData}
-        noOptionsText="查無，試試其他關鍵字！"
-        loadingText="載入中"
-        onChange={(_, value) => handleIngredientTags(value)}
-        onInputChange={onSearchChange}
-        popupIcon={<SearchIcon />}
+        multiple
         disableCloseOnSelect
-        isOptionEqualToValue={(option, value) => option.id === value.id}
+        options={ingredientsData}
+        noOptionsText="沒有ㄝ~試試其他關鍵字吧！"
+        groupBy={(option) => option.firstLetter}
         getOptionLabel={(option) => option.name}
+        onChange={(__, value) => handleIngredientTags(value)}
+        onInputChange={onSearchChange}
+        sx={{ width: "100%", marginTop: "20px" }}
+        // isOptionEqualToValue={(option, value) => option.id === value.id}
         renderOption={(props, option, { selected }) => (
           <li {...props}>
             <Checkbox
@@ -202,9 +239,7 @@ const RecipeIngredients = () => {
             {option.name}
           </li>
         )}
-        renderInput={(params) => (
-          <TextField {...params} label="搜尋食材" placeholder="食材" />
-        )}
+        renderInput={(params) => <TextField {...params} label="搜尋食材" />}
       />
       {/* 列出所選食材所需單位 text field */}
       {selectedIngredientTags.map((selectedIngredient, index) => (
@@ -212,13 +247,16 @@ const RecipeIngredients = () => {
           key={selectedIngredient?.id}
           sx={{ display: "flex", alignItems: "center", my: 2 }}
         >
+          <Checkbox
+            onClick={() => handleMainIngredient(selectedIngredient.name)}
+            sx={{ color: "#FE8B83" }}
+          />
           <TextField
             label={`食材`}
             type="number"
             id="standard-start-adornment"
-            sx={{ my: 2, flex: 1 }}
+            sx={{ my: 2, flex: 1, marginLeft: "10px" }}
             defaultValue={selectedIngredientsInfo[index]?.count}
-
             onChange={(e) =>
               handleIngredientCount(e, index, selectedIngredient?.name)
             }

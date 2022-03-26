@@ -12,6 +12,9 @@ import RecipeIngredients from "../../components/recipe/addRecipe/RecipeIngredien
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../function/theme";
 import ReviewRecipe from "../../components/recipe/addRecipe/PreviewRecipe";
+import ButtomNav from "../../components/BottomNav";
+import { Typography } from "@mui/material";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
 
 const user = {
   id: "itjustauserid8888",
@@ -48,26 +51,21 @@ export default function AddRecipeStepper() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+    <div className="add">
+      <ThemeProvider theme={theme}>
+        <div className="add__title">
+          <h3>食譜投稿</h3>
+          <LocalDiningIcon />
+        </div>
         {/* 子頁面 元件 */}
-        <Box
-          className="addRecipePage"
-          sx={{ maxWidth: 400, width: "100%", flexGrow: 1, minHeight: "550px" }}
-        >
-          {steps[activeStep].component}
-        </Box>
+        <div className="addRecipePage">{steps[activeStep].component}</div>
         {/* 上一步 下一步 */}
         <MobileStepper
           sx={{
+            position: "fixed",
+            bottom: "80px",
             width: "100%",
-            color: "primary.main",
+            bgcolor: "transparent",
           }}
           variant="text"
           steps={maxSteps}
@@ -80,7 +78,6 @@ export default function AddRecipeStepper() {
               disabled={activeStep === maxSteps - 1}
               sx={{ color: "primary.main" }}
             >
-              下一步
               {theme.direction === "rtl" ? (
                 <KeyboardArrowLeft />
               ) : (
@@ -100,11 +97,11 @@ export default function AddRecipeStepper() {
               ) : (
                 <KeyboardArrowLeft />
               )}
-              上一步
             </Button>
           }
         />
-      </Box>
-    </ThemeProvider>
+        <ButtomNav />
+      </ThemeProvider>
+    </div>
   );
 }
