@@ -974,6 +974,10 @@ body > iframe + iframe {
   vertical-align: -4px;
 }
 
+.foodCard {
+  padding: 6px 8px;
+}
+
 .foodCard .box {
   width: 100%;
   border-radius: 20px;

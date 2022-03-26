@@ -9,11 +9,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { useStateValue } from '../../StateProvider';
 import { actionTypes } from '../../reducer';
+import { update } from 'lodash';
+import { useNavigate } from 'react-router-dom';
 
 export default function ShoppingListCard(props) {
   const [isSelected, setIsSelected] = useState(false);
@@ -21,6 +23,7 @@ export default function ShoppingListCard(props) {
   const [open, setOpen] = useState(false);
   const [recordId, setRecordId] = useState('');
   const [selectedFridge, setSelectedFridge] = useState(null);
+  const navigate = useNavigate();
 
   // console.log(recordId);
 
@@ -36,7 +39,9 @@ export default function ShoppingListCard(props) {
   //刪除功能
   const deleteData = async function (id) {
     try {
-      await deleteDoc(doc(db, `users/${user}/shoppingList`, id));
+      await deleteDoc(
+        doc(db, 'users', '3HuEsCE9jUlCm68eBQf4', 'shoppingList', id)
+      );
       setOpen(false);
       setDeleted(deleted + 1);
       //   console.log();
@@ -44,6 +49,7 @@ export default function ShoppingListCard(props) {
       //   console.log(error);
     }
   };
+  console.log(recordId);
 
   const [user, setUser] = useState([]);
   //   console.log(user);
@@ -62,6 +68,18 @@ export default function ShoppingListCard(props) {
     }
     readData();
   }, [db, deleted]);
+  //修改
+  // const editData = async function (id) {
+  //   await getDocs(
+  //     collection(db, 'users', '3HuEsCE9jUlCm68eBQf4', 'shoppingList', id)
+  //   );
+  //   setRecordId(id);
+  //   const temp = [];
+  //   getDocs.forEach((doc) => {
+  //     temp.push(doc.id);
+
+  //   });
+  // };
 
   return (
     <div
@@ -92,6 +110,7 @@ export default function ShoppingListCard(props) {
           </Button>
 
           <Button className="editButton">
+            {/* onClick={() => editData(props.item.id)} */}
             <CreateIcon />
           </Button>
         </Card>
