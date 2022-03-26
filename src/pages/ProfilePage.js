@@ -133,7 +133,7 @@ const ProfilePage = () => {
 
   return (
     <div className="ProfilePage" sx={{ height: '100vh' }}>
-      <Card className="profile__card" sx={{ maxWidth: 500, height: 360 }}>
+      <Card className="profile__card" sx={{ maxWidth: 500, height: 300 }}>
         <div className="profile__progress">
           <Circle percent="87" strokeWidth="6" strokeColor="#FFD700" />
         </div>
@@ -167,7 +167,7 @@ const ProfilePage = () => {
       <TabPanel value={value} index={0}>
         <Divider />
         <ImageList
-          sx={{ width: 500, height: 280, marginLeft: -3 }}
+          sx={{ width: 420, height: 400, marginLeft: -3 }}
           className="profile__imagelist"
           cols={3}
           rowHeight={140}
@@ -189,7 +189,7 @@ const ProfilePage = () => {
       <TabPanel value={value} index={1}>
         <Divider />
         <div className="profile__tabpanel">
-          <Container sx={{ maxWidth: 500, height: 200 }}>
+          <Container sx={{ maxWidth: 500, height: 350 }}>
             <Typography
               sx={{
                 fontSize: 26,
@@ -206,7 +206,7 @@ const ProfilePage = () => {
             >
               Apple
               <Button>
-                <EditIcon fontSize="small" sx={{ marginLeft: 38 }}></EditIcon>
+                <EditIcon fontSize="small" sx={{ marginLeft: 31 }}></EditIcon>
               </Button>
             </Typography>
 
@@ -226,7 +226,7 @@ const ProfilePage = () => {
             >
               apple@gmail.com
               <Button>
-                <EditIcon fontSize="small" sx={{ marginLeft: 25 }}></EditIcon>
+                <EditIcon fontSize="small" sx={{ marginLeft: 18 }}></EditIcon>
               </Button>
             </Typography>
 
@@ -248,7 +248,7 @@ const ProfilePage = () => {
               <Button>
                 <EditIcon
                   fontSize="small"
-                  sx={{ marginLeft: 33, marginTop: -1 }}
+                  sx={{ marginLeft: 26, marginTop: -1 }}
                 ></EditIcon>
               </Button>
             </Typography>
@@ -271,7 +271,7 @@ const ProfilePage = () => {
               <Button>
                 <EditIcon
                   fontSize="small"
-                  sx={{ marginLeft: 33.5, marginTop: -1 }}
+                  sx={{ marginLeft: 26.5, marginTop: -1 }}
                 ></EditIcon>
               </Button>
             </Typography>
