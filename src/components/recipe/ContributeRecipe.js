@@ -24,13 +24,11 @@ export default function ContributeRecipe() {
         pagination={{
           clickable: true,
         }}
-        preventClicks={false}
-        preventClicksPropagation={false}
+
         navigation={true}
         modules={[Navigation, Parallax, Pagination]}
         className="contributeRecipe__swiper"
-        // observer: true,
-        //     observeParents: true,
+      
         onSlideChange={() => console.log("slide change")}
       >
         <div

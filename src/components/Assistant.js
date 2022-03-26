@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import {
   Backdrop,
   Box,
+  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -28,7 +30,7 @@ import { actionTypes } from "../reducer";
 import { useStateValue } from "../StateProvider";
 import { useNavigate } from "react-router-dom";
 import ChineseNumber from "chinese-numbers-converter";
-
+import useToggle from "../hooks/useToggle";
 const speechsdk = require("microsoft-cognitiveservices-speech-sdk");
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -40,10 +42,8 @@ const Assistant = () => {
   //const [isDialogOpen, setIsDialogOpen] = useState(false); // need to set global state
   const [{ isAssistantModelOpen, AIResponse, textFromMic }, dispatch] =
     useStateValue();
-
-  // const [displayText, setDisplayText] = useState("");
-  // const [AIResponse, setAIResponse] = useState("");
   const [recipeResult, setRecipeResult] = useState(null);
+  const [isAllowSTTMicModalOpen, setIsAllowSTTMicModalOpen] = useToggle(true);
   // 命令 stt => speech to text
   let STT_Commands = [
     {
@@ -110,6 +110,7 @@ const Assistant = () => {
     打開 小當家 modal (我把 modal 打成 model....) 而且這裡 Dialog == Modal 同樣東西
     */
     clearIntent();
+    setRecipeResult(null);
     displayAndSpeakResponse("我在");
     delayPlaySound();
     delaySTTFromMic();
@@ -279,13 +280,14 @@ const Assistant = () => {
       AIResponse: text,
     });
   };
-console.log("第一監聽: ", );
+
   console.log("意圖: ", intentInfo);
   console.log("第二監聽: ", textFromMic);
   //console.log(recipeResult);
 
   const startListening = () => {
     sttFromMic({ mode: "keywordRecognizer" });
+    setIsAllowSTTMicModalOpen();
   };
   const stopListening = async () => {
     sttFromMic({ mode: "stopListening" });
@@ -324,8 +326,29 @@ console.log("第一監聽: ", );
             {AIResponse}
           </Typography>
         </DialogContent>
-        <button onClick={startListening}>開啟</button>
-        <button onClick={stopListening}>關閉</button>
+      </Dialog>
+
+      <Dialog
+        open={isAllowSTTMicModalOpen}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={setIsAllowSTTMicModalOpen}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle className="color-primary">
+          開啟小當家，便利你的生活
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            開啟小當家功能，只要喊「小當家」即可喚醒！ 詳細功能可參考 語音文件
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={setIsAllowSTTMicModalOpen}>語音文件</Button>
+          <Button className="color-primary" onClick={startListening}>
+            開啟
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
