@@ -19,6 +19,7 @@ import { actionTypes } from "./reducer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminPage from "./pages/recipe/AdminPage";
 import NotFound from "./pages/NotFoundPage";
+import AddNewRecipePage from "./pages/recipe/AddNewRecipePage";
 
 import { HashRouter } from "react-router-dom";
 import RecipeSearchPage from "./pages/recipe/RecipeSearchPage";
@@ -27,6 +28,7 @@ import CreateShoppinglist from "./pages/fridge/shoppingList/CreateShoppinglist";
 import { auth } from "./firebase";
 import CheckFoodListPage from "./pages/fridge/shoppingList/CheckFoodListPage";
 import FridgeSearchResult from "./pages/fridge/FridgeManagePage/FridgeSearchResult";
+import RecommendRecipe from "./pages/recipe/RecommendRecipe";
 // 陳泓棣delete掉整個repository，所以我要重新PR
 
 function App() {
@@ -57,9 +59,10 @@ function App() {
             <>
               <Route path="/">
                 <Route index element={<RecipeHomePage />} />
-                <Route path="recipe/admin/add" element={<AdminPage />} />
+                <Route path="recipe/add" element={<AddNewRecipePage />} />
                 <Route exact path="recipe/:id" element={<RecipeItemPage />} />
                 <Route path="recipe/search" element={<RecipeSearchPage />} />
+                <Route path="recipe/recommend" element={<RecommendRecipe />} />
               </Route>
 
               {/* fridge */}

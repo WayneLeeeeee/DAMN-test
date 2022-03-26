@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { doc, updateDoc, getDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FlatwareIcon from "@mui/icons-material/Flatware";
+
 function HotCard({ data }) {
   const userUid = localStorage.getItem("userUid");
   const recipesLikes = doc(db, "recipes", data.id);
@@ -69,34 +73,46 @@ function HotCard({ data }) {
       <div>
         <div className="hotCard__content">
           <div className="hotCard__title">
-            <h4>{data.name}</h4>
-            <h4>{data.author}</h4>
+            <h3>{data.name}</h3>
+            <div className="hotCard__title-2">
+              <h4>{data.author}</h4>
+              <h4>{dataLikes}說讚</h4>
+            </div>
           </div>
           <span></span>
           <div className="hotCard__items">
             <div className="hotCard__item">
               {isLiked ? (
-                <ThumbUpIcon
-                  sx={{ color: "#2D8DFF", paddingRight: "5px",cursor:"pointer"}}
+                <FavoriteIcon
+                  sx={{
+                    color: "#FE8B83",
+                    paddingRight: "5px",
+                    cursor: "pointer",
+                  }}
                   onClick={handleLike}
                   link
                 />
               ) : (
-                <ThumbUpOffAltIcon
-                  sx={{ color: "#2D8DFF", paddingRight: "5px",cursor:"pointer" }}
+                <FavoriteBorderIcon
+                  sx={{
+                    color: "#FE8B83",
+                    paddingRight: "5px",
+                    cursor: "pointer",
+                  }}
                   onClick={handleLike}
                 />
               )}
-              <h4>{dataLikes}</h4>
+              {isLiked ? <h4>已說讚</h4> : <h4>讚</h4>}
+              {/* <h4>{dataLikes}</h4> */}
             </div>
             <div className="hotCard__item">
-              <AccessTimeIcon sx={{ color: "#45BCFF", paddingRight: "5px" }} />
-              <h4>{data.cookTime}</h4>
-              <h5>min</h5>
+              <FlatwareIcon sx={{ color: "gray", paddingRight: "5px" }} />
+              <h4>{data.serving}</h4>
+              <h5>人</h5>
             </div>
             <div className="hotCard__item">
-              <StarIcon sx={{ color: "#FE645A", paddingRight: "5px" }} />
               <h4>{data.rating}</h4>
+              <StarIcon sx={{ color: "gold", paddingRight: "5px" }} />
             </div>
           </div>
         </div>

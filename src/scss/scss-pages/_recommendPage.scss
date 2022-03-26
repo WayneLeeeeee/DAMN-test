@@ -1,0 +1,18 @@
+.recommend__recipe {
+  .recommendCard {
+    padding-top: 20px;
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 0;
+    .recommendCard__img {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      padding-right: 20px;
+      img {
+        border-radius: 20px;
+      }
+    }
+  }
+}

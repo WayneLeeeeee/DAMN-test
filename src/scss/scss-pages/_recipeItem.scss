@@ -1,39 +1,71 @@
-.recipeItem__container {
-  .recipeItem__wrap {
-    position: relative;
-    img {
-      display: block;
-      width: 100%;
-    }
-    .recipeItem__box {
-      width: 100%;
-      border-radius: 20px 20px 0 0;
-      background-color: white;
-      padding: 20px 0;
-      // position: absolute;
-      // bottom: -25px;
-      h4 {
-        font: size 24px;
-        padding-left: 20px;
+.recipeItem__checkIcon {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > .MuiSvgIcon-root {
+    font-size: 48px;
+  }
+  & > h4 {
+    font-size: 18px;
+  }
+}
+.TabPanel__box {
+  background-color: #f5f5f5;
+  padding: 20px;
+
+  .Tabpanel__block {
+    height: 100vw;
+    overflow: auto;
+    .TabPanel__box__title {
+      display: flex;
+      align-items: center;
+      & > h4 {
+        font-size: 24px;
+        color: $primary-color;
+        padding-right: 10px;
+      }
+      & > h5{
+        font-size: 18px;
       }
     }
   }
-  .TabPanel__box {
-    &::-webkit-scrollbar {
-      display: none;
+  .TabPanel__box__item {
+    display: flex;
+    align-items: center;
+    & > li {
+      padding-right: 10px;
+      font-weight: bold;
     }
-    li {
-      padding: 10px 0;
+    & > span {
+      color: gray;
     }
   }
-
-  .css-11yukd5-MuiTabs-indicator {
-    background-color: $primary-color;
+  &::-webkit-scrollbar {
+    display: none;
   }
-
-  .activeStep {
-    font-weight: bold;
-    font-size: 24px;
-    color: $primary-color;
+  li {
+    padding: 10px 0;
   }
+}
+
+.recipeItem__title {
+  background-color: $primary-color;
+  color: white;
+  font-size: 24px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.swiper-pagination {
+  --swiper-theme-color: #fe8b83;
+  padding-bottom: 10px;
+}
+
+.css-ahj2mt-MuiTypography-root {
+  color: gray !important;
 }
