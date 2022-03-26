@@ -138,7 +138,7 @@ const PreviewRecipe = () => {
           <Paper
             elevation={3}
             className="recipeItem__container"
-            sx={{ color: "text.normal", height: "450px", overflow: "auto" }}
+            sx={{ color: "text.normal", height: "350px", overflow: "auto" }}
           >
             <div className="recipeItem__wrap">
               <img src={newRecipeData?.thumbnail?.url} alt="" />

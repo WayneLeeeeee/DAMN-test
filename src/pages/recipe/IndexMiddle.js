@@ -54,7 +54,7 @@ function IndexMiddle() {
       </div>
       <div className="recipeIndexMiddle__cards-1">
         <RecommendCard />
-        <RecommendCard />
+        {/* <RecommendCard /> */}
       </div>
 
       <div
