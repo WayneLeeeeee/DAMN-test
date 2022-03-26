@@ -1018,10 +1018,12 @@ body > iframe + iframe {
 }
 
 .foodCard .box .contextCard .detailCard {
+  padding: 10px;
   font-size: 14px;
 }
 
 .foodCard .box .contextCard .expiredTime {
+  padding: 10px;
   font-size: 14px;
   color: #FE645A !important;
 }

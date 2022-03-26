@@ -17,11 +17,14 @@ export default function ShoppingListPage() {
       <ShoppingListBar />
 
       <Fab
+        className="insertCircle"
         sx={{
+          padding: '10px !important',
+          borderRadius: ' 50% !important',
           backgroundColor: '#C7E3EE !important',
-          justifyContent: 'space-around',
-          alignItems: 'left !important',
-          position: 'fixed',
+          justifyContent: 'center',
+          alignItems: 'center !important',
+          position: 'fixed !important',
           bottom: '7%',
           right: '10%',
         }}
