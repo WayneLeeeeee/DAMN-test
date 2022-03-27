@@ -1302,8 +1302,13 @@ body > iframe + iframe {
   vertical-align: -4px;
 }
 
+.foodCard {
+  padding: 6px 8px;
+}
+
 .foodCard .box {
   width: 100%;
+  border-radius: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1311,7 +1316,6 @@ body > iframe + iframe {
   -webkit-box-direction: normal !important;
       -ms-flex-direction: row !important;
           flex-direction: row !important;
-  padding: 60px 0 13px 13px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -1342,10 +1346,12 @@ body > iframe + iframe {
 }
 
 .foodCard .box .contextCard .detailCard {
+  padding: 10px;
   font-size: 14px;
 }
 
 .foodCard .box .contextCard .expiredTime {
+  padding: 10px;
   font-size: 14px;
   color: #FE645A !important;
 }
@@ -1363,6 +1369,11 @@ body > iframe + iframe {
 .foodCard .box .delete-edit-card .editButton {
   padding: 100px 0 0 0;
   color: #418DE1 !important;
+}
+
+.foodCard .checked {
+  -webkit-box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
+          box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
 }
 
 .fridgeBar {
@@ -1454,6 +1465,11 @@ body > iframe + iframe {
   color: #444545;
 }
 
+
+.maincard {
+  margin-top: 100px;
+  margin-left: 20px;
+  width: 80%;
 .bottomNav {
   color: #444545 !important;
   z-index: 999 !important;
@@ -1496,6 +1512,39 @@ body > iframe + iframe {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.maincard .ingredientname {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.maincard .selector {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.maincard .selector .MuiOutlinedInput-root {
+  margin-top: 10px;
+}
+
+.maincard .input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.maincard .input .quantity {
+  width: 30%;
 }
 
 .bottomNav .MuiIconButton-label > a > p {

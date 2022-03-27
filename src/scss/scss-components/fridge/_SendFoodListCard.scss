@@ -1,0 +1,42 @@
+// .maincard{
+//         width: 100%;
+//         display: flex !important;
+//         justify-content: space-around;
+//         flex-direction: column;
+//         padding: 10px, 10px, 10px, 10px;
+//                 width:100%;
+//                     .foodkindselecter{
+//                         width: 100%;
+//                         display:flex;
+//                         justify-content: space-around;
+//                         padding: 10px ,10px ,10px ,10px;
+//                     }
+//     }
+
+.maincard{
+    margin-top: 100px;
+    margin-left: 20px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    .ingredientname{
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .selector{
+        display: flex;
+        margin-bottom: 10px;
+        & .MuiOutlinedInput-root {
+            margin-top: 10px;
+        }
+    }
+    .input{
+        display: flex;
+        align-items: center;
+        .quantity{
+            width: 30%;
+        }
+    }
+}
