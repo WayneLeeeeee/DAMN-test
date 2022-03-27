@@ -1,10 +1,36 @@
 .recipeSearchBar{
+    .MuiPaper-root{
+        padding-bottom: 0;
+    }
     .appBar {
         color: #F5F5F5 !important;
         background-color: #FE8B83 !important;
       };
     .toolBar {
         height: 90px;
+        margin-top: 35px;
+        .header{
+            display: none;
+        }
+        input{
+            border-radius: 20px;
+            border: none;
+        }
+        .search{
+        margin-top: 4px;
+        .prompt{
+            width: 200px;
+            height:20px;
+            padding-left: 10px;
+          }
+          .content{
+            color:black;
+            display: block;
+            background-color: white;
+            width: 100%;
+            padding:4px;
+        }
+        }
       };
     .stack {
         margin-top: 14px;
@@ -17,7 +43,6 @@
     };
     .iconBar {
         margin-left: 12px;
-        margin-top: 35px;
         color: #F5F5F5 !important;
     };
     .inputBase{

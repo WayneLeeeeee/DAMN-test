@@ -251,6 +251,13 @@ body > iframe + iframe {
   color: #fff;
 }
 
+.recipe__index .recipeIndexTop .recipeIndexTop__search .content {
+  display: block;
+  background-color: white;
+  width: 100%;
+  padding: 4px;
+}
+
 .recipe__index .recipeIndexMiddle .recipeIndexMiddle__title {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -957,15 +964,20 @@ body > iframe + iframe {
           flex-direction: column;
 }
 
+.recipeCardlist .MuiPaper-root {
+  padding-bottom: 0;
+}
+
 .recipeCardlist .block {
-  margin-top: 130px;
+  margin-top: 120px;
 }
 
 .recipeCardlist .area {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
-  margin-top: 20px !important;
+  margin-top: 16px !important;
+  margin-bottom: 16px !important;
 }
 
 .recipeCardlist .content {
@@ -976,15 +988,26 @@ body > iframe + iframe {
   width: 150px;
   height: 150px;
   border-radius: 20px;
-  margin-right: 40px;
+  margin-right: 12px;
 }
 
 .recipeCardlist .words {
   font-weight: bolder !important;
+  font-size: 18px;
+  color: black;
+}
+
+.recipeCardlist .icontext {
+  font-size: 14px;
+  color: black;
 }
 
 .recipeCardlist .icon {
   vertical-align: -4px;
+}
+
+.recipeSearchBar .MuiPaper-root {
+  padding-bottom: 0;
 }
 
 .recipeSearchBar .appBar {
@@ -994,6 +1017,34 @@ body > iframe + iframe {
 
 .recipeSearchBar .toolBar {
   height: 90px;
+  margin-top: 35px;
+}
+
+.recipeSearchBar .toolBar .header {
+  display: none;
+}
+
+.recipeSearchBar .toolBar input {
+  border-radius: 20px;
+  border: none;
+}
+
+.recipeSearchBar .toolBar .search {
+  margin-top: 4px;
+}
+
+.recipeSearchBar .toolBar .search .prompt {
+  width: 200px;
+  height: 20px;
+  padding-left: 10px;
+}
+
+.recipeSearchBar .toolBar .search .content {
+  color: black;
+  display: block;
+  background-color: white;
+  width: 100%;
+  padding: 4px;
 }
 
 .recipeSearchBar .stack {
@@ -1009,7 +1060,6 @@ body > iframe + iframe {
 
 .recipeSearchBar .iconBar {
   margin-left: 12px;
-  margin-top: 35px;
   color: #F5F5F5 !important;
 }
 

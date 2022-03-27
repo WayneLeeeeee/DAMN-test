@@ -28,6 +28,7 @@ function CardList({ data }) {
               >
                 {recipe.name}
               </Typography>
+              <div className="icontext">
               <Typography variant="h6">
                 <ThumbUpIcon color="primary" className="icon" />
                 30k
@@ -40,6 +41,7 @@ function CardList({ data }) {
                 <AccessTimeIcon color="primary" className="icon" />
                 20min
               </Typography>
+              </div>
             </CardContent>
           </CardActionArea>
         ))}
