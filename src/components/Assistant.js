@@ -31,6 +31,7 @@ import { useStateValue } from "../StateProvider";
 import { useNavigate } from "react-router-dom";
 import ChineseNumber from "chinese-numbers-converter";
 import useToggle from "../hooks/useToggle";
+import axios from "axios";
 const speechsdk = require("microsoft-cognitiveservices-speech-sdk");
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -110,7 +111,7 @@ const Assistant = () => {
     打開 小當家 modal (我把 modal 打成 model....) 而且這裡 Dialog == Modal 同樣東西
     */
     clearIntent();
-    setRecipeResult(null);
+    //setRecipeResult(null);
     displayAndSpeakResponse("我在");
     delayPlaySound();
     delaySTTFromMic();
@@ -169,9 +170,13 @@ const Assistant = () => {
       // };
 
       //  The event recognized signals that a final recognition result is received.
-      recognizer.recognized = function (script, e) {
+      recognizer.recognized = async function (script, e) {
         console.log("recognized text", e.result.text);
         const recognizedText = e.result.text;
+        // const res = await axios.get(
+        //   `https://damn-token.herokuapp.com/api/cut-text?q=${recognizedText}`
+        // );
+        //console.log("res array : ", res);
         if (recognizedText === "小當家。") {
           // dispatch({
           //   type: actionTypes.SET_TEXT_FROM_MIC,
@@ -237,6 +242,12 @@ const Assistant = () => {
     sttFromMic({ mode: "keywordRecognizer" });
     // 一個 modal 初始化時顯示，提供給使用者 是否開啟語音助理
   }, []);
+
+  useEffect(() => {
+    if (!isAssistantModelOpen) {
+      setRecipeResult(null);
+    }
+  }, [isAssistantModelOpen]);
 
   // 小當家彈出視窗關閉
   const handleDialogClose = () => {
