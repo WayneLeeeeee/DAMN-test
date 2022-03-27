@@ -10,20 +10,21 @@ import CustomIcon from "../../Icon";
 import RecipeRating from "../../../components/recipe/addRecipe/RecipeRating";
 import { Typography } from "@mui/material";
 
-const NameAndThumbnail = ({ recipeData, setRecipeData , recipes }) => {
+
+const NameAndThumbnail = ({ recipeData, setRecipeData, recipes }) => {
   const Input = styled("input")({
     display: "none",
   });
-  const [{ newRecipeData,isUpdated}, dispatch] = useStateValue();
+  const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
   const [name, setName] = useState("");
-    
+
   // 修改食譜名稱
   const handleRecipeName = (e) => {
     setName(e.target.value);
-      dispatch({
-        type: actionTypes.SET_NEWRECIPEDATA,
-        newRecipeData: { ...newRecipeData, name: e.target.value },
-      });
+    dispatch({
+      type: actionTypes.SET_NEWRECIPEDATA,
+      newRecipeData: { ...newRecipeData, name: e.target.value },
+    });
   };
 
   // 顯示 食譜縮圖 (show recipe thumbnail)
@@ -46,6 +47,7 @@ const NameAndThumbnail = ({ recipeData, setRecipeData , recipes }) => {
 
   return (
     <ThemeProvider theme={theme}>
+     
       <Box sx={{ p: 2, color: "text.normal" }}>
         {/* 食譜名稱 */}
         <Typography variant="h6" gutterBottom component="div">
@@ -60,8 +62,9 @@ const NameAndThumbnail = ({ recipeData, setRecipeData , recipes }) => {
           required
           margin="dense"
           onChange={handleRecipeName}
-          value={isUpdated?newRecipeData?.name:name}
-        />        {/* 食譜封面圖片 */}
+          value={isUpdated ? newRecipeData?.name : name}
+        />{" "}
+        {/* 食譜封面圖片 */}
         <Typography variant="h6" gutterBottom component="div">
           食譜封面圖片
         </Typography>
@@ -73,14 +76,22 @@ const NameAndThumbnail = ({ recipeData, setRecipeData , recipes }) => {
               border: "1px dashed grey",
               minHeight: "300px",
               display: "flex",
-              flexDirection:"column",
+              flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
               color: "primary.main",
             }}
           >
             {/* <img src={newRecipeData?.thumbnail?.url} alt="" loading="lazy" /> */}
-            <img src={isUpdated?newRecipeData?.thumbnail?.url:newRecipeData?.thumbnail?.url} alt="" loading="lazy" />
+            <img
+              src={
+                isUpdated
+                  ? newRecipeData?.thumbnail?.url
+                  : newRecipeData?.thumbnail?.url
+              }
+              alt=""
+              loading="lazy"
+            />
             <Input
               accept="image/*"
               id="icon-button-file"
@@ -103,7 +114,6 @@ const NameAndThumbnail = ({ recipeData, setRecipeData , recipes }) => {
             </IconButton>
           </Box>
         </label>
-
         {/* rating */}
         <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2 }}>
           難易度

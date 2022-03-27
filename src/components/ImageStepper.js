@@ -63,7 +63,7 @@ function ImageStepper({ data }) {
         const nextSlide = currentSlide + listenedNumber;
         console.log("nextSlide: ", nextSlide);
         swiper.slideTo(nextSlide);
-        speakAndCloseModel(nextSlide);
+        speakAndCloseModel(`為您移動到第${nextSlide}步`);
       },
     },
     {
@@ -79,7 +79,11 @@ function ImageStepper({ data }) {
         const prevSlide = currentSlide - listenedNumber;
         console.log("prevSlide: ", prevSlide);
         swiper.slideTo(prevSlide);
-        speakAndCloseModel(prevSlide);
+        if (prevSlide === 0) {
+          speakAndCloseModel(`為您移動到封面`);
+          return;
+        }
+        speakAndCloseModel(`為您移動到第${prevSlide}步`);
       },
     },
     {
@@ -91,25 +95,31 @@ function ImageStepper({ data }) {
           new ChineseNumber(entities.Number[0][0]).toArabicString()
         );
         swiper.slideTo(listenedNumber);
-        speakAndCloseModel(listenedNumber);
+        speakAndCloseModel(`為您移動到第${listenedNumber}步`);
+      },
+    },
+    {
+      intent: "Utilities.ReadAloud",
+      callback: (entities) => {
+        if (!entities.Number[0][0]) return;
+
+        let listenedNumber = parseInt(
+          new ChineseNumber(entities.Number[0][0]).toArabicString()
+        );
+        swiper.slideTo(listenedNumber);
+        //console.log(displayList[listenedNumber]?.content);
+        const recipeStepContent = displayList[listenedNumber]?.content;
+        speakAndCloseModel(recipeStepContent);
       },
     },
   ];
 
   const speakAndCloseModel = (speakText) => {
-    if (speakText <= 0) {
-      speak(`為您移動到封面`);
-      dispatch({
-        type: actionTypes.SET_AI_RESPONSE,
-        AIResponse: `為您移動到封面`,
-      });
-    } else {
-      speak(`為您移動到第${speakText}步`);
-      dispatch({
-        type: actionTypes.SET_AI_RESPONSE,
-        AIResponse: `為您移動到第${speakText}步`,
-      });
-    }
+    speak(speakText);
+    dispatch({
+      type: actionTypes.SET_AI_RESPONSE,
+      AIResponse: speakText,
+    });
 
     dispatch({
       type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
@@ -145,7 +155,7 @@ function ImageStepper({ data }) {
 
   // 將 料理名稱、縮圖和步驟內容、圖片放在同一個陣列，以便在滑動時能顯示
   const handleDisplayList = () => {
-    let list = [{ imageURL: data.thumbnail.url, content: data.name }];
+    let list = [];
     data.steps.map((step) => {
       list.push({ imageURL: step.imageURL, content: step.content });
       return list;
@@ -155,14 +165,14 @@ function ImageStepper({ data }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ maxWidth: 400, flexGrow: 1, position: "relative" }}>
+      <Box sx={{ flexGrow: 1, position: "relative" }}>
         {/* top Bar */}
         <Paper
           className="topBar"
           square
           elevation={0}
           sx={{
-            width: "100%",
+            // width: "100%",
             display: "flex",
             alignItems: "center",
             height: 50,
@@ -172,12 +182,7 @@ function ImageStepper({ data }) {
             top: 0,
             zIndex: "2",
           }}
-        >
-          <ArrowBackIosIcon
-            sx={{ color: "#ffffff" }}
-            onClick={handleGoBackToHomePage}
-          />
-        </Paper>
+        ></Paper>
         {/* thumbnail &  steps images */}
         <Swiper
           className="swiper-zoom-container"
@@ -196,18 +201,7 @@ function ImageStepper({ data }) {
         >
           {displayList.map((item, index) => (
             <SwiperSlide key={index}>
-              <Box
-                component="img"
-                sx={{
-                  height: 255,
-                  display: "block",
-                  maxWidth: 400,
-                  overflow: "hidden",
-                  width: "100%",
-                }}
-                src={item.imageURL}
-                alt={item.content}
-              />
+              <Box component="img" src={item.imageURL} alt={item.content} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -216,11 +210,12 @@ function ImageStepper({ data }) {
           square
           elevation={0}
           sx={{
+            margin: "auto",
+            padding: "25px",
             display: "flex",
             alignItems: "center",
             height: 50,
             pl: 2,
-            bgcolor: "background.default",
           }}
         >
           <Typography>{displayList[swiper?.activeIndex]?.content}</Typography>

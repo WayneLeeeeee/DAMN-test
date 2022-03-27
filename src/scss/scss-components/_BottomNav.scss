@@ -1,5 +1,6 @@
 .bottomNav {
   color: $text-color !important;
+  z-index: 999 !important;
   header {
     padding: 8px 0;
     background-color: #fff !important;
@@ -36,9 +37,9 @@
     }
   }
 
-  .MuiSvgIcon-root {
-    color: $text-color;
-  }
+  // .MuiSvgIcon-root {
+  //   color: $text-color;
+  // }
 
   a {
     text-decoration: none;

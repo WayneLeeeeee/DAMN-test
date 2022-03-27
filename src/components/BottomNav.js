@@ -33,13 +33,13 @@ const btnList = [
     auth: "normal",
     routeTo: "/profile",
   },
-  {
-    id: 3,
-    title: "管理",
-    icon: <ManageAccountsIcon />,
-    auth: "admin",
-    routeTo: "/recipe/admin/add",
-  },
+  // {
+  //   id: 3,
+  //   title: "管理",
+  //   icon: <ManageAccountsIcon />,
+  //   auth: "admin",
+  //   routeTo: "/recipe/admin/add",
+  // },
 ];
 
 const user = { auth: "admin" };
@@ -107,6 +107,7 @@ const BottomNav = () => {
   return (
     <ThemeProvider theme={theme}>
       <Paper
+        className="bottomNav"
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0, p: 1 }}
         elevation={5}
       >

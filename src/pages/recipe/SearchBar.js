@@ -60,7 +60,7 @@ function SearchBar() {
             <AppBar className='appBar'>
                 <Toolbar className='toolBar'>
                     <Button><Link to='/'><ArrowBackIosIcon className='iconBar'/></Link></Button>
-   
+                    <div className="search">
                     <Search 
                         value = {query}
                         onSearchChange ={(e)=> setQuery(e.target.value)} 
@@ -68,18 +68,19 @@ function SearchBar() {
                         noResultsMessage="找不到相關食譜"
                         onResultSelect={onResultSelect}
                     />
+                      </div>
                     {/* <input onChange={
                         (e)=> setQuery(e.target.value)
                     }/> */}
-                    <Button onClick={onResultSelect}><SearchIcon /></Button>
-             
+                    <Button onClick={onResultSelect} ><SearchIcon  sx={{color:'white'}}/></Button>
+                  
                 </Toolbar>
-                <Stack direction="row" spacing={2.5} className='stack'>
+                {/* <Stack direction="row" spacing={2.5} className='stack'>
                     <Chip  label="白醬義大利麵" onClick={handleClick} className='chip'/>
                     <Chip  label="青醬義大利麵" onClick={handleClick} className='chip'/>
                     <Chip  label="海鮮義大利麵" onClick={handleClick} className='chip'/>
                     <Chip  label="夏威夷義大利麵" onClick={handleClick} className='chip'/>
-                </Stack>
+                </Stack> */}
             </AppBar>
         </div>
     )

@@ -12,8 +12,10 @@ export const initialState = {
   navbarBtnId: 0,
   isUpdated: false,
   isAssistantModelOpen: false,
+
   AIResponse: '',
   textFromMic: '',
+
   checkedList: [],
 };
 
