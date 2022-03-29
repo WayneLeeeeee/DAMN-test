@@ -1343,167 +1343,67 @@ body > iframe + iframe {
   vertical-align: -4px;
 }
 
-.foodCard {
-  padding: 6px 8px;
-}
-
 .foodCard .box {
-  width: 100%;
-  border-radius: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal !important;
-  -webkit-box-direction: normal !important;
-      -ms-flex-direction: row !important;
-          flex-direction: row !important;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  margin: 10px;
+  -webkit-box-shadow: 4px 6px #c4c2c2;
+          box-shadow: 4px 6px #c4c2c2;
 }
 
-.foodCard .box .chickenCard {
-  padding: 11px 20px;
-  background: #F5F5F5;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.foodCard .box .chickenCard img {
-  width: 145px;
-  height: 120px;
-}
-
-.foodCard .box .contextCard {
-  background: #F5F5F5;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.foodCard .box .contextCard .foodName {
-  font-size: 18px !important;
-  padding: 11px 0 26px 0;
-  font-weight: 600;
-}
-
-.foodCard .box .contextCard .detailCard {
-  padding: 10px;
-  font-size: 14px;
-}
-
-.foodCard .box .contextCard .expiredTime {
-  padding: 10px;
-  font-size: 14px;
-  color: #FE645A !important;
+.foodCard .box .foodCard__img img {
+  width: 200px;
+  padding-right: 20px;
 }
 
 .foodCard .box .delete-edit-card {
-  background: #F5F5F5;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.foodCard .box .delete-edit-card .deleteButton {
-  color: #FF0000 !important;
-}
-
-.foodCard .box .delete-edit-card .editButton {
-  padding: 100px 0 0 0;
-  color: #418DE1 !important;
-}
-
-.foodCard .checked {
-  -webkit-box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
-          box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
-}
-
-.fridgeBar {
-  width: 100%;
-}
-
-.fridgeBar .top_bar {
-  background: #C7E3EE;
-  -webkit-box-pack: justify !important;
-      -ms-flex-pack: justify !important;
-          justify-content: space-between !important;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  position: absolute;
+  right: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  padding: 15px;
-}
-
-.fridgeBar .top_bar Button {
-  color: #FFFFFF;
-  background: #C7E3EE;
-}
-
-.fridgeBar .top_bar .LeftButton {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: left;
-      -ms-flex-align: left;
-          align-items: left;
-}
-
-.fridgeBar .top_bar .LeftButton p {
-  font-size: 26px;
-}
-
-.fridgeBar .top_bar .MiddleButton {
-  margin-top: 24px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.fridgeBar .top_bar .RightButton {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.fridgeBar .top_bar p {
-  color: #FFFFFF !important;
-}
-
-.fridgeBar .kind_bar {
-  width: 100%;
-  background: #F5F5F5;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  color: #444545 !important;
-}
-
-.fridgeBar .kind_bar Button {
+  height: 180px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  color: #444545;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.fridgeBar {
+  width: 100%;
+  background-color: #e2c39a;
+}
+
+.fridgeBar .top__bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 30px;
+}
+
+.fridgeBar > .MuiSvgIcon-root {
+  color: white;
+}
+
+.fridgeBar input {
+  border: none;
+  border-radius: 20px;
+}
+
+.fridgeBar .header {
+  display: none;
 }
 
 .maincard {

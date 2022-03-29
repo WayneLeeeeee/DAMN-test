@@ -29,19 +29,21 @@ export default function FoodList() {
       querySnapshot.forEach((doc) => {
         temp.push({
           name: doc.data().name,
-          ingredientTags: doc.data().ingredientTags,
           quantity: doc.data().quantity,
           unit: doc.data().unit,
           isFrozen: isFrozen(doc.data().isFrozen),
-          endDate: moment(doc.data().endDate).startOf("day").format("H:mm:ss"),
           imageURL: doc.data().imageURL,
-          toEnd: moment().to(doc.data().endDate),
+          endDate: moment(doc.data().endDate.seconds * 1000).format(
+            "YYYY/MM/DD"
+          ),
         });
       });
+      console.log(temp);
       setFridge([...temp]);
     }
     readData();
   }, [db]);
+
   console.log(fridge);
 
   return (

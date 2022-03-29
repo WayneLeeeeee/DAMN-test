@@ -1,51 +1,20 @@
-.fridgeBar{
-    width: 100%;
-    .top_bar{
-        background: #C7E3EE;
-        justify-content: space-between !important;
-        align-items: center;
-        display: flex;
-        flex-direction: row;
-        padding:15px; 
-        Button{
-            color: #FFFFFF;
-            background: #C7E3EE;
-        }
-
-            .LeftButton{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                align-items: left;
-                p{
-                    font-size: 26px;
-                }
-            }
-            .MiddleButton{
-                margin-top: 24px;
-                display: flex;
-                justify-content: space-between;
-            }
-            .RightButton{
-                display: flex;
-                justify-content: space-between;
-                
-            }
-
-        p{
-            color: #FFFFFF !important;
-        }
-    }
-
-    .kind_bar{
-        width: 100%;
-        background: #F5F5F5;
-        flex-direction: row;
-        box-shadow: none;
-        color: #444545 !important;
-        Button{
-            flex-direction: column;
-            color: #444545;
-        }
-    }
+.fridgeBar {
+  width: 100%;
+  background-color: rgb(226, 195, 154);
+  .top__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 30px;
+  }
+  & > .MuiSvgIcon-root {
+    color: white;
+  }
+  input {
+    border: none;
+    border-radius: 20px;
+  }
+  .header {
+    display: none;
+  }
 }

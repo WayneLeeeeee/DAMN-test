@@ -33,8 +33,6 @@ import DatePicker from "@mui/lab/DatePicker";
 import { useNavigate } from "react-router-dom";
 import useSearch from "../../../hooks/useSearch";
 import Checkbox from "@mui/material/Checkbox";
-import BuyDatePicker from "../../../components/fridge/sendfoodList/BuyDatePicker";
-import EndDatePicker from "../../../components/fridge/sendfoodList/EndDatePicker";
 
 function CreateShoppinglist(props) {
   const navigate = useNavigate();

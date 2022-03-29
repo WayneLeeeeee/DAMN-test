@@ -37,10 +37,6 @@ export default function ShoppingList(props) {
           notes: doc.data().notes,
           id: doc.id,
           checked: false,
-          startDate: "",
-          endDate: "",
-          isFrozen: "",
-          ingredientTags: "",
         });
       });
       setFridge([...temp]);
@@ -73,12 +69,12 @@ export default function ShoppingList(props) {
   return (
     <div>
       {fridge.map((item, index) => (
-        <Button
+        <ShoppingListCard
+          key={index}
+          item={item}
           disabled={props.isButtonDisable}
           onClick={() => handleCheck(item, index)}
-        >
-          <ShoppingListCard key={index} item={item} />
-        </Button>
+        />
       ))}
     </div>
   );
