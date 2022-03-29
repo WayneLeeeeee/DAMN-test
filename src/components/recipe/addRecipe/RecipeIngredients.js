@@ -187,6 +187,8 @@ const RecipeIngredients = () => {
     }
   }, []);
 
+  console.log(newRecipeData);
+
   return (
     <Box sx={{ p: 2 }}>
       {/*  適合人份  */}

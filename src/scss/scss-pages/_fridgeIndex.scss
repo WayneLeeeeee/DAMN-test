@@ -1,129 +1,83 @@
-
-.fridgeIndex{
-    .box{
+.fridgeIndex {
+  .fridgeIndex__container {
+    .fridgeIndex__slogan {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      justify-content: center;
+      h4 {
+        color: #444545;
+        font-size: 14px;
+        font-weight: normal;
+      }
+      & > .MuiSvgIcon-root {
+        color: #444545;
+      }
+      .ticker {
+        width: 100%;
+      }
+    }
+    .fridgeIndex__overview {
+      background-image: url("/src/images/fridgeIndexBar.png");
+      background-position: center;
+      border-radius: 0 0 20px 20px;
+      display: flex;
+      justify-content: space-around;
+      padding: 50px 30px;
+      .fridgeIndex__overviewItem {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #f5f5f5;
         display: flex;
         flex-direction: column;
-        width: 100%;
-        height: 100vh;
-        background: #C7E3EE;
-        .overview__container{
-            position: relative;
-            .font{
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                bottom: 30px;
-                left: 10%;
-                position: absolute;
-                top: 100px;
-                p{
-                    text-align: center;
-                    font-size: 20px;
-                    width: 20%;
-                    font-weight: bold;
-                    margin: 0 18px ;
-                }
-            }
-        }
-        .overview{
-            background-image: url("/src/images/fridgeIndexBar.jpg");
-            background-size: cover;
-            filter: blur(3px);
-            width: 100%;
-            height: 213px;
-            box-shadow: none;
-            border-radius: 0 0 35px 35px;
-            position: relative;
-        
-            
-        }
-
-        .word{
-            background: inherit;
-            padding: 20px 14px;
-            box-shadow: none;
-            p{
-                color: #444545;
-                font-size: 24px;
-                font-weight: 900;
-            }
-        }
-
-        .function{
-            display: flex;
-            justify-content: center;
-            background: inherit;
-            padding: 0 0 20px 0;
-            box-shadow: none;
-            button{
-                background: #FFFFFF;
-                flex-direction: column;
-                padding: 20px;
-                margin: 0 10px;
-                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-                border-radius: 20px;
-                img{
-                    background: #F0FFF0;
-                    color: 	#1AFD9C;
-                    width: 66px;
-                    height: 70px;
-                    border-radius: 50px;
-                    padding: 10px;
-                }
-                .shoppingListIcon{
-                    color: #FE8B83;
-                    background: #FFF3EE;
-                }
-                p{
-                    font-size: 18px;
-                }
-            }
-        }
-
-        .addFood{
-            display: flex;
-            justify-content: center;
-            background: inherit;
-            padding: 0 0 20px 0;
-            box-shadow: none;
-            button{
-                width: 309px;
-                height: 165px;
-                background: #FFFFFF;
-                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-                border-radius: 20px;
-                .discription{
-                    text-align: left;
-                    color: #444545;
-                    .fork{
-                        width: 38px;
-                        height: 35px;
-                        margin: 0 0 20px 0;
-                    }
-                    h2{
-                        font-size: 18px;
-                    }
-                    h3{
-                        font-size: 12px;
-                    }
-                }
-                .avatar{
-                    text-align: right;
-                    .foodIcon{
-                        display: flex;
-                        margin: 0 0 40px 0;
-                    }
-                    .addIcon{
-                        background: #FE8B83;
-                        color: #FFFFFF;
-                        width: 36px;
-                        height: 36px;
-                        border-radius: 50px;
-                    }
-                }
-            }
-        }
-
-        
+        align-items: center;
+        justify-content: center;
+      }
     }
+    .fridgeIndex__main {
+      display: flex;
+      justify-content: space-around;
+      .fridgeIndex__button {
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // border: 1px solid gray;
+        color: rgb(226, 195, 154);
+      }
+    }
+    .fridgeIndex__expiring__title {
+      h4 {
+        padding: 20px;
+        font-size: 24px;
+      }
+    }
+    .fridgeIndex__expiring {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10px;
+      border-radius: 20px;
+      box-shadow: 4px 4px gray;
+      .fridgeIndex__expiring__img {
+        width: 150px;
+      }
+      .fridgeIndex__expiring__content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    .addingredient {
+      position: fixed;
+      bottom: 80px;
+      right: 10px;
+      & > .MuiSvgIcon-root {
+        color: rgb(226, 195, 154);
+        font-size: 72px;
+      }
+    }
+  }
 }

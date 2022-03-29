@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 
 export default function ShoppingListPage() {
+  
   const navigate = useNavigate();
   const goToCheckfoodListPage = function () {
     navigate('/fridge/checkfoodlist');

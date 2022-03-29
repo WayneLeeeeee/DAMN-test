@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
-import { Input } from '@mui/material';
-import { Button } from '@mui/material';
+import React, { useState } from "react";
+import { Input } from "@mui/material";
+import { Button } from "@mui/material";
 //firebase
-import { db, storage } from '../../../firebase';
-import { collection, addDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { db, storage } from "../../../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default function AddShoppingListPage() {
+  const user = localStorage.getItem("userUid");
+  console.log(user);
+
   //購物清單結構
   const [shoppingList, setShoppingList] = useState({
-    name: '',
+    name: "",
     quantity: 0,
-    unit: '',
-    notes: '',
+    unit: "",
+    notes: "",
     startDate: 0,
     endDate: 0,
-    ingredientTags: '',
+    ingredientTags: "",
     isFrozen: false,
-    imageURL: '',
+    imageURL: "",
   });
 
   //set to shoppingList
@@ -36,7 +39,7 @@ export default function AddShoppingListPage() {
   //add to firebase
   async function addData() {
     const docRef = await addDoc(
-      collection(db, 'users', '3HuEsCE9jUlCm68eBQf4', 'shoppingList'),
+      collection(db, "users", `${user}`, "shoppingList"),
       {
         name: shoppingList.name,
         quantity: shoppingList.quantity,
