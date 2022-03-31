@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(226, 195, 154);
+  background-color: #c7e3ee;
   .CreateShoppingListImg {
     display: flex;
     flex-direction: column;
@@ -56,7 +56,7 @@
     & > .MuiButton-root {
       border-radius: 20px;
       background-color: #f5f5f5;
-      color: brown;
+      color: #c7e3ee;
       padding: 20px;
       margin: 20px;
     }

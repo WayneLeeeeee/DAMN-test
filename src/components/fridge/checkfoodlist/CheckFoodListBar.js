@@ -20,9 +20,12 @@ export default function CheckFoodListBar(props) {
         <div className="LeftButton">
           <ArrowBackIosNewIcon onClick={goToShoppingList} />
         </div>
-        <h4 style={{ fontSize: "28px" }}> 點選放入冰箱</h4>
+        <h4 style={{ fontSize: "28px" }}> 點選項目</h4>
         <div className="RightButton">
-          <Button onClick={goToSendCheckedList} sx={{ color: "#444545" }}>
+          <Button
+            onClick={goToSendCheckedList}
+            sx={{ color: "#444545", fontSize: "24px" }}
+          >
             下一步
           </Button>
         </div>

@@ -26,6 +26,7 @@ export default function ShoppingListBar() {
         <h4 style={{ fontSize: "28px" }}> 購物清單</h4>
         <div className="RightButton">
           <DeleteIcon style={{ fontSize: "36px" }} />
+          
         </div>
       </div>
     </div>

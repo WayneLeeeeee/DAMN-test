@@ -6,6 +6,7 @@ import { getDocs, collection } from "@firebase/firestore";
 import FoodCard from "./FoodCard";
 //moment
 import moment from "moment";
+import { useStateValue } from "../../StateProvider";
 
 export default function FoodList() {
   const [fridge, setFridge] = useState([]);
@@ -28,6 +29,7 @@ export default function FoodList() {
       const temp = [];
       querySnapshot.forEach((doc) => {
         temp.push({
+          id: doc.id,
           name: doc.data().name,
           quantity: doc.data().quantity,
           unit: doc.data().unit,
@@ -48,9 +50,7 @@ export default function FoodList() {
 
   return (
     <div>
-      {fridge.map((food, index) => (
-        <FoodCard key={index} food={food} />
-      ))}
+      <FoodCard />
     </div>
   );
 }

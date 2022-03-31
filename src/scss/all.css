@@ -611,6 +611,11 @@ body > iframe + iframe {
   color: #fe8b83;
 }
 
+.fridgeIndex {
+  background: #c7e3ee;
+  height: 100vh;
+}
+
 .fridgeIndex .fridgeIndex__container .fridgeIndex__slogan {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -691,7 +696,7 @@ body > iframe + iframe {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  color: #e2c39a;
+  color: #444545;
 }
 
 .fridgeIndex .fridgeIndex__container .fridgeIndex__expiring__title h4 {
@@ -714,6 +719,8 @@ body > iframe + iframe {
   border-radius: 20px;
   -webkit-box-shadow: 4px 4px gray;
           box-shadow: 4px 4px gray;
+  background: white;
+  color: #444545;
 }
 
 .fridgeIndex .fridgeIndex__container .fridgeIndex__expiring .fridgeIndex__expiring__img {
@@ -737,7 +744,7 @@ body > iframe + iframe {
 }
 
 .fridgeIndex .fridgeIndex__container .addingredient > .MuiSvgIcon-root {
-  color: #e2c39a;
+  color: white;
   font-size: 72px;
 }
 
@@ -1159,7 +1166,7 @@ body > iframe + iframe {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #e2c39a;
+  background-color: #c7e3ee;
 }
 
 .CreateShoppinglist .CreateShoppingListImg {
@@ -1243,7 +1250,7 @@ body > iframe + iframe {
 .CreateShoppinglist .submit > .MuiButton-root {
   border-radius: 20px;
   background-color: #f5f5f5;
-  color: brown;
+  color: #c7e3ee;
   padding: 20px;
   margin: 20px;
 }
@@ -1351,7 +1358,9 @@ body > iframe + iframe {
       -ms-flex-align: center;
           align-items: center;
   position: relative;
+  padding: 10px;
   margin: 10px;
+  height: 150px;
   -webkit-box-shadow: 4px 6px #c4c2c2;
           box-shadow: 4px 6px #c4c2c2;
 }
@@ -1378,7 +1387,7 @@ body > iframe + iframe {
 
 .fridgeBar {
   width: 100%;
-  background-color: #e2c39a;
+  background-color: #c7e3ee;
 }
 
 .fridgeBar .top__bar {
@@ -1427,11 +1436,16 @@ body > iframe + iframe {
   margin-bottom: 10px;
 }
 
+.maincard .foodkindselecter {
+  margin-bottom: 20px;
+}
+
 .maincard .selector {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .maincard .selector .MuiOutlinedInput-root {

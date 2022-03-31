@@ -30,14 +30,13 @@ export default function SendFoodListCard(props) {
         <Typography className="ingredientname">{props.item.name}</Typography>
         <FoodKindSelecter className="foodkindselecter" index={props.index} />
         <div className="selector">
-          <BuyDatePicker index={props.index} />
           <EndatePicker index={props.index} />
         </div>
         <div className="input">
           <Input
             className="quantity"
             name="quantity"
-            placeholder={props.item.quantity}
+            defaultValue={props.item.quantity}
             onChange={handleCheckListChange}
           />
           <Typography>{props.item.unit}</Typography>

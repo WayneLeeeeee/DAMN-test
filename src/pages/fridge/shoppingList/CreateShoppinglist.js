@@ -6,7 +6,7 @@ import CustomIcon from "../../../components/Icon";
 
 //firebase
 import { db, storage } from "../../../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 //mui
@@ -33,6 +33,8 @@ import DatePicker from "@mui/lab/DatePicker";
 import { useNavigate } from "react-router-dom";
 import useSearch from "../../../hooks/useSearch";
 import Checkbox from "@mui/material/Checkbox";
+import { useStateValue } from "../../../StateProvider";
+import { actionTypes } from "../../../reducer";
 
 function CreateShoppinglist(props) {
   const navigate = useNavigate();
@@ -47,48 +49,73 @@ function CreateShoppinglist(props) {
   const onSearchChange = (e) => setSearchTerm(e.target.value);
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
+  const [{ ingredient, isUpdated, isUpdated2 }, dispatch] = useStateValue();
 
   //購物清單結構
-  const [shoppingList, setShoppingList] = useState({
-    name: "",
-    quantity: 0,
-    unit: "",
-    notes: "",
-    endDate: undefined,
-    isFrozen: false,
-    imageURL: "",
-  });
+  const [name, setName] = useState("");
 
   //set shoppingList
   const handleChangeName = function (value) {
-    setShoppingList({ ...shoppingList, name: value });
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: { ...ingredient, name: value },
+    });
   };
-  const handleChangeisFrozen = function (e) {
-    if (shoppingList.isFrozen === false) {
-      setShoppingList({ ...shoppingList, isFrozen: true });
-    } else {
-      setShoppingList({ ...shoppingList, isFrozen: false });
-    }
+  const handleChangeQuantity = function (e) {
+    setName(e.target.value);
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: { ...ingredient, quantity: e.target.value },
+    });
   };
-  const handleChange = function (e) {
-    setShoppingList({ ...shoppingList, [e.target.name]: e.target.value });
+  const handleChangeUnit = function (e) {
+    setName(e.target.value);
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: { ...ingredient, unit: e.target.value },
+    });
   };
+  const handleChangeNotes = function (e) {
+    setName(e.target.value);
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: { ...ingredient, notes: e.target.value },
+    });
+  };
+  // const handleChangeisFrozen = function (e) {
+  //   if (shoppingList.isFrozen === false) {
+  //     setShoppingList({ ...shoppingList, isFrozen: true });
+  //   } else {
+  //     setShoppingList({ ...shoppingList, isFrozen: false });
+  //   }
+  // };
+  // const handleChange = function (e) {
+  //   setShoppingList({ ...shoppingList, [e.target.name]: e.target.value });
+  // };
   //縮圖
   const handleThumbnail = (e) => {
     const thumbnail = {
       file: e.target.files[0],
       url: URL.createObjectURL(e.target.files[0]),
     };
-    setShoppingList({
-      ...shoppingList,
-      imageURL: thumbnail.url,
-      imageFile: thumbnail.file,
+    // setShoppingList({
+    //   ...shoppingList,
+    //   imageURL: thumbnail.url,
+    //   imageFile: thumbnail.file,
+    // });
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: {
+        ...ingredient,
+        imageURL: thumbnail.url,
+        imageFile: thumbnail.file,
+      },
     });
   };
 
   //uplode image
   const upload = async function (file) {
-    const imageRef = ref(storage, `food/${file.name}`);
+    const imageRef = ref(storage, `food/${file}`);
     await uploadBytes(imageRef, file);
     const url = await getDownloadURL(imageRef);
     return url;
@@ -96,44 +123,159 @@ function CreateShoppinglist(props) {
 
   //add to firebase
   async function addDatatoShoppingList() {
-    const imgurl = await upload(shoppingList.imageFile);
+    const imgurl = await upload(ingredient.imageFile);
     const docRef = await addDoc(
       collection(db, "users", `${user}`, "shoppingList"),
       {
-        name: shoppingList.name,
-        quantity: shoppingList.quantity,
-        unit: shoppingList.unit,
-        notes: shoppingList.notes,
-        endDate: shoppingList.endDate,
-        isFrozen: shoppingList.isFrozen,
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit,
+        notes: ingredient.notes,
+        endDate: ingredient.endDate,
+        isFrozen: ingredient.isFrozen,
         imageURL: imgurl,
       }
     );
+    dispatch({
+      type: actionTypes.SET_ISUPDATED,
+      isUpdated: false,
+    });
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: {
+        ingredient: {
+          name: "",
+          quantity: 0,
+          unit: "",
+          notes: "",
+          endDate: undefined,
+          isFrozen: false,
+          imageURL: "",
+        },
+      },
+    });
     navigate("/fridge/shoppinglist");
   }
 
   async function addDatatofridge() {
-    const imgurl = await upload(shoppingList.imageFile);
+    const imgurl = await upload(ingredient.imageFile);
     const docRef = await addDoc(collection(db, "users", `${user}`, "fridge"), {
-      name: shoppingList.name,
-      quantity: shoppingList.quantity,
-      unit: shoppingList.unit,
-      notes: shoppingList.notes,
-      endDate: shoppingList.endDate,
-      isFrozen: shoppingList.isFrozen,
+      name: ingredient.name,
+      quantity: ingredient.quantity,
+      unit: ingredient.unit,
+      notes: ingredient.notes,
+      endDate: ingredient.endDate,
+      isFrozen: ingredient.isFrozen,
       imageURL: imgurl,
+    });
+    dispatch({
+      type: actionTypes.SET_ISUPDATED,
+      isUpdated: false,
+    });
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: {
+        ingredient: {
+          name: "",
+          quantity: 0,
+          unit: "",
+          notes: "",
+          endDate: undefined,
+          isFrozen: false,
+          imageURL: "",
+        },
+      },
     });
     navigate("/fridge/fridgemanage");
   }
 
-  console.log(shoppingList);
+  async function modifyData2() {
+    const imgurl = await upload(ingredient.imageFile);
+    const docRef = await updateDoc(
+      doc(db, "users", `${user}`, "shoppingList", ingredient.id),
+      {
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit,
+        notes: ingredient.notes,
+        endDate: ingredient.endDate,
+        isFrozen: ingredient.isFrozen,
+        imageURL: imgurl,
+      }
+    );
+    dispatch({
+      type: actionTypes.SET_ISUPDATED,
+      isUpdated: false,
+    });
+    dispatch({
+      type: actionTypes.SET_ISUPDATED2,
+      isUpdated2: false,
+    });
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: {
+        ingredient: {
+          name: "",
+          quantity: 0,
+          unit: "",
+          notes: "",
+          endDate: undefined,
+          isFrozen: false,
+          imageURL: "",
+        },
+      },
+    });
+    navigate("/fridge/shoppingList");
+  }
+
+  async function modifyDatatofridge() {
+    const imgurl = await upload(ingredient.imageFile);
+    const docRef = await updateDoc(
+      doc(db, "users", `${user}`, "fridge", ingredient.id),
+      {
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit,
+        notes: ingredient.notes,
+        endDate: ingredient.endDate,
+        isFrozen: ingredient.isFrozen,
+        imageURL: imgurl,
+      }
+    );
+    dispatch({
+      type: actionTypes.SET_ISUPDATED,
+      isUpdated: false,
+    });
+    dispatch({
+      type: actionTypes.SET_INGREDIENT,
+      ingredient: {
+        ingredient: {
+          name: "",
+          quantity: 0,
+          unit: "",
+          notes: "",
+          endDate: undefined,
+          isFrozen: false,
+          imageURL: "",
+        },
+      },
+    });
+
+    navigate("/fridge/fridgemanage");
+  }
+
+  console.log(ingredient);
 
   return (
     <div className="CreateShoppinglist">
       <TopBar />
       <label htmlFor="icon-button-file">
         <div className="CreateShoppingListImg">
-          <img src={shoppingList?.imageURL} alt="" loading="lazy" />
+          <img
+            src={isUpdated ? ingredient?.imageURL : ingredient?.imageURL}
+            alt=""
+            loading="lazy"
+          />
           <ThumbnailInput
             accept="image/*"
             id="icon-button-file"
@@ -146,14 +288,14 @@ function CreateShoppinglist(props) {
             aria-label="upload picture"
             component="span"
             style={{
-              display: `${shoppingList.imageURL ? "none" : "unset"}`,
+              display: `${ingredient.imageURL ? "none" : "unset"}`,
             }}
           >
             <CustomIcon
               size={80}
               name="AddPhotoAlternateIcon"
-              hidden={shoppingList.imageURL ? true : false}
-              color="rgb(226, 195, 154)"
+              hidden={ingredient.imageURL ? true : false}
+              color="#C7E3EE"
             />
           </IconButton>
         </div>
@@ -175,8 +317,8 @@ function CreateShoppinglist(props) {
           <Input
             type="number"
             name="quantity"
-            value={shoppingList.quantity}
-            onChange={handleChange}
+            value={isUpdated ? ingredient?.quantity : ingredient?.quantity}
+            onChange={handleChangeQuantity}
           />
         </div>
         <div className="CreateShoppingListQuantity">
@@ -184,18 +326,24 @@ function CreateShoppinglist(props) {
           <Input
             type="text"
             name="unit"
-            value={shoppingList.unit}
-            onChange={handleChange}
+            value={isUpdated ? ingredient?.unit : ingredient?.unit}
+            onChange={handleChangeUnit}
           />
         </div>
         <div className="CreateShoppingList__selector">
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="有效期限"
-              value={value}
+              value={isUpdated ? ingredient?.endDate : value}
               onChange={(newValue) => {
                 setValue(newValue);
-                setShoppingList({ ...shoppingList, endDate: newValue });
+                dispatch({
+                  type: actionTypes.SET_INGREDIENT,
+                  ingredient: {
+                    ...ingredient,
+                    endDate: newValue,
+                  },
+                });
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -203,26 +351,38 @@ function CreateShoppinglist(props) {
         </div>
         <div className="CreateShoppingListisFrozen">
           是否冷凍？
-          <Checkbox {...label} onClick={handleChangeisFrozen} />
+          <Checkbox {...label} onClick="" />
         </div>
         <div className="CreateShoppingListQuantity">
           <h5>備註</h5>
           <Input
+            multiline
             type="text"
             name="notes"
-            value={shoppingList.notes}
-            onChange={handleChange}
+            value={isUpdated ? ingredient?.notes : ingredient?.notes}
+            onChange={handleChangeNotes}
           />
         </div>
       </div>
-      <div className="submit">
-        <Button size="large" onClick={addDatatofridge}>
-          放入冰箱
-        </Button>
-        <Button size="large" onClick={addDatatoShoppingList}>
-          放入購物車
-        </Button>
-      </div>
+      {isUpdated ? (
+        <div className="submit">
+          <Button
+            size="large"
+            onClick={isUpdated2 ? modifyData2 : modifyDatatofridge}
+          >
+            完成修改
+          </Button>
+        </div>
+      ) : (
+        <div className="submit">
+          <Button size="large" onClick={addDatatofridge}>
+            放入冰箱
+          </Button>
+          <Button size="large" onClick={addDatatoShoppingList}>
+            放入購物車
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

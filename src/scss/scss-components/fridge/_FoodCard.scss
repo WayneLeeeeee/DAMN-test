@@ -3,8 +3,9 @@
     display: flex;
     align-items: center;
     position: relative;
-    // padding: 10px;
+    padding: 10px;
     margin: 10px;
+    height: 150px;
     box-shadow: 4px 6px rgb(196, 194, 194);
     .foodCard__img {
       img {

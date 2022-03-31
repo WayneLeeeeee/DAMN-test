@@ -1,4 +1,6 @@
 .fridgeIndex {
+  background: #c7e3ee;
+  height: 100vh;
   .fridgeIndex__container {
     .fridgeIndex__slogan {
       display: flex;
@@ -45,7 +47,7 @@
         flex-direction: column;
         align-items: center;
         // border: 1px solid gray;
-        color: rgb(226, 195, 154);
+        color: #444545;
       }
     }
     .fridgeIndex__expiring__title {
@@ -62,6 +64,8 @@
       margin-left: 10px;
       border-radius: 20px;
       box-shadow: 4px 4px gray;
+      background: white;
+      color: #444545;
       .fridgeIndex__expiring__img {
         width: 150px;
       }
@@ -75,7 +79,7 @@
       bottom: 80px;
       right: 10px;
       & > .MuiSvgIcon-root {
-        color: rgb(226, 195, 154);
+        color: white;
         font-size: 72px;
       }
     }

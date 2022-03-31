@@ -16,6 +16,8 @@ import { useStateValue } from "../../StateProvider";
 import { actionTypes } from "../../reducer";
 import { update } from "lodash";
 import { useNavigate } from "react-router-dom";
+import Checkbox from "@mui/material/Checkbox";
+import ShoppingList from "./ShoppingList";
 
 export default function ShoppingListCard(props) {
   const [isSelected, setIsSelected] = useState(false);
@@ -51,23 +53,28 @@ export default function ShoppingListCard(props) {
   };
   console.log(recordId);
 
-  const [user, setUser] = useState([]);
+  const user = localStorage.getItem("userUid");
+  // const [checked, setChecked] = useState([]);
+  const [shoppingList, setShoppingList] = useState([]);
   //   console.log(user);
 
   useEffect(() => {
     async function readData() {
-      const querySnapshot = await getDocs(collection(db, "users"));
+      const querySnapshot = await getDocs(
+        collection(db, "users", `${user}`, "shoppingList")
+      );
       const temp = [];
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
-        temp.push(doc.id);
+        temp.push(doc.data());
+        console.log(doc.id, "=>", doc.data());
       });
-      //   console.log(temp);
-      setUser([...temp]);
+      console.log(temp);
+      setShoppingList([...temp]);
     }
     readData();
-  }, [db, deleted]);
+  }, [db]);
+
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   return (
     <div className="foodCard">
@@ -82,11 +89,11 @@ export default function ShoppingListCard(props) {
               position: "absolute",
               top: "0px",
               left: "0px",
-              background: "green",
+              background: "#ffff99",
               padding: "5px",
               borderRadius: "20px",
               fontSize: "20px",
-              color: "white",
+              color: "#444545",
               textShadow: "1px 1px gray",
             }}
           >
