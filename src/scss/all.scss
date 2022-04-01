@@ -7,8 +7,6 @@
 @import "./scss-pages/recipeIndex";
 @import "./scss-pages/login-signup-Page";
 @import "./scss-pages/addRecipePage";
-@import "./scss-pages/fridgeIndex";
-@import "./scss-pages/CreateShoppinglist";
 @import "./scss-pages/ProfilePage";
 
 // components
@@ -22,17 +20,10 @@
 @import "./scss-pages/recommendPage";
 
 // fridge
-@import "./scss-components/fridge/CreateShoppinglistBar";
-@import "./scss-components/fridge/Input";
-@import "./scss-components/fridge/UploadImage";
-@import "./scss-components/fridge/ResultCard";
-@import "./scss-components/fridge/FoodCard";
-@import "./scss-components/fridge/FridgeBar";
-
-@import "./scss-components/fridge/SendFoodListCard";
-
+@import "./scss-pages//fridge/fridgeHomePage";
+@import "./scss-pages//fridge/fridgePage";
+@import "./scss-pages//fridge/addingredient";
 
 // global
 @import "./scss-components/BottomNav";
 @import "./scss-components/Assistant";
-

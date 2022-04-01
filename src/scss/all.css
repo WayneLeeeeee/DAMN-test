@@ -611,220 +611,6 @@ body > iframe + iframe {
   color: #fe8b83;
 }
 
-.fridgeIndex {
-  background: #c7e3ee;
-  height: 100vh;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__slogan {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 10px;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__slogan h4 {
-  color: #444545;
-  font-size: 14px;
-  font-weight: normal;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__slogan > .MuiSvgIcon-root {
-  color: #444545;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__slogan .ticker {
-  width: 100%;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__overview {
-  background-image: url("/src/images/fridgeIndexBar.png");
-  background-position: center;
-  border-radius: 0 0 20px 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  padding: 50px 30px;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__overview .fridgeIndex__overviewItem {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f5f5f5;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__main {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__main .fridgeIndex__button {
-  width: 100%;
-  padding: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  color: #444545;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__expiring__title h4 {
-  padding: 20px;
-  font-size: 24px;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__expiring {
-  width: 80%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-left: 10px;
-  border-radius: 20px;
-  -webkit-box-shadow: 4px 4px gray;
-          box-shadow: 4px 4px gray;
-  background: white;
-  color: #444545;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__expiring .fridgeIndex__expiring__img {
-  width: 150px;
-}
-
-.fridgeIndex .fridgeIndex__container .fridgeIndex__expiring .fridgeIndex__expiring__content {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.fridgeIndex .fridgeIndex__container .addingredient {
-  position: fixed;
-  bottom: 80px;
-  right: 10px;
-}
-
-.fridgeIndex .fridgeIndex__container .addingredient > .MuiSvgIcon-root {
-  color: white;
-  font-size: 72px;
-}
-
-.CreateShoppinglist {
-  background-color: #C7E3EE;
-  height: 100%;
-}
-
-.CreateShoppinglist .input-container {
-  padding: 0 0 0 33px;
-  color: white;
-}
-
-.CreateShoppinglist .input-container h5 {
-  font-size: 24px;
-  margin: 0;
-}
-
-.CreateShoppinglist .input-container input {
-  background-color: white;
-  width: 144px;
-}
-
-.CreateShoppinglist .input-container .input-foodname {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-foodname .css-kx6rml-MuiStack-root {
-  margin: 0;
-}
-
-.CreateShoppinglist .input-container .input-amount {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-amount h5 {
-  word-spacing: 44px;
-}
-
-.CreateShoppinglist .input-container .input-unit {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-unit h5 {
-  word-spacing: 44px;
-}
-
-.CreateShoppinglist .input-container .input-remark {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-remark h5 {
-  word-spacing: 44px;
-}
-
-.CreateShoppinglist .input-container .input-remark .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
-  background-color: white;
-}
-
-.CreateShoppinglist .input-container .input-remark .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
-  background-color: white;
-}
-
-.CreateShoppinglist .input-container .submit {
-  margin-top: 70px;
-  margin-left: 84px;
-}
-
 .ProfilePage {
   overflow: scroll;
 }
@@ -1152,273 +938,187 @@ body > iframe + iframe {
   border-radius: 20px;
 }
 
-.CreateShoppinglist {
-  font-size: 24px;
+.fridge__index {
+  background-color: #c7e3ee;
   height: 100vh;
-  overflow: auto;
+}
+
+.fridge__index .fridge__index__slogan {
+  color: #444545;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #c7e3ee;
-}
-
-.CreateShoppinglist .CreateShoppingListImg {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  padding: 20px 10px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background-color: white;
-  width: 300px;
-  height: 250px;
-  border-radius: 20px;
-  padding: 20px 0;
 }
 
-.CreateShoppinglist .div {
-  width: 300px;
-  padding: 20px 0;
+.fridge__index .fridge__index__slogan h4 {
+  font-size: 18px;
+  font-weight: normal;
 }
 
-.CreateShoppinglist .CreateShoppingList__selector {
-  padding: 20px 0;
-}
-
-.CreateShoppinglist .CreateShoppingList__selector .MuiFormControl-root {
+.fridge__index .fridge__index__slogan .ticker {
   width: 100%;
 }
 
-.CreateShoppinglist .CreateShoppingListQuantity {
-  padding: 20px 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.CreateShoppinglist .CreateShoppingListQuantity .MuiInput-root {
+.fridge__index .fridge__index__img img {
   width: 100%;
-}
-
-.CreateShoppinglist .CreateShoppingListQuantity h4 {
-  padding-right: 10px;
-}
-
-.CreateShoppinglist .CreateShoppingListisFrozen {
-  padding: 20px 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.CreateShoppinglist .CreateShoppingListisFrozen .MuiCheckbox-root {
-  color: brown;
-}
-
-.CreateShoppinglist .css-a88p61-MuiInputBase-root-MuiInput-root:after {
-  border-bottom: 2px solid brown;
-}
-
-.CreateShoppinglist .submit {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-}
-
-.CreateShoppinglist .submit > .MuiButton-root {
-  border-radius: 20px;
-  background-color: #f5f5f5;
-  color: #c7e3ee;
-  padding: 20px;
-  margin: 20px;
-}
-
-.inputcontainer {
-  margin-left: 20px;
-  margin-top: 40px;
-  width: 144px;
-  height: 28px;
-}
-
-.inputcontainer input {
-  border-color: #FFFFFF;
-}
-
-.upload {
-  margin-left: 32px;
-  width: 309px;
-  height: 240px;
-  background-color: white;
-  border-radius: 20px;
-}
-
-.upload .upload-container {
   height: 100%;
+}
+
+.fridge__index .fridge__index__displayQuantity {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 30px 0;
+  color: #444545;
 }
 
-.upload .upload-container .css-1kuq5xv-MuiButtonBase-root-MuiIconButton-root {
+.fridge__index .fridge__index__displayQuantity .fridge__index__displayQuantity__item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
-
-.FridgeCardlist {
-  margin-left: 12px;
-}
-
-.FridgeCardlist .block {
-  margin-top: 60px;
-}
-
-.FridgeCardlist .area {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  margin-top: 20px !important;
-  background-color: #F5F5F5;
-}
-
-.FridgeCardlist .content {
-  width: 350px;
-  height: 142px;
-  white-space: nowrap;
-}
-
-.FridgeCardlist .content h6 {
-  font-size: 14px;
-}
-
-.FridgeCardlist .content button {
-  margin: 4px 15px 0 130px;
-  width: 18px;
-  height: 18px;
-  border-style: none;
-  color: #FF0000;
-}
-
-.FridgeCardlist .content .edit button {
-  color: #418DE1;
-  border-style: none;
-  margin-bottom: 11px;
-  margin-top: 0;
-}
-
-.FridgeCardlist .img {
-  width: 150px;
-  height: 150px;
-  border-radius: 20px;
-  margin-right: 20px;
-  margin-left: 20px;
-}
-
-.FridgeCardlist .words {
-  font-weight: bolder !important;
-}
-
-.FridgeCardlist .icon {
-  vertical-align: -4px;
-}
-
-.foodCard .box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  position: relative;
-  padding: 10px;
-  margin: 10px;
-  height: 150px;
-  -webkit-box-shadow: 4px 6px #c4c2c2;
-          box-shadow: 4px 6px #c4c2c2;
-}
-
-.foodCard .box .foodCard__img img {
-  width: 200px;
-  padding-right: 20px;
-}
-
-.foodCard .box .delete-edit-card {
-  position: absolute;
-  right: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 180px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-}
-
-.fridgeBar {
-  width: 100%;
-  background-color: #c7e3ee;
-}
-
-.fridgeBar .top__bar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border-radius: 50%;
+}
+
+.fridge__index .fridge__index__function {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  padding: 30px;
+  color: gray;
 }
 
-.fridgeBar > .MuiSvgIcon-root {
-  color: white;
+.fridge__index .fridge__index__function .fridge__index__function__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.fridgeBar input {
-  border: none;
-  border-radius: 20px;
+.fridge__index .fridge__index__function .fridge__index__function__item > .MuiSvgIcon-root {
+  margin-bottom: 10px;
+  font-size: 48px;
 }
 
-.fridgeBar .header {
+.fridge__index .fridge__index__add {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px 0;
+  background-color: #f5f5f5;
+}
+
+.fridge__index .fridge__index__expired {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 200px;
+  color: #444545;
+}
+
+.fridge__index .fridge__index__expired > h4 {
+  font-size: 24px;
+  padding-left: 20px;
+}
+
+.fridge__index .fridge__index__expired .div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  background-color: #f5f5f5;
+}
+
+.fridge__index .fridge__index__expired .div .fridge__index__expired__img img {
+  width: 100px;
+}
+
+.fridgePage .fridgePage__bar {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px 10px;
+  background-color: #c7e3ee;
+}
+
+.fridgePage .fridgePage__bar .header {
   display: none;
 }
 
-.maincard {
-  margin-top: 100px;
-  margin-left: 20px;
-  width: 80%;
+.fridgePage .fridgePage__bar input {
+  padding: 5px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+}
+
+.fridgePage .fridgePage__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 10px;
+  margin: 20px 10px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 150px;
+  height: 150px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__img img {
+  width: 150px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1426,43 +1126,88 @@ body > iframe + iframe {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
-.maincard .ingredientname {
+.fridgePage .fridgePage__item .fridgePage__item__content > h4 {
+  color: #444545;
   font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
 }
 
-.maincard .foodkindselecter {
-  margin-bottom: 20px;
+.fridgePage .fridgePage__item .fridgePage__item__content > h5 {
+  color: #444545;
+  font-size: 20px;
 }
 
-.maincard .selector {
+.fridgePage .fridgePage__item .fridgePage__item__content > h6 {
+  color: red;
+  font-size: 16px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__edit {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-left: 10px;
 }
 
-.maincard .selector .MuiOutlinedInput-root {
-  margin-top: 10px;
+.AddIngredient {
+  background-color: #c7e3ee;
 }
 
-.maincard .input {
+.AddIngredient .AddIngredient__bar {
+  padding: 30px 20px;
+}
+
+.AddIngredient .div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
 }
 
-.maincard .input .quantity {
-  width: 30%;
+.AddIngredient .div .AddIngredientImg {
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #f5f5f5;
+}
+
+.AddIngredient .MuiFormControl-root {
+  width: 300px;
+  margin-top: 20px;
+}
+
+.AddIngredient .AddIngredient__submit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 20px;
 }
 
 .bottomNav {

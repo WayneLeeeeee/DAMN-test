@@ -23,6 +23,7 @@ export const initialState = {
 
   ingredient: {
     name: "",
+    category: "",
     quantity: 0,
     unit: "",
     notes: "",

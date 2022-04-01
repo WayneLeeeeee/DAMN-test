@@ -5,12 +5,6 @@ import RecipeHomePage from "./pages/recipe";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
-import FridgePage from "./pages/fridge/FridgePage";
-import FridgeManagePage from "./pages/fridge/FridgeManagePage/index";
-import ShoppingListPage from "./pages/fridge/shoppingList/ShoppingListPage";
-import AddShoppingListPage from "./pages/fridge/shoppingList/AddShoppingListPage";
-import SendFoodListPage from "./pages/fridge/SendFood/SendFoodList";
-
 import ProfilePage from "./pages/ProfilePage";
 import RecipeItemPage from "./pages/recipe/RecipeItemPage";
 import Assistant from "./components/Assistant";
@@ -24,12 +18,11 @@ import AddNewRecipePage from "./pages/recipe/AddNewRecipePage";
 import { HashRouter } from "react-router-dom";
 import RecipeSearchPage from "./pages/recipe/RecipeSearchPage";
 import SearchResultsPage from "./pages/recipe/SearchResultsPage";
-import CreateShoppinglist from "./pages/fridge/shoppingList/CreateShoppinglist";
-import { auth } from "./firebase";
-import CheckFoodListPage from "./pages/fridge/shoppingList/CheckFoodListPage";
-import FridgeSearchResult from "./pages/fridge/FridgeManagePage/FridgeSearchResult";
 import RecommendRecipe from "./pages/recipe/RecommendRecipe";
-// 陳泓棣delete掉整個repository，所以我要重新PR
+
+import FridgeHomePage from "../src/pages/frigde/";
+import FridgePage from "../src/pages/frigde/FridgePage"
+import AddIngredient from "./pages/frigde/AddIngredient";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -67,16 +60,9 @@ function App() {
 
               {/* fridge */}
               <Route path="/fridge">
-                <Route index element={<FridgePage />} />
-                <Route
-                  path="creatshoppinglist"
-                  element={<CreateShoppinglist />}
-                />
-                <Route path="fridgemanage" element={<FridgeManagePage />} />
-                <Route path="shoppinglist" element={<ShoppingListPage />} />
-                <Route path="sendfoodlist" element={<SendFoodListPage />} />
-                <Route path="checkfoodlist" element={<CheckFoodListPage />} />
-                <Route path="search" element={<FridgeSearchResult />} />
+                <Route index element={<FridgeHomePage />} />
+                <Route path="fridgePage" element={<FridgePage />} />
+                <Route path="add" element={<AddIngredient />} />
               </Route>
 
               <Route path="/profile" element={<ProfilePage />} />
