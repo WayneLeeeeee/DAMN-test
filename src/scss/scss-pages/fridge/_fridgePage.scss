@@ -1,4 +1,7 @@
 .fridgePage {
+  overflow: auto;
+  height: 100%;
+  margin-bottom: 60px;
   .fridgePage__bar {
     color: #444545;
     display: flex;

@@ -31,6 +31,8 @@ export const initialState = {
     isFrozen: false,
     imageURL: "",
   },
+
+  category: false,
 };
 
 export const actionTypes = {
@@ -45,6 +47,7 @@ export const actionTypes = {
   SET_AI_RESPONSE: "SET_AI_RESPONSE",
   SET_TEXT_FROM_MIC: "SET_TEXT_FROM_MIC",
   SET_INGREDIENT: "SET_INGREDIENT",
+  SET_CATEGORY: "SET_CATEGORY",
 };
 
 const reducer = (state, action) => {
@@ -99,6 +102,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         ingredient: action.ingredient,
+      };
+    case actionTypes.SET_CATEGORY:
+      return {
+        ...state,
+        category: action.category,
       };
 
     default:

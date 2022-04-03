@@ -1044,7 +1044,7 @@ body > iframe + iframe {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  height: 200px;
+  height: 150px;
   color: #444545;
 }
 
@@ -1064,6 +1064,12 @@ body > iframe + iframe {
 
 .fridge__index .fridge__index__expired .div .fridge__index__expired__img img {
   width: 100px;
+}
+
+.fridgePage {
+  overflow: auto;
+  height: 100%;
+  margin-bottom: 60px;
 }
 
 .fridgePage .fridgePage__bar {
@@ -1227,6 +1233,10 @@ body > iframe + iframe {
   -ms-flex-pack: distribute;
       justify-content: space-around;
   padding: 20px;
+}
+
+.shoppingListPage {
+  margin-bottom: 60px;
 }
 
 .shoppingListPage .shoppingListPage__bar {
