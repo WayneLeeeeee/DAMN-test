@@ -169,11 +169,11 @@ function ShoppingListPage() {
                 {item.unit}
               </h5>
               <h5>{item.isFrozen}</h5>
-              <h5>
+              {/* <h5>
                 {item.endDate === null
                   ? null
-                  : moment(item.endDate.seconds * 1000).format("YYYY/MM/DD")}
-              </h5>
+                  : moment(item.endDate?.seconds * 1000).format("YYYY/MM/DD")}
+              </h5> */}
               {/* <h6>
                 距離到期日：剩
                 {

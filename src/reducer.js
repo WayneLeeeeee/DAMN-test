@@ -22,12 +22,12 @@ export const initialState = {
   checkedList: [],
 
   ingredient: {
-    name: "", 
+    name: "",
     category: "",
     quantity: 0,
     unit: "",
     notes: "",
-    endDate: undefined,
+    endDate: "",
     isFrozen: false,
     imageURL: "",
   },

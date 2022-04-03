@@ -206,7 +206,7 @@ function AddIngredient2() {
       quantity: result.quantity,
       unit: result.unit,
       notes: result.notes,
-      endDate: result.endDate,
+      // endDate: result.endDate,
       isFrozen: result.isFrozen,
       imageURL: result.imageURL,
     });
