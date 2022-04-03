@@ -19,8 +19,16 @@ function FridgeHomePage() {
     navigate("/fridge/fridgePage");
   };
 
+  const handleswitchtoshoppingList = () => {
+    navigate("/fridge/shoppingListPage");
+  };
+
   const handleswitchtoadd = () => {
     navigate("/fridge/add");
+  };
+
+  const handleswitchtoadd2 = () => {
+    navigate("/fridge/add2");
   };
 
   return (
@@ -63,13 +71,20 @@ function FridgeHomePage() {
             <KitchenIcon />
             <h4>打開冰箱</h4>
           </div>
-          <div className="fridge__index__function__item">
+          <div
+            className="fridge__index__function__item"
+            onClick={handleswitchtoshoppingList}
+          >
             <ShoppingCartIcon />
             <h4>打開購物清單</h4>
           </div>
         </div>
         <div className="fridge__index__add" onClick={handleswitchtoadd}>
-          <h4>新增</h4>
+          <h4>新增冰箱食材</h4>
+          <AddCircleOutlineIcon />
+        </div>
+        <div className="fridge__index__add" onClick={handleswitchtoadd2}>
+          <h4>新增購物清單</h4>
           <AddCircleOutlineIcon />
         </div>
         <div className="fridge__index__expired">

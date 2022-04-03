@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 //mui
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useStateValue } from "../../StateProvider";
+import { useStateValue } from "../../../StateProvider";
 import styled from "@emotion/styled";
 import {
   Autocomplete,
@@ -11,27 +11,27 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import CustomIcon from "../../components/Icon";
-import useSearch from "../../hooks/useSearch";
-import { actionTypes } from "../../reducer";
+import CustomIcon from "../../../components/Icon";
+import useSearch from "../../../hooks/useSearch";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import { db, storage } from "../../firebase";
+import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { actionTypes } from "../../../reducer";
 
-function AddIngredient() {
+function AddIngredient2() {
   const [{ ingredient, isUpdated }, dispatch] = useStateValue();
   const [searchTerm, setSearchTerm] = useState("");
   const ingredientsData = useSearch("ingredients", searchTerm);
   const ingredientsData2 = useSearch("ingredients", searchTerm);
   const [name, setName] = useState("");
-  const [namae, setNamae] = useState(ingredient.name);
+  // const [namae, setNamae] = useState(ingredient.name);
   const onSearchChange = (e) => setSearchTerm(e.target.value);
   const [value, setValue] = React.useState(null);
   const ThumbnailInput = styled("input")({
@@ -135,7 +135,7 @@ function AddIngredient() {
     return temp;
   };
 
-  const handleSubmittoF = async () => {
+  const handleSubmittoS = async () => {
     const result = {
       ...ingredient,
       imageURL: await getRemoteThumbnailURL(),
@@ -158,7 +158,7 @@ function AddIngredient() {
 
     // 傳送至 fireStore
     const docRef = await addDoc(
-      collection(db, "users", `${user}`, "fridge"),
+      collection(db, "users", `${user}`, "shoppingList"),
       result
     );
     console.log("Document written with ID: ", docRef.id);
@@ -193,7 +193,13 @@ function AddIngredient() {
     console.log(result);
 
     // 傳送至 fireStore
-    const washingtonRef = doc(db, "users", `${user}`, "fridge", ingredient?.id);
+    const washingtonRef = doc(
+      db,
+      "users",
+      `${user}`,
+      "shoppingList",
+      ingredient?.id
+    );
     await updateDoc(washingtonRef, {
       name: result.name,
       category: result.category,
@@ -265,7 +271,6 @@ function AddIngredient() {
             <TextField
               {...params}
               label={isUpdated ? ingredient.name : "名稱"}
-              value={namae}
             />
           )}
         />
@@ -305,7 +310,7 @@ function AddIngredient() {
           onChange={handleChangeUnit}
           value={ingredient.unit}
         />
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label="有效期限"
             value={
@@ -322,7 +327,7 @@ function AddIngredient() {
             }}
             renderInput={(params) => <TextField {...params} />}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
         <TextField
           sx={{ width: 300, marginTop: "20px" }}
           id="unit"
@@ -353,8 +358,8 @@ function AddIngredient() {
         </div>
       ) : (
         <div className="AddIngredient__submit">
-          <Button size="large" onClick={handleSubmittoF}>
-            放入冰箱
+          <Button size="large" onClick={handleSubmittoS}>
+            放入購物車
           </Button>
         </div>
       )}
@@ -362,4 +367,4 @@ function AddIngredient() {
   );
 }
 
-export default AddIngredient;
+export default AddIngredient2;

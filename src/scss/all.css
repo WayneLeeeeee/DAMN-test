@@ -1165,6 +1165,25 @@ body > iframe + iframe {
 
 .AddIngredient .AddIngredient__bar {
   padding: 30px 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.AddIngredient .AddIngredient__bar > .MuiSvgIcon-root {
+  padding-right: 20px;
+}
+
+.AddIngredient .AddIngredient__bar > h4 {
+  font-size: 28px;
+  padding-right: 10px;
+}
+
+.AddIngredient .AddIngredient__bar > h5 {
+  font-size: 20px;
 }
 
 .AddIngredient .div {
@@ -1208,6 +1227,139 @@ body > iframe + iframe {
   -ms-flex-pack: distribute;
       justify-content: space-around;
   padding: 20px;
+}
+
+.shoppingListPage .shoppingListPage__bar {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px 10px;
+  background-color: #c7e3ee;
+}
+
+.shoppingListPage .shoppingListPage__bar .header {
+  display: none;
+}
+
+.shoppingListPage .shoppingListPage__bar input {
+  padding: 5px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+}
+
+.shoppingListPage .shoppingListPage__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 10px;
+  margin: 20px 10px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 150px;
+  height: 150px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__img img {
+  width: 150px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content > h4 {
+  color: #444545;
+  font-size: 24px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content > h5 {
+  color: #444545;
+  font-size: 20px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content > h6 {
+  color: red;
+  font-size: 16px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__edit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-left: 10px;
+}
+
+.shoppingListPage .shoppingListPage__item__addtoFridge {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+}
+
+.shoppingListPage .shoppingListPage__item__addtoFridge > .MuiSvgIcon-root {
+  font-size: 56px;
+  color: #c7e3ee;
+}
+
+.FinalSendIngredient .FinalSendIngredient__bar {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px 30px;
+  background-color: #c7e3ee;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card {
+  padding: 20px;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card > h4 {
+  font-size: 24px;
+  padding-bottom: 20px;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card > .MuiOutlinedInput-root {
+  width: 100%;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card .FinalSendIngredient__selector {
+  padding-bottom: 20px;
 }
 
 .bottomNav {

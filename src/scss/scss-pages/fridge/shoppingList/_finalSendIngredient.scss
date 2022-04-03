@@ -1,0 +1,23 @@
+.FinalSendIngredient {
+  .FinalSendIngredient__bar {
+    color: #444545;
+    display: flex;
+    // justify-content: space-around;
+    align-items: center;
+    padding: 30px 30px;
+    background-color: #c7e3ee;
+  }
+  .FinalSendIngredient__card {
+    padding: 20px;
+    > h4 {
+      font-size: 24px;
+      padding-bottom: 20px;
+    }
+    > .MuiOutlinedInput-root {
+      width: 100%;
+    }
+    .FinalSendIngredient__selector {
+      padding-bottom: 20px;
+    }
+  }
+}

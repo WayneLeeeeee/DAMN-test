@@ -21,8 +21,11 @@ import SearchResultsPage from "./pages/recipe/SearchResultsPage";
 import RecommendRecipe from "./pages/recipe/RecommendRecipe";
 
 import FridgeHomePage from "../src/pages/frigde/";
-import FridgePage from "../src/pages/frigde/FridgePage"
+import FridgePage from "../src/pages/frigde/FridgePage";
 import AddIngredient from "./pages/frigde/AddIngredient";
+import AddIngredient2 from "./pages/frigde/shoppingList/AddIngredient2";
+import ShoppingListPage from "./pages/frigde/shoppingList/shoppingListPage";
+import FinalSendIngredient from "./pages/frigde/shoppingList/FinalSendIngredient";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -62,7 +65,10 @@ function App() {
               <Route path="/fridge">
                 <Route index element={<FridgeHomePage />} />
                 <Route path="fridgePage" element={<FridgePage />} />
+                <Route path="shoppingListPage" element={<ShoppingListPage />} />
                 <Route path="add" element={<AddIngredient />} />
+                <Route path="add2" element={<AddIngredient2 />} />
+                <Route path="finalsendingredient" element={<FinalSendIngredient />} />
               </Route>
 
               <Route path="/profile" element={<ProfilePage />} />
@@ -71,7 +77,7 @@ function App() {
           )}
         </Routes>
         {/* 想用的，可以打開註解 */}
-        <Assistant />
+        {/* <Assistant /> */}
       </Router>
     </div>
   );
