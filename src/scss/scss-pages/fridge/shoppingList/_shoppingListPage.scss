@@ -1,0 +1,70 @@
+.shoppingListPage {
+  margin-bottom: 60px;
+  .shoppingListPage__bar {
+    color: #444545;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px 10px;
+    background-color: #c7e3ee;
+    .header {
+      display: none;
+    }
+    input {
+      padding: 5px;
+      border-radius: 20px;
+      outline: none;
+      border: none;
+    }
+  }
+  .shoppingListPage__item {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    margin: 20px 10px;
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    // box-shadow: 4px 6px gray;
+    .shoppingListPage__item__img {
+      display: flex;
+      align-items: center;
+      width: 150px;
+      height: 150px;
+      img {
+        width: 150px;
+      }
+    }
+    .shoppingListPage__item__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      > h4 {
+        color: #444545;
+        font-size: 24px;
+      }
+      > h5 {
+        color: #444545;
+        font-size: 20px;
+      }
+      > h6 {
+        color: red;
+        font-size: 16px;
+      }
+    }
+    .shoppingListPage__item__edit {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-left: 10px;
+    }
+  }
+  .shoppingListPage__item__addtoFridge {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    > .MuiSvgIcon-root {
+      font-size: 56px;
+      color: #c7e3ee;
+    }
+  }
+}

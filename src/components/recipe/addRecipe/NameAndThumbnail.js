@@ -15,6 +15,7 @@ const NameAndThumbnail = ({ recipeData, setRecipeData, recipes }) => {
   const Input = styled("input")({
     display: "none",
   });
+  
   const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
   const [name, setName] = useState("");
 

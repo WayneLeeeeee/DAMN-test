@@ -1,7 +1,7 @@
 export const initialState = {
   user: null,
   newRecipeData: {
-    name: '',
+    name: "",
     rating: 2,
     likes: 0,
     serving: 1,
@@ -10,25 +10,44 @@ export const initialState = {
     steps: [],
   },
   navbarBtnId: 0,
+
   isUpdated: false,
+  isUpdated2: false,
+
   isAssistantModelOpen: false,
 
-  AIResponse: '',
-  textFromMic: '',
+  AIResponse: "",
+  textFromMic: "",
 
   checkedList: [],
+
+  ingredient: {
+    name: "",
+    category: "",
+    quantity: 0,
+    unit: "",
+    notes: "",
+    endDate: "",
+    isFrozen: false,
+    imageURL: "",
+  },
+
+  category: false,
 };
 
 export const actionTypes = {
-  SET_USER: 'SET_USER',
-  SET_NEWRECIPEDATA: 'SET_NEWRECIPEDATA',
-  SET_BOTTOMNAVBARID: 'SET_BOTTOMNAVBARID',
-  SET_ISUPDATED: 'SET_ISUPDATED',
-  SET_UPDATE_RECIPE_DATA: 'SET_UPDATE_RECIPE_DATA',
-  SET_CHECKEDLIST: 'SET_CHECKEDLIST',
-  SET_IS_ASSISTANT_MODEL_OPEN: 'SET_IS_ASSISTANT_MODEL_OPEN',
-  SET_AI_RESPONSE: 'SET_AI_RESPONSE',
-  SET_TEXT_FROM_MIC: 'SET_TEXT_FROM_MIC',
+  SET_USER: "SET_USER",
+  SET_NEWRECIPEDATA: "SET_NEWRECIPEDATA",
+  SET_BOTTOMNAVBARID: "SET_BOTTOMNAVBARID",
+  SET_ISUPDATED: "SET_ISUPDATED",
+  SET_ISUPDATED2: "SET_ISUPDATED2",
+  SET_UPDATE_RECIPE_DATA: "SET_UPDATE_RECIPE_DATA",
+  SET_CHECKEDLIST: "SET_CHECKEDLIST",
+  SET_IS_ASSISTANT_MODEL_OPEN: "SET_IS_ASSISTANT_MODEL_OPEN",
+  SET_AI_RESPONSE: "SET_AI_RESPONSE",
+  SET_TEXT_FROM_MIC: "SET_TEXT_FROM_MIC",
+  SET_INGREDIENT: "SET_INGREDIENT",
+  SET_CATEGORY: "SET_CATEGORY",
 };
 
 const reducer = (state, action) => {
@@ -54,6 +73,11 @@ const reducer = (state, action) => {
         ...state,
         isUpdated: action.isUpdated,
       };
+    case actionTypes.SET_ISUPDATED2:
+      return {
+        ...state,
+        isUpdated2: action.isUpdated2,
+      };
     case actionTypes.SET_CHECKEDLIST:
       return {
         ...state,
@@ -73,6 +97,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         textFromMic: action.textFromMic,
+      };
+    case actionTypes.SET_INGREDIENT:
+      return {
+        ...state,
+        ingredient: action.ingredient,
+      };
+    case actionTypes.SET_CATEGORY:
+      return {
+        ...state,
+        category: action.category,
       };
 
     default:

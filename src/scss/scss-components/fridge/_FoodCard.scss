@@ -1,52 +1,29 @@
-.foodCard{
-        padding: 6px 8px;        //overflow: hidden;
-    .box{
-        width: 100%;
-        border-radius: 20px;
+.foodCard {
+  .box {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+    margin: 10px;
+    height: 150px;
+    box-shadow: 4px 6px rgb(196, 194, 194);
+    .foodCard__img {
+      img {
+        width: 200px;
+        padding-right: 20px;
+      }
+     
+    }
+    .contextCard{
+       
+    }
+    .delete-edit-card{
+        position: absolute;
+        right: 5px;
         display: flex;
-        flex-direction: row !important;
-        justify-content: center;
-        .chickenCard{
-            padding: 11px 20px;
-            background: #F5F5F5;
-            box-shadow: none;
-            img{
-                width: 145px;
-                height: 120px;
-            }
-        }
-        .contextCard{
-            background: #F5F5F5;
-            box-shadow: none;
-            .foodName{
-                font-size: 18px !important;
-                padding: 11px 0 26px 0;
-                font-weight: 600;
-            }
-            .detailCard{
-                padding: 10px;
-                font-size: 14px;
-            }
-            .expiredTime{
-                padding: 10px;
-                font-size: 14px;
-                color: #FE645A !important;
-            }
-        }
-        .delete-edit-card{
-            background: #F5F5F5;
-            box-shadow: none;
-            .deleteButton{
-                color: #FF0000 !important;
-            }
-            .editButton{
-                padding: 100px 0 0 0;
-                color: #418DE1 !important;
-            }
-        }
+        height: 180px;
+        flex-direction: column;
+        justify-content: space-around;
     }
-    .checked{
-        box-shadow: rgba(68,69,69,0.25) 4px 4px;
-    }
-
+  }
 }

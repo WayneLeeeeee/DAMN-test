@@ -601,262 +601,14 @@ body > iframe + iframe {
   bottom: 0;
 }
 
-.MuiPaper-root,
-.MuiButton-textPrimary {
+.add .MuiPaper-root,
+.add .MuiButton-textPrimary {
   padding-bottom: 100px;
   color: #fe8b83 !important;
 }
 
-.css-mqac5g-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
+.add .css-mqac5g-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
   color: #fe8b83;
-}
-
-.fridgeIndex .box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  background: #C7E3EE;
-}
-
-.fridgeIndex .box .overview__container {
-  position: relative;
-}
-
-.fridgeIndex .box .overview__container .font {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  bottom: 30px;
-  left: 10%;
-  position: absolute;
-  top: 100px;
-}
-
-.fridgeIndex .box .overview__container .font p {
-  text-align: center;
-  font-size: 20px;
-  width: 20%;
-  font-weight: bold;
-  margin: 0 18px;
-}
-
-.fridgeIndex .box .overview {
-  background-image: url("/src/images/fridgeIndexBar.jpg");
-  background-size: cover;
-  -webkit-filter: blur(3px);
-          filter: blur(3px);
-  width: 100%;
-  height: 213px;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  border-radius: 0 0 35px 35px;
-  position: relative;
-}
-
-.fridgeIndex .box .word {
-  background: inherit;
-  padding: 20px 14px;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.fridgeIndex .box .word p {
-  color: #444545;
-  font-size: 24px;
-  font-weight: 900;
-}
-
-.fridgeIndex .box .function {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: inherit;
-  padding: 0 0 20px 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.fridgeIndex .box .function button {
-  background: #FFFFFF;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  padding: 20px;
-  margin: 0 10px;
-  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-}
-
-.fridgeIndex .box .function button img {
-  background: #F0FFF0;
-  color: #1AFD9C;
-  width: 66px;
-  height: 70px;
-  border-radius: 50px;
-  padding: 10px;
-}
-
-.fridgeIndex .box .function button .shoppingListIcon {
-  color: #FE8B83;
-  background: #FFF3EE;
-}
-
-.fridgeIndex .box .function button p {
-  font-size: 18px;
-}
-
-.fridgeIndex .box .addFood {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: inherit;
-  padding: 0 0 20px 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.fridgeIndex .box .addFood button {
-  width: 309px;
-  height: 165px;
-  background: #FFFFFF;
-  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-}
-
-.fridgeIndex .box .addFood button .discription {
-  text-align: left;
-  color: #444545;
-}
-
-.fridgeIndex .box .addFood button .discription .fork {
-  width: 38px;
-  height: 35px;
-  margin: 0 0 20px 0;
-}
-
-.fridgeIndex .box .addFood button .discription h2 {
-  font-size: 18px;
-}
-
-.fridgeIndex .box .addFood button .discription h3 {
-  font-size: 12px;
-}
-
-.fridgeIndex .box .addFood button .avatar {
-  text-align: right;
-}
-
-.fridgeIndex .box .addFood button .avatar .foodIcon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 0 0 40px 0;
-}
-
-.fridgeIndex .box .addFood button .avatar .addIcon {
-  background: #FE8B83;
-  color: #FFFFFF;
-  width: 36px;
-  height: 36px;
-  border-radius: 50px;
-}
-
-.CreateShoppinglist {
-  background-color: #C7E3EE;
-  height: 100%;
-}
-
-.CreateShoppinglist .input-container {
-  padding: 0 0 0 33px;
-  color: white;
-}
-
-.CreateShoppinglist .input-container h5 {
-  font-size: 24px;
-  margin: 0;
-}
-
-.CreateShoppinglist .input-container input {
-  background-color: white;
-  width: 144px;
-}
-
-.CreateShoppinglist .input-container .input-foodname {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-foodname .css-kx6rml-MuiStack-root {
-  margin: 0;
-}
-
-.CreateShoppinglist .input-container .input-amount {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-amount h5 {
-  word-spacing: 44px;
-}
-
-.CreateShoppinglist .input-container .input-unit {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-unit h5 {
-  word-spacing: 44px;
-}
-
-.CreateShoppinglist .input-container .input-remark {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 40px 0;
-}
-
-.CreateShoppinglist .input-container .input-remark h5 {
-  word-spacing: 44px;
-}
-
-.CreateShoppinglist .input-container .input-remark .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
-  background-color: white;
-}
-
-.CreateShoppinglist .input-container .input-remark .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
-  background-color: white;
-}
-
-.CreateShoppinglist .input-container .submit {
-  margin-top: 70px;
-  margin-left: 84px;
 }
 
 .ProfilePage {
@@ -1186,290 +938,443 @@ body > iframe + iframe {
   border-radius: 20px;
 }
 
-.topBar .topBar__container {
-  padding: 40px 13px 44px 0;
+.fridge__index {
+  background-color: #c7e3ee;
+  height: 100vh;
+}
+
+.fridge__index .fridge__index__slogan {
+  color: #444545;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  color: white;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding: 20px 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-.topBar p {
-  font-size: 26px;
-  color: white !important;
-  padding: 0 20px 0 0;
+.fridge__index .fridge__index__slogan h4 {
+  font-size: 18px;
+  font-weight: normal;
 }
 
-.inputcontainer {
-  margin-left: 20px;
-  margin-top: 40px;
-  width: 144px;
-  height: 28px;
+.fridge__index .fridge__index__slogan .ticker {
+  width: 100%;
 }
 
-.inputcontainer input {
-  border-color: #FFFFFF;
-}
-
-.upload {
-  margin-left: 32px;
-  width: 309px;
-  height: 240px;
-  background-color: white;
-  border-radius: 20px;
-}
-
-.upload .upload-container {
+.fridge__index .fridge__index__img img {
+  width: 100%;
   height: 100%;
+}
+
+.fridge__index .fridge__index__displayQuantity {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 30px 0;
+  color: #444545;
 }
 
-.upload .upload-container .css-1kuq5xv-MuiButtonBase-root-MuiIconButton-root {
+.fridge__index .fridge__index__displayQuantity .fridge__index__displayQuantity__item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
-
-.FridgeCardlist {
-  margin-left: 12px;
-}
-
-.FridgeCardlist .block {
-  margin-top: 60px;
-}
-
-.FridgeCardlist .area {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  margin-top: 20px !important;
-  background-color: #F5F5F5;
-}
-
-.FridgeCardlist .content {
-  width: 350px;
-  height: 142px;
-  white-space: nowrap;
-}
-
-.FridgeCardlist .content h6 {
-  font-size: 14px;
-}
-
-.FridgeCardlist .content button {
-  margin: 4px 15px 0 130px;
-  width: 18px;
-  height: 18px;
-  border-style: none;
-  color: #FF0000;
-}
-
-.FridgeCardlist .content .edit button {
-  color: #418DE1;
-  border-style: none;
-  margin-bottom: 11px;
-  margin-top: 0;
-}
-
-.FridgeCardlist .img {
-  width: 150px;
-  height: 150px;
-  border-radius: 20px;
-  margin-right: 20px;
-  margin-left: 20px;
-}
-
-.FridgeCardlist .words {
-  font-weight: bolder !important;
-}
-
-.FridgeCardlist .icon {
-  vertical-align: -4px;
-}
-
-.foodCard {
-  padding: 6px 8px;
-}
-
-.foodCard .box {
-  width: 100%;
-  border-radius: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal !important;
-  -webkit-box-direction: normal !important;
-      -ms-flex-direction: row !important;
-          flex-direction: row !important;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.foodCard .box .chickenCard {
-  padding: 11px 20px;
-  background: #F5F5F5;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.foodCard .box .chickenCard img {
-  width: 145px;
-  height: 120px;
-}
-
-.foodCard .box .contextCard {
-  background: #F5F5F5;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.foodCard .box .contextCard .foodName {
-  font-size: 18px !important;
-  padding: 11px 0 26px 0;
-  font-weight: 600;
-}
-
-.foodCard .box .contextCard .detailCard {
-  padding: 10px;
-  font-size: 14px;
-}
-
-.foodCard .box .contextCard .expiredTime {
-  padding: 10px;
-  font-size: 14px;
-  color: #FE645A !important;
-}
-
-.foodCard .box .delete-edit-card {
-  background: #F5F5F5;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.foodCard .box .delete-edit-card .deleteButton {
-  color: #FF0000 !important;
-}
-
-.foodCard .box .delete-edit-card .editButton {
-  padding: 100px 0 0 0;
-  color: #418DE1 !important;
-}
-
-.foodCard .checked {
-  -webkit-box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
-          box-shadow: rgba(68, 69, 69, 0.25) 4px 4px;
-}
-
-.fridgeBar {
-  width: 100%;
-}
-
-.fridgeBar .top_bar {
-  background: #C7E3EE;
-  -webkit-box-pack: justify !important;
-      -ms-flex-pack: justify !important;
-          justify-content: space-between !important;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  padding: 15px;
-}
-
-.fridgeBar .top_bar Button {
-  color: #FFFFFF;
-  background: #C7E3EE;
-}
-
-.fridgeBar .top_bar .LeftButton {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: left;
-      -ms-flex-align: left;
-          align-items: left;
-}
-
-.fridgeBar .top_bar .LeftButton p {
-  font-size: 26px;
-}
-
-.fridgeBar .top_bar .MiddleButton {
-  margin-top: 24px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.fridgeBar .top_bar .RightButton {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.fridgeBar .top_bar p {
-  color: #FFFFFF !important;
-}
-
-.fridgeBar .kind_bar {
-  width: 100%;
-  background: #F5F5F5;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  color: #444545 !important;
-}
-
-.fridgeBar .kind_bar Button {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 50%;
+}
+
+.fridge__index .fridge__index__function {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  color: gray;
+}
+
+.fridge__index .fridge__index__function .fridge__index__function__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.fridge__index .fridge__index__function .fridge__index__function__item > .MuiSvgIcon-root {
+  margin-bottom: 10px;
+  font-size: 48px;
+}
+
+.fridge__index .fridge__index__add {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px 0;
+  background-color: #f5f5f5;
+}
+
+.fridge__index .fridge__index__expired {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 150px;
   color: #444545;
 }
 
+.fridge__index .fridge__index__expired > h4 {
+  font-size: 24px;
+  padding-left: 20px;
+}
 
-.maincard {
-  margin-top: 100px;
-  margin-left: 20px;
-  width: 80%;
+.fridge__index .fridge__index__expired .div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  background-color: #f5f5f5;
+}
+
+.fridge__index .fridge__index__expired .div .fridge__index__expired__img img {
+  width: 100px;
+}
+
+.fridgePage {
+  overflow: auto;
+  height: 100%;
+  margin-bottom: 60px;
+}
+
+.fridgePage .fridgePage__bar {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px 10px;
+  background-color: #c7e3ee;
+}
+
+.fridgePage .fridgePage__bar .header {
+  display: none;
+}
+
+.fridgePage .fridgePage__bar input {
+  padding: 5px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+}
+
+.fridgePage .fridgePage__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 10px;
+  margin: 20px 10px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 150px;
+  height: 150px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__img img {
+  width: 150px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__content > h4 {
+  color: #444545;
+  font-size: 24px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__content > h5 {
+  color: #444545;
+  font-size: 20px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__content > h6 {
+  color: red;
+  font-size: 16px;
+}
+
+.fridgePage .fridgePage__item .fridgePage__item__edit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-left: 10px;
+}
+
+.AddIngredient {
+  background-color: #c7e3ee;
+}
+
+.AddIngredient .AddIngredient__bar {
+  padding: 30px 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.AddIngredient .AddIngredient__bar > .MuiSvgIcon-root {
+  padding-right: 20px;
+}
+
+.AddIngredient .AddIngredient__bar > h4 {
+  font-size: 28px;
+  padding-right: 10px;
+}
+
+.AddIngredient .AddIngredient__bar > h5 {
+  font-size: 20px;
+}
+
+.AddIngredient .div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.AddIngredient .div .AddIngredientImg {
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #f5f5f5;
+}
+
+.AddIngredient .MuiFormControl-root {
+  width: 300px;
+  margin-top: 20px;
+}
+
+.AddIngredient .AddIngredient__submit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 20px;
+}
+
+.shoppingListPage {
+  margin-bottom: 60px;
+}
+
+.shoppingListPage .shoppingListPage__bar {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px 10px;
+  background-color: #c7e3ee;
+}
+
+.shoppingListPage .shoppingListPage__bar .header {
+  display: none;
+}
+
+.shoppingListPage .shoppingListPage__bar input {
+  padding: 5px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+}
+
+.shoppingListPage .shoppingListPage__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 10px;
+  margin: 20px 10px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 150px;
+  height: 150px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__img img {
+  width: 150px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content > h4 {
+  color: #444545;
+  font-size: 24px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content > h5 {
+  color: #444545;
+  font-size: 20px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__content > h6 {
+  color: red;
+  font-size: 16px;
+}
+
+.shoppingListPage .shoppingListPage__item .shoppingListPage__item__edit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-left: 10px;
+}
+
+.shoppingListPage .shoppingListPage__item__addtoFridge {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+}
+
+.shoppingListPage .shoppingListPage__item__addtoFridge > .MuiSvgIcon-root {
+  font-size: 56px;
+  color: #c7e3ee;
+}
+
+.FinalSendIngredient .FinalSendIngredient__bar {
+  color: #444545;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px 30px;
+  background-color: #c7e3ee;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card {
+  padding: 20px;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card > h4 {
+  font-size: 24px;
+  padding-bottom: 20px;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card > .MuiOutlinedInput-root {
+  width: 100%;
+}
+
+.FinalSendIngredient .FinalSendIngredient__card .FinalSendIngredient__selector {
+  padding-bottom: 20px;
+}
+
 .bottomNav {
   color: #444545 !important;
   z-index: 999 !important;
@@ -1512,39 +1417,6 @@ body > iframe + iframe {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.maincard .ingredientname {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.maincard .selector {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 10px;
-}
-
-.maincard .selector .MuiOutlinedInput-root {
-  margin-top: 10px;
-}
-
-.maincard .input {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.maincard .input .quantity {
-  width: 30%;
 }
 
 .bottomNav .MuiIconButton-label > a > p {
