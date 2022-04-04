@@ -1035,8 +1035,7 @@ body > iframe + iframe {
   background-color: #f5f5f5;
 }
 
-.fridge__index .fridge__index__expired {
-  margin-top: 20px;
+.fridge__index .fridge__index__history {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1044,25 +1043,41 @@ body > iframe + iframe {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  height: 150px;
-  color: #444545;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.fridge__index .fridge__index__expired > h4 {
-  font-size: 24px;
-  padding-left: 20px;
+.fridge__index .fridge__index__history img {
+  width: 350px;
 }
 
-.fridge__index .fridge__index__expired .div {
+.fridge__index .fridge__index__history h4 {
+  margin-top: 20px;
+}
+
+.fridge__index .fridge__index__history__datas {
+  overflow: auto;
+  height: 200px;
+}
+
+.fridge__index .fridge__index__history__datas .fridge__index__history__data {
+  background-color: #f5f5f5;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
-  margin-top: 10px;
-  background-color: #f5f5f5;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 10px;
 }
 
-.fridge__index .fridge__index__expired .div .fridge__index__expired__img img {
+.fridge__index .fridge__index__history__datas .fridge__index__history__data img {
   width: 100px;
 }
 
@@ -1095,6 +1110,13 @@ body > iframe + iframe {
   border-radius: 20px;
   outline: none;
   border: none;
+}
+
+.fridgePage .fridgePage__categoryChoos {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px;
 }
 
 .fridgePage .fridgePage__item {
@@ -1163,10 +1185,6 @@ body > iframe + iframe {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding-left: 10px;
-}
-
-.AddIngredient {
-  background-color: #c7e3ee;
 }
 
 .AddIngredient .AddIngredient__bar {
