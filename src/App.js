@@ -68,7 +68,10 @@ function App() {
                 <Route path="shoppingListPage" element={<ShoppingListPage />} />
                 <Route path="add" element={<AddIngredient />} />
                 <Route path="add2" element={<AddIngredient2 />} />
-                <Route path="finalsendingredient" element={<FinalSendIngredient />} />
+                <Route
+                  path="finalsendingredient"
+                  element={<FinalSendIngredient />}
+                />
               </Route>
 
               <Route path="/profile" element={<ProfilePage />} />

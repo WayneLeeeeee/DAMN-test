@@ -13,46 +13,39 @@ import {
 } from "@mui/material";
 import CustomIcon from "../../../components/Icon";
 import useSearch from "../../../hooks/useSearch";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 import { actionTypes } from "../../../reducer";
 
 function AddIngredient2() {
+  //global state
   const [{ ingredient, isUpdated }, dispatch] = useStateValue();
+
+  // autocomplete 搜尋
   const [searchTerm, setSearchTerm] = useState("");
-  const ingredientsData = useSearch("ingredients", searchTerm);
-  const ingredientsData2 = useSearch("ingredients", searchTerm);
-  const [name, setName] = useState("");
-  // const [namae, setNamae] = useState(ingredient.name);
   const onSearchChange = (e) => setSearchTerm(e.target.value);
-  const [value, setValue] = React.useState(null);
+  const ingredientsData = useSearch("ingredients", searchTerm);
+
+  //change 用
+  const [name, setName] = useState("");
+ 
+  
   const ThumbnailInput = styled("input")({
     display: "none",
   });
-  const user = localStorage.getItem("userUid");
-  const navigate = useNavigate();
 
+  //使用者id
+  const user = localStorage.getItem("userUid");
+
+  //跳轉畫面
+  const navigate = useNavigate();
   function navigatetoFridge() {
     dispatch({
       type: actionTypes.SET_INGREDIENT,
-      ingredient: {
-        name: "",
-        category: "",
-        quantity: 0,
-        unit: "",
-        notes: "",
-        endDate: undefined,
-        isFrozen: false,
-        imageURL: "",
-      },
+      ingredient: {},
     });
     dispatch({
       type: actionTypes.SET_ISUPDATED,
@@ -61,6 +54,8 @@ function AddIngredient2() {
     navigate(`/fridge`);
   }
 
+
+  //圖片
   const handleRecipeThumbnail = (e) => {
     const thumbnail = {
       file: e.target.files[0],
@@ -104,8 +99,6 @@ function AddIngredient2() {
     });
   };
 
-  const handleChangeisFrozen = (e) => {};
-
   const handleChangeNotes = (e) => {
     setName(e.target.value);
     dispatch({
@@ -135,24 +128,12 @@ function AddIngredient2() {
     return temp;
   };
 
+  //新增
   const handleSubmittoS = async () => {
     const result = {
       ...ingredient,
       imageURL: await getRemoteThumbnailURL(),
     };
-    dispatch({
-      type: actionTypes.SET_INGREDIENT,
-      ingredient: {
-        name: "",
-        category: "",
-        quantity: 0,
-        unit: "",
-        notes: "",
-        endDate: undefined,
-        isFrozen: false,
-        imageURL: "",
-      },
-    });
 
     console.log(result);
 
@@ -171,24 +152,12 @@ function AddIngredient2() {
     navigate("/fridge");
   };
 
+  //修改
   const handleModifytoF = async () => {
     const result = {
       ...ingredient,
-      imageURL: await getRemoteThumbnailURL(),
+      // imageURL: await getRemoteThumbnailURL(),
     };
-    dispatch({
-      type: actionTypes.SET_INGREDIENT,
-      ingredient: {
-        name: "",
-        category: "",
-        quantity: 0,
-        unit: "",
-        notes: "",
-        endDate: undefined,
-        isFrozen: false,
-        imageURL: "",
-      },
-    });
 
     console.log(result);
 
@@ -200,16 +169,8 @@ function AddIngredient2() {
       "shoppingList",
       ingredient?.id
     );
-    await updateDoc(washingtonRef, {
-      name: result.name,
-      category: result.category,
-      quantity: result.quantity,
-      unit: result.unit,
-      notes: result.notes,
-      // endDate: result.endDate,
-      isFrozen: result.isFrozen,
-      imageURL: result.imageURL,
-    });
+    await setDoc(washingtonRef, result);
+
     // need to clear global state
     dispatch({
       type: actionTypes.SET_INGREDIENT,
@@ -222,6 +183,8 @@ function AddIngredient2() {
     // navigate to homepage page
     navigate("/fridge");
   };
+
+  console.log("這裡", ingredient);
 
   return (
     <div className="AddIngredient">
@@ -277,10 +240,10 @@ function AddIngredient2() {
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={ingredientsData2}
+          options={ingredientsData}
           noOptionsText="沒有ㄝ~試試其他關鍵字吧！"
           getOptionLabel={(option) => option.category}
-          sx={{ width: 300, marginTop: "20px" }}
+          sx={{ width: 300 }}
           onChange={(__, value) => handleChangeCategory(value.category)}
           onInputChange={onSearchChange}
           renderInput={(params) => (
@@ -290,64 +253,51 @@ function AddIngredient2() {
             />
           )}
         />
-        <OutlinedInput
-          sx={{ width: 300, marginTop: "20px" }}
+        <TextField
+          id="outlined-number"
+          label="數量"
           type="number"
-          id="outlined-adornment-amount"
           value={ingredient.quantity}
           onChange={handleChangeQuantity}
-          label="數量"
-          endAdornment={<InputAdornment position="start"></InputAdornment>}
+          sx={{ width: 300, marginTop: "20px", paddingLeft: "10px" }}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
+
         <TextField
-          sx={{ width: 300, marginTop: "20px" }}
-          id="unit"
+          id="outlined-number"
           label="單位"
-          variant="outlined"
-          maxRows={4}
-          required
-          margin="dense"
-          onChange={handleChangeUnit}
+          type="text"
           value={ingredient.unit}
+          onChange={handleChangeUnit}
+          sx={{ width: 300, marginTop: "20px", paddingLeft: "10px" }}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
-        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="有效期限"
-            value={
-              isUpdated
-                ? moment(ingredient.endDate.seconds * 1000).format("YYYY/MM/DD")
-                : value
-            }
-            onChange={(newValue) => {
-              setValue(newValue);
-              dispatch({
-                type: actionTypes.SET_INGREDIENT,
-                ingredient: { ...ingredient, endDate: newValue },
-              });
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider> */}
         <TextField
-          sx={{ width: 300, marginTop: "20px" }}
-          id="unit"
+          id="outlined-number"
           label="是否冷凍"
-          variant="outlined"
-          maxRows={4}
-          margin="dense"
-          //   onChange={handleChangeisFrozen}
+          type="text"
           value={ingredient.isFrozen}
+          // onChange={handleChangeIsFrozen}
+          sx={{ width: 300, marginTop: "20px", paddingLeft: "10px" }}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <TextField
-          sx={{ width: 300, marginTop: "20px" }}
-          id="unit"
-          multiline
+          id="outlined-number"
           label="備註"
-          variant="outlined"
-          maxRows={4}
-          margin="dense"
-          onChange={handleChangeNotes}
+          type="text"
+          multiline
           value={ingredient.notes}
+          onChange={handleChangeNotes}
+          sx={{ width: 300, marginTop: "20px", paddingLeft: "10px" }}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
       </div>
       {isUpdated ? (

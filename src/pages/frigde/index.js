@@ -12,8 +12,14 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
+import { Autocomplete } from "@mui/material";
+import useSearch from "../../hooks/useSearch";
+import { TextField } from "@material-ui/core";
+import { useStateValue } from "../../StateProvider";
+import { actionTypes } from "../../reducer";
+import { orderBy } from "lodash";
 
 function FridgeHomePage() {
   const navigate = useNavigate();
@@ -35,9 +41,25 @@ function FridgeHomePage() {
   };
 
   const user = localStorage.getItem("userUid");
+
+  //一般讀取
   const [ingredient2, setIngredient2] = useState([]);
-  const [expire, setExpire] = useState(0);
-  const [expired, setExpired] = useState(0);
+
+  //即期品
+  const [expireData, setExpireData] = useState([]);
+
+  //過期品
+  const [expiredData, setExpiredData] = useState([]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const ingredientsData2 = useSearch("ingredients", searchTerm);
+  const onSearchChange = (e) => setSearchTerm(e.target.value);
+  const [name, setName] = useState("");
+  const [{ total }, dispatch] = useStateValue();
+
+  const handleChangeName = (value) => {
+    setName(value);
+  };
 
   useEffect(() => {
     async function readData() {
@@ -52,38 +74,55 @@ function FridgeHomePage() {
       });
       console.log(temp);
       setIngredient2([...temp]);
+
+      const temp2 = [];
+      const temp3 = [];
+      for (var i = 0; i < temp.length; i++) {
+        const data =
+          -moment(new Date()).diff(
+            moment(temp[i].endDate.seconds * 1000).format("YYYY/MM/DD"),
+            "days"
+          ) + 1;
+        if (data < 0) {
+          console.log("過期", data);
+          temp3.push(temp[i]);
+        }
+        if (data < 4 && data > 0) {
+          console.log("即期", data);
+          temp2.push(temp[i]);
+        }
+      }
+      setExpireData([...temp2]);
+      setExpiredData([...temp3]);
     }
     readData();
   }, [db]);
 
   useEffect(() => {
-    for (var i = 0; i < ingredient2.length; i++) {
-      if (
-        -1 <
-        -moment(new Date()).diff(
-          moment(ingredient2[i].endDate.seconds * 1000).format("YYYY/MM/DD"),
-          "days"
-        ) +
-          1 <
-        4
-      ) {
-        setExpire(+1);
-      }
-      if (
-        -moment(new Date()).diff(
-          moment(ingredient2[i].endDate.seconds * 1000).format("YYYY/MM/DD"),
-          "days"
-        ) +
-          1 <
-        0
-      ) {
-        setExpired(+1);
-      }
-    }
+    function readDataQ() {}
+    readDataQ();
   });
 
-  console.log("過期", expired);
-  console.log("即期", expire);
+  useEffect(() => {
+    async function readDataCategory() {
+      //讀取特定分類食材
+      var categoryRef = collection(db, "users", `${user}`, "fridge");
+      const q = query(categoryRef, where("name", "==", `${name}`));
+      const querySnapshot2 = await getDocs(q);
+      const temp2 = [];
+      querySnapshot2.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        temp2.push(doc.data());
+      });
+      dispatch({
+        type: actionTypes.SET_TOTAL,
+        total: [...temp2],
+      });
+    }
+    readDataCategory();
+  }, [name]);
+
+  console.log(total);
 
   return (
     <div>
@@ -101,15 +140,15 @@ function FridgeHomePage() {
         </div>
         <div className="fridge__index__displayQuantity">
           <div className="fridge__index__displayQuantity__item">
-            <h4>{ingredient2.length}</h4>
+            <h4 style={{ color: "green" }}>{ingredient2.length}</h4>
             <h4>總數</h4>
           </div>
           <div className="fridge__index__displayQuantity__item">
-            <h4>{expire}</h4>
+            <h4 style={{ color: "orange" }}>{expireData.length}</h4>
             <h4>即期</h4>
           </div>
           <div className="fridge__index__displayQuantity__item">
-            <h4>{expired}</h4>
+            <h4 style={{ color: "red" }}>{expiredData.length}</h4>
             <h4>過期</h4>
           </div>
         </div>
@@ -141,31 +180,34 @@ function FridgeHomePage() {
           <h4>新增購物清單</h4>
           <AddCircleOutlineIcon />
         </div>
-        <div className="fridge__index__expired">
-          <h4>即期品</h4>
-          <div className="div">
-            <div className="fridge__index__expired__img">
-              <img src={egg} alt="" />
-            </div>
-            <div className="fridge__index__expired__content">
-              <h4>雞蛋</h4>
-              <h5>3個</h5>
-              <h5>2021/04/01 剩3天</h5>
-            </div>
-          </div>
+        <div className="fridge__index__history">
+          <h4>歷史紀錄查詢</h4>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={ingredientsData2}
+            noOptionsText="沒有ㄝ~試試其他關鍵字吧！"
+            getOptionLabel={(option) => option.name}
+            sx={{ width: 300, padding: "10px" }}
+            onChange={(__, value) => handleChangeName(value.name)}
+            onInputChange={onSearchChange}
+            renderInput={(params) => <TextField {...params} label={"名稱"} />}
+          />
         </div>
-        <div className="fridge__index__expired">
-          <h4>過期品</h4>
-          <div className="div">
-            <div className="fridge__index__expired__img">
-              <img src={egg} alt="" />
+        <div className="fridge__index__history__datas">
+          {total.map((item) => (
+            <div className="fridge__index__history__data">
+              <img src={item?.imageURL?.url} alt="" />
+              <h4>{item.name}</h4>
+              <h4>
+                {item.quantity}
+                {item.unit}
+              </h4>
+              <h4>
+                ~{moment(item.endDate.seconds * 1000).format("YYYY/MM/DD")}
+              </h4>
             </div>
-            <div className="fridge__index__expired__content">
-              <h4>雞蛋</h4>
-              <h5>3個</h5>
-              <h5>2021/04/01</h5>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
       <ButtonNav />

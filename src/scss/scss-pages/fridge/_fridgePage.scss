@@ -19,6 +19,10 @@
       border: none;
     }
   }
+  .fridgePage__categoryChoos {
+    display: flex;
+    padding: 10px;
+  }
   .fridgePage__item {
     display: flex;
     justify-content: space-around;

@@ -20,17 +20,9 @@ export const initialState = {
   textFromMic: "",
 
   checkedList: [],
+  total: [],
 
-  ingredient: {
-    name: "",
-    category: "",
-    quantity: 0,
-    unit: "",
-    notes: "",
-    endDate: "",
-    isFrozen: false,
-    imageURL: "",
-  },
+  ingredient: {},
 
   category: false,
 };
@@ -48,6 +40,7 @@ export const actionTypes = {
   SET_TEXT_FROM_MIC: "SET_TEXT_FROM_MIC",
   SET_INGREDIENT: "SET_INGREDIENT",
   SET_CATEGORY: "SET_CATEGORY",
+  SET_TOTAL: "SET_TOTAL",
 };
 
 const reducer = (state, action) => {
@@ -107,6 +100,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         category: action.category,
+      };
+    case actionTypes.SET_TOTAL:
+      return {
+        ...state,
+        total: action.total,
       };
 
     default:

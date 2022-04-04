@@ -3,8 +3,6 @@ import ButtonNav from "../../components/BottomNav";
 import { Button, Search } from "semantic-ui-react";
 import SearchIcon from "@mui/icons-material/Search";
 
-// import chicken from "../../images/chicken.jpg";
-
 //mui
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -34,6 +32,10 @@ import { actionTypes } from "../../reducer";
 import { TextField } from "@material-ui/core";
 
 function FridgePage() {
+  //global state
+  const [{ ingredient, category }, dispatch] = useStateValue();
+
+  //返回
   const navigate = useNavigate();
   const goToFridgePage = function () {
     navigate("/fridge");
@@ -42,46 +44,61 @@ function FridgePage() {
       category: false,
     });
   };
+  //使用者id
   const user = localStorage.getItem("userUid");
+
   const [query2, setQuery2] = useState("");
-  const [fridgeResults, setFridgeResults] = useState([]);
-  const results = useSearch("fridge", query, `${user}`);
+  // const results = useSearch("fridge", query2, `${user}`);
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get("query");
-  console.log(query);
+
+  //刪除相關變數
   const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
-  const [ingredient2, setIngredient2] = useState([]);
-  const [ingredient3, setIngredient3] = useState([]);
-  const [recordId, setRecordId] = React.useState("");
   const [deleted, setDeleted] = useState(0);
-  const [{ isUpdated, ingredient, category }, dispatch] = useStateValue();
+  const [recordId, setRecordId] = React.useState("");
+
+  //修改相關變數
+  const [open2, setOpen2] = React.useState(false);
   const [selectedIngredient, setSelectedIngredient] = useState(null);
+
+  //普通讀取
+  const [ingredient2, setIngredient2] = useState([]);
+
+  //分類讀取
+  const [ingredient3, setIngredient3] = useState([]);
+
+  //autocomplete 的搜尋
   const [searchTerm, setSearchTerm] = useState("");
   const ingredientsData = useSearch("ingredients", searchTerm);
-  const [name, setName] = useState("");
   const onSearchChange = (e) => setSearchTerm(e.target.value);
-  const [change, setChange] = useState(0);
+
+  //分類搜尋關鍵字
+  const [name, setName] = useState("");
 
   function onResultSelect(e, { result }) {
     setSearchParams(query2);
     navigate(`/fridge/search/?query=${query2}`);
   }
 
+  //關閉所有dialog
   const handleClose = () => {
     setOpen(false);
     setOpen2(false);
   };
+
+  //開啟刪除dialog
   const handleClickOpen = (id) => {
     setOpen(true);
     setRecordId(id);
   };
 
+  //開啟修改dialog
   const handleClickOpen2 = (data) => {
     setOpen2(true);
     setSelectedIngredient(data);
   };
 
+  //跳轉至修改頁面
   const handleSwitchUpdate = () => {
     setOpen2(false);
     dispatch({
@@ -95,6 +112,7 @@ function FridgePage() {
     navigate("/fridge/add");
   };
 
+  //刪除食材
   const deleteData = async function (id) {
     try {
       await deleteDoc(doc(db, "users", `${user}`, "fridge", id));
@@ -106,6 +124,7 @@ function FridgePage() {
     }
   };
 
+  //改變分類
   const handleChangeCategory = (value) => {
     setName(value);
     dispatch({
@@ -122,7 +141,6 @@ function FridgePage() {
       );
       const temp = [];
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
         temp.push({ id: doc.id, ...doc.data() });
       });
@@ -157,28 +175,17 @@ function FridgePage() {
       <div className="fridgePage">
         <div className="fridgePage__bar">
           <ArrowBackIosIcon onClick={goToFridgePage} />
-          <Search
-            value={query2}
-            onSearchChange={(e) => setQuery2(e.target.value)}
-            results={fridgeResults}
-            noResultsMessage="找不到相關食材"
-            onResultSelect={onResultSelect}
-          />
-          <SearchIcon onClick={onResultSelect} />
-        </div>
-        <div className="fridgePage__categoryChoos">
           <Autocomplete
             disablePortal
             id="combo-box-demo"
             options={ingredientsData}
             noOptionsText="沒有ㄝ~試試其他關鍵字吧！"
             getOptionLabel={(option) => option.category}
-            sx={{ width: 300, marginTop: "20px", marginLeft: "20px" }}
+            sx={{ width: 300 }}
             onChange={(__, value) => handleChangeCategory(value.category)}
             onInputChange={onSearchChange}
             renderInput={(params) => <TextField {...params} label={"類別"} />}
           />
-          {/* <h4 onClick={handleSearchCategory}>搜尋</h4> */}
         </div>
         {category
           ? ingredient3?.map((item, index) => (

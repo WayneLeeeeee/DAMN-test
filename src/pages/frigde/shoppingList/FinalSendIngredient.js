@@ -65,15 +65,7 @@ function FinalSendIngredient() {
     for (var i = 0; i < checkedList.length; i++) {
       const docRef = await addDoc(
         collection(db, "users", `${user}`, "fridge"),
-        {
-          name: checkedList[i].name,
-          quantity: checkedList[i].quantity,
-          unit: checkedList[i].unit,
-          notes: checkedList[i].notes,
-          endDate: checkedList[i].endDate,
-          isFrozen: checkedList[i].isFrozen,
-          imageURL: checkedList[i].imageURL,
-        }
+        checkedList[i]
       );
     }
 
