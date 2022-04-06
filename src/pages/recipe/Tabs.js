@@ -70,19 +70,17 @@ export default function CustomTabs({ data }) {
               <h5>{data?.serving}人份</h5>
             </div>
             {data?.ingredientRecommendTags?.map((item, index) => (
-              <div className="TabPanel__box__item">
-                <span key={index}>{item}</span>
+              <div className="TabPanel__box__item" key={index}>
+                <span>{item?.name}</span>
               </div>
             ))}
             <div className="TabPanel__box__title">
               <h4>食材份量</h4>
             </div>
             {data?.ingredientsInfo?.map(({ name, count, unit }, id) => (
-              <div className="TabPanel__box__item">
-                <li key={id}>{`${name}`}</li>
-                <span key={id}>{`${count} ${
-                  unit.name ? unit.name : unit
-                }`}</span>
+              <div key={id} className="TabPanel__box__item">
+                <li>{`${name}`}</li>
+                <span>{`${count} ${unit.name ? unit.name : unit}`}</span>
               </div>
             ))}
           </TabPanel>

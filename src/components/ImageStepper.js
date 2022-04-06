@@ -175,7 +175,7 @@ function ImageStepper({ data }) {
             // width: "100%",
             display: "flex",
             alignItems: "center",
-            height: 50,
+            // height: 50,
             pl: 2,
             bgcolor: "transparent",
             position: "absolute",
@@ -214,7 +214,7 @@ function ImageStepper({ data }) {
             padding: "25px",
             display: "flex",
             alignItems: "center",
-            height: 50,
+            // height: 50,
             pl: 2,
           }}
         >
