@@ -80,7 +80,7 @@ function App() {
           )}
         </Routes>
         {/* 想用的，可以打開註解 */}
-        {/* <Assistant /> */}
+        <Assistant />
       </Router>
     </div>
   );

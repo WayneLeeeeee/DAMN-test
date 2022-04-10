@@ -15,9 +15,9 @@ export const initialState = {
   isUpdated2: false,
 
   isAssistantModelOpen: false,
-
   AIResponse: "",
   textFromMic: "",
+  isSTTFromMicOpen: false,
 
   checkedList: [],
   total: [],
@@ -41,6 +41,7 @@ export const actionTypes = {
   SET_INGREDIENT: "SET_INGREDIENT",
   SET_CATEGORY: "SET_CATEGORY",
   SET_TOTAL: "SET_TOTAL",
+  SET_IS_STT_FROM_MIC_OPEN: "SET_IS_STT_FROM_MIC_OPEN",
 };
 
 const reducer = (state, action) => {
@@ -105,6 +106,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         total: action.total,
+      };
+    case actionTypes.SET_IS_STT_FROM_MIC_OPEN:
+      return {
+        ...state,
+        isSTTFromMicOpen: action.isSTTFromMicOpen,
       };
 
     default:

@@ -9,12 +9,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Paper,
   Slide,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { makeStyles } from "@material-ui/styles";
+// import { makeStyles } from "@material-ui/styles";
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 import getTokenOrRefresh from "../function/getTokenOrRefresh";
 import { debounce } from "lodash";
@@ -23,7 +21,7 @@ import useRecognize from "../hooks/useRecognize";
 
 import useSound from "use-sound";
 import sound from "../public/sound/sound.mp3";
-import useSearch from "../hooks/useSearch";
+// import useSearch from "../hooks/useSearch";
 import algoliaSearch from "../function/algoliaSearch";
 import RecipeCard from "../components/recipe/RecipeCard";
 import { actionTypes } from "../reducer";
@@ -31,19 +29,20 @@ import { useStateValue } from "../StateProvider";
 import { useNavigate } from "react-router-dom";
 import ChineseNumber from "chinese-numbers-converter";
 import useToggle from "../hooks/useToggle";
-import axios from "axios";
+// import axios from "axios";
 const speechsdk = require("microsoft-cognitiveservices-speech-sdk");
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 const Assistant = () => {
   let navigate = useNavigate();
   const [playSound] = useSound(sound);
   //const [isDialogOpen, setIsDialogOpen] = useState(false); // need to set global state
-  const [{ isAssistantModelOpen, AIResponse, textFromMic }, dispatch] =
-    useStateValue();
+  const [
+    { isAssistantModelOpen, AIResponse, textFromMic, isSTTFromMicOpen },
+    dispatch,
+  ] = useStateValue();
   const [recipeResult, setRecipeResult] = useState(null);
   const [isAllowSTTMicModalOpen, setIsAllowSTTMicModalOpen] = useToggle(true);
   // 命令 stt => speech to text
@@ -145,7 +144,7 @@ const Assistant = () => {
     );
   };
 
-  // 語音辨識
+  // 麥克風語音辨識
   const sttFromMic = async (configs) => {
     // if(!isAssistantModelOpen) return console.log("model not open");
     console.log(configs);
@@ -169,6 +168,10 @@ const Assistant = () => {
       // recognizer.recognizing = function (s, e) {
       //   //console.log("recognizing text", e.result.text);
       // };
+      dispatch({
+        type: actionTypes.SET_IS_STT_FROM_MIC_OPEN,
+        isSTTFromMicOpen: true,
+      });
 
       //  The event recognized signals that a final recognition result is received.
       recognizer.recognized = async function (script, e) {
@@ -213,12 +216,8 @@ const Assistant = () => {
       });
     }
     if (configs.mode === "stopListening") {
-      recognizer.stopContinuousRecognitionAsync(
-        (result) => {
-          console.log(result);
-        },
-        (err) => console.log(err)
-      );
+      recognizer.stopContinuousRecognitionAsync();
+      return;
     }
 
     return text;
@@ -250,6 +249,14 @@ const Assistant = () => {
     }
   }, [isAssistantModelOpen]);
 
+  useEffect(() => {
+    if (!isSTTFromMicOpen) {
+      console.log("stop");
+      stopListening();
+      return;
+    }
+  }, [isSTTFromMicOpen]);
+
   // 小當家彈出視窗關閉
   const handleDialogClose = () => {
     /*
@@ -272,6 +279,7 @@ const Assistant = () => {
   };
 
   useEffect(() => {
+    // 如果 小當家 modal 關閉，清除 小當家先前回覆 和 先前辨識的句子 
     if (!isAssistantModelOpen) {
       dispatch({
         type: actionTypes.SET_AI_RESPONSE,
