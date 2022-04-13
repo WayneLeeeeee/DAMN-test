@@ -3,35 +3,38 @@
     &::-webkit-scrollbar{
         display: none;
     }
+    width: 100%;
     .profile__card{
+        display: flex;
+        flex-direction:column;
+        align-items: center;
+        justify-content: center;
         background-color: #FE8B83;
-    }
-    .profile__progress{
-        width: 200px;      
-        margin-left: 114px; 
-        margin-top: 80px;   
-    }
-    .profile__avatar{
-        margin-left: 125px;  
-        margin-top: -194px;  
-        height: 178px;
-        width: 178px;
-    }
-    .profile__name{
-        text-align: center;
-        font-size:xx-large;
-        margin-top: 20px;
-        font-weight: bolder;
-    }
-    .profile__button{
-        background-color: #FFD700;
-        margin-left: 155px;
-        border-radius: 20px;
-        width: 100px;
-        margin-top: 10px;
-    }
-    .profile__buttonName{
-        color: #ffffff !important
+        
+        .profile__progress{
+            margin-top: 100px;
+            width: 200px;      
+        }
+        .profile__avatar{
+            margin-top: -194px;
+            height: 178px;
+            width: 178px;
+        }
+        .profile__name{
+            margin-top: 20px;
+            text-align: center;
+            font-size:xx-large;
+            font-weight: bolder;
+        }
+        .profile__button{
+            background-color: #FFD700;
+            border-radius: 20px;
+            width: 100px;
+        }
+        .profile__buttonName{
+            color: #ffffff !important
+        }
+       
     }
     .profile__tabpanel{
         overflow: auto;  
@@ -42,21 +45,26 @@
     .profile__tabs{
         margin-bottom: -25px;
         color:  #FE8B83;
+        position: relative;
+
+        .profile__tab1{
+            width: 50%;
+        }
+        .profile__tab2{
+            width: 50%;
+        }
     }
-    .profile__tab1{
-        padding-left: 103px;
-        padding-right: 80px;
-    }
-    .profile__tab2{
-        padding-left: 80px;
-        padding-right: 103px;
-    }
+    
+
     .profile__imagelist{
         overflow:scroll;
         &::-webkit-scrollbar{
             display: none;
         }
+        margin-left: -24px;
+        margin-right: -24px;
     }
+
     .profile__typography{
         color: #bab9b9 !important
     }
@@ -67,7 +75,8 @@
         font-weight: bolder;
         margin-top: 50px;
         margin-bottom: 20px;
-        margin-left: 118px;
+        margin-left: 35%;
     }
+   
   
 }
