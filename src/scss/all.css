@@ -613,6 +613,7 @@ body > iframe + iframe {
 
 .ProfilePage {
   overflow: scroll;
+  width: 100%;
 }
 
 .ProfilePage::-webkit-scrollbar {
@@ -620,38 +621,47 @@ body > iframe + iframe {
 }
 
 .ProfilePage .profile__card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   background-color: #FE8B83;
 }
 
-.ProfilePage .profile__progress {
+.ProfilePage .profile__card .profile__progress {
+  margin-top: 100px;
   width: 200px;
-  margin-left: 114px;
-  margin-top: 80px;
 }
 
-.ProfilePage .profile__avatar {
-  margin-left: 125px;
+.ProfilePage .profile__card .profile__avatar {
   margin-top: -194px;
   height: 178px;
   width: 178px;
 }
 
-.ProfilePage .profile__name {
+.ProfilePage .profile__card .profile__name {
+  margin-top: 20px;
   text-align: center;
   font-size: xx-large;
-  margin-top: 20px;
   font-weight: bolder;
 }
 
-.ProfilePage .profile__button {
+.ProfilePage .profile__card .profile__button {
   background-color: #FFD700;
-  margin-left: 155px;
   border-radius: 20px;
   width: 100px;
-  margin-top: 10px;
 }
 
-.ProfilePage .profile__buttonName {
+.ProfilePage .profile__card .profile__buttonName {
   color: #ffffff !important;
 }
 
@@ -666,20 +676,21 @@ body > iframe + iframe {
 .ProfilePage .profile__tabs {
   margin-bottom: -25px;
   color: #FE8B83;
+  position: relative;
 }
 
-.ProfilePage .profile__tab1 {
-  padding-left: 103px;
-  padding-right: 80px;
+.ProfilePage .profile__tabs .profile__tab1 {
+  width: 50%;
 }
 
-.ProfilePage .profile__tab2 {
-  padding-left: 80px;
-  padding-right: 103px;
+.ProfilePage .profile__tabs .profile__tab2 {
+  width: 50%;
 }
 
 .ProfilePage .profile__imagelist {
   overflow: scroll;
+  margin-left: -24px;
+  margin-right: -24px;
 }
 
 .ProfilePage .profile__imagelist::-webkit-scrollbar {
@@ -697,7 +708,7 @@ body > iframe + iframe {
   font-weight: bolder;
   margin-top: 50px;
   margin-bottom: 20px;
-  margin-left: 118px;
+  margin-left: 35%;
 }
 
 .ingredientsSelector .inputContainer {

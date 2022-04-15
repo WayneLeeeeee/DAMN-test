@@ -1,28 +1,28 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import EditIcon from "@mui/icons-material/Edit";
-import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-import { collection, getDocs } from "firebase/firestore";
-import { useState, useEffect } from "react";
-import { db } from "../../firebase";
-import { doc, deleteDoc } from "firebase/firestore";
-import { useStateValue } from "../../StateProvider";
-import { actionTypes } from "../../reducer";
-import moment from "moment";
-import Rating from "@mui/material/Rating";
+import { collection, getDocs } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
+import { db } from '../../firebase';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { useStateValue } from '../../StateProvider';
+import { actionTypes } from '../../reducer';
+import moment from 'moment';
+import Rating from '@mui/material/Rating';
 
 function ModifiedRecipePage() {
   const [deleted, setDeleted] = useState(0);
@@ -30,7 +30,7 @@ function ModifiedRecipePage() {
   const [open, setOpen] = React.useState(false);
   //修改提醒
   const [open2, setOpen2] = React.useState(false);
-  const [recordId, setRecordId] = React.useState("");
+  const [recordId, setRecordId] = React.useState('');
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   const [{ isUpdated }, dispatch] = useStateValue();
@@ -68,7 +68,7 @@ function ModifiedRecipePage() {
   //刪除
   const deleteData = async function (id) {
     try {
-      await deleteDoc(doc(db, "recipes", id));
+      await deleteDoc(doc(db, 'recipes', id));
       console.log(id);
       setOpen(false);
       setDeleted(deleted + 1);
@@ -82,10 +82,10 @@ function ModifiedRecipePage() {
 
   useEffect(() => {
     async function readData() {
-      const querySnapshot = await getDocs(collection(db, "recipes"));
+      const querySnapshot = await getDocs(collection(db, 'recipes'));
       const temp = [];
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        console.log(doc.id, ' => ', doc.data());
         temp.push({
           id: doc.id,
           ...doc.data(),
@@ -116,17 +116,22 @@ function ModifiedRecipePage() {
             {recipes.map((recipe, index) => (
               <TableRow
                 key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {recipe.name}
                 </TableCell>
                 <TableCell>{recipe.authorId}</TableCell>
                 <TableCell>
-                  {moment(recipe.createdAt.seconds * 1000).format("YYYY/MM/DD")}
+                  {moment(recipe.createdAt.seconds * 1000).format('YYYY/MM/DD')}
                 </TableCell>
                 <TableCell>
-                  <Rating name="read-only" value={recipe.rating} precision={0.5} readOnly />
+                  <Rating
+                    name="read-only"
+                    value={recipe.rating}
+                    precision={0.5}
+                    readOnly
+                  />
                 </TableCell>
                 <TableCell>
                   <Button onClick={() => handleClickOpen2(recipe)}>
@@ -147,7 +152,7 @@ function ModifiedRecipePage() {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{"確定刪除？"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{'確定刪除？'}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 一經刪除將無法復原!!
@@ -166,7 +171,7 @@ function ModifiedRecipePage() {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{"確定修改？"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{'確定修改？'}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 將跳轉至修改頁面
