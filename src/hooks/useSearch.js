@@ -28,7 +28,7 @@ function useSearch(index = "ingredients", value, userId) {
   // 第三個 參數 userId 是為了搜尋 冰箱食材 需要的
   let algolia = client.initIndex(index);
 
-  if (index === "fridge") {
+  if (index === "fridge" || index === "historyIngredients") {
     algolia = client.initIndex("users");
   }
 
@@ -53,6 +53,7 @@ function useSearch(index = "ingredients", value, userId) {
   // 將 collection 扁平化
   const flatCollection = async () => {
     if (!userId && index !== "fridge") return;
+    console.log("id: ", userId);
     //
     algolia = client.initIndex("users");
     // 取得使用者資料
@@ -73,7 +74,21 @@ function useSearch(index = "ingredients", value, userId) {
       // 整合 user 和 fridge
       fridge.push({ objectID: doc.id, ...doc.data() });
     });
-    user = { ...user, fridge: fridge, objectID: userId };
+    // 取得使用者歷史紀錄資料
+    let historyIngredients = [];
+    const historyIngredientsDocsSnap = await getDocs(
+      collection(db, `users/${userId}/historyIngredients`)
+    );
+    historyIngredientsDocsSnap.forEach((doc) => {
+      historyIngredients.push({ objectID: doc.id, ...doc.data() });
+    });
+    console.log("historyIngredients: ", historyIngredients);
+    user = {
+      ...user,
+      fridge: fridge,
+      objectID: userId,
+      historyIngredients: historyIngredients,
+    };
     algolia.saveObject(user);
   };
   useEffect(() => {
@@ -84,7 +99,7 @@ function useSearch(index = "ingredients", value, userId) {
     只需執行一次(因為 Algolia 不會監聽之前在 fireStore 的資料)，
     之後 algolia 會監聽 fireStore 的新的變化(理論上是)
     */
-   // moveDataToAlgolia();
+   moveDataToAlgolia();
   }, []);
 
   // 每當 index 或是 value 有變動時，就重新 fetchData

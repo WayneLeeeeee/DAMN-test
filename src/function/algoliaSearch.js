@@ -22,7 +22,7 @@ const algoliaClient = algoliasearch(
 const algoliaSearch = (index = "ingredients", value, userId) => {
   let algolia = algoliaClient.initIndex(index);
   if (!value) return "no value input";
-  if (index === "fridge") {
+  if (index === "fridge" || index === "historyIngredients") {
     algolia = algoliaClient.initIndex("users");
   }
 
@@ -42,7 +42,7 @@ const algoliaSearch = (index = "ingredients", value, userId) => {
 
   // 將 collection 扁平化
   const flatCollection = async () => {
-    if (!userId && index !== "fridge") return;
+    if (!userId) return;
     //
     algolia = algoliaClient.initIndex("users");
     // 取得使用者資料
@@ -63,18 +63,46 @@ const algoliaSearch = (index = "ingredients", value, userId) => {
       // 整合 user 和 fridge
       fridge.push({ objectID: doc.id, ...doc.data() });
     });
-    user = { ...user, fridge: fridge, objectID: userId };
+    // 取得使用者歷史紀錄資料
+    let historyIngredients = [];
+    const historyIngredientsDocsSnap = await getDocs(
+      collection(db, `users/${userId}/historyIngredients`)
+    );
+    historyIngredientsDocsSnap.forEach((doc) => {
+      historyIngredients.push({ objectID: doc.id, ...doc.data() });
+    });
+
+    user = {
+      ...user,
+      fridge: fridge,
+      objectID: userId,
+      historyIngredients: historyIngredients,
+    };
+
     algolia.saveObject(user);
   };
 
   const fetchData = async function (value) {
     console.log("search...");
+    // 如果是個人搜尋， 就針對 userId 去找
+    const isPersonalSearch =
+      index === "fridge" || index === "historyIngredients";
     // console.log(value);
+    if (isPersonalSearch) {
+      algolia.setSettings({
+        attributesForFaceting: [
+          "fridge", // or 'filterOnly(categories)' for filtering purposes only
+          "historyIngredients", // or 'filterOnly(store)' for filtering purposes only
+        ],
+      });
+    }
     try {
       const result = await algolia.search(value, {
         hitsPerPage: 10,
         //   https://www.algolia.com/doc/api-reference/api-parameters/filters/#examples
-        //   filters: "",
+        filters: isPersonalSearch
+          ? `objectID:${userId}`
+          : "",
         //   analytics: true,
         similarQuery: value,
       });
