@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-
+import {
+  addDoc,
+  collection,
+  doc,
+  setDoc,
+  updateDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { db } from "../firebase";
 import {
   Backdrop,
   Box,
@@ -18,7 +28,7 @@ import getTokenOrRefresh from "../function/getTokenOrRefresh";
 import { debounce } from "lodash";
 import speak from "../function/speak";
 import useRecognize from "../hooks/useRecognize";
-
+import moment from "moment";
 import useSound from "use-sound";
 import sound from "../public/sound/sound.mp3";
 // import useSearch from "../hooks/useSearch";
@@ -36,6 +46,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Assistant = () => {
+  //使用者id
+  const user = localStorage.getItem("userUid");
   let navigate = useNavigate();
   const [playSound] = useSound(sound);
   //const [isDialogOpen, setIsDialogOpen] = useState(false); // need to set global state
@@ -82,10 +94,9 @@ const Assistant = () => {
       },
     },
     {
-      intent: "Assistant.Stay",
-      callback: () => {
-        // ...
-        displayAndSpeakResponse("已開啟監聽模式");
+      intent: "Fridge.Add",
+      callback: (entities) => {
+        STT_add_Ingredient(entities);
       },
     },
     {
@@ -279,7 +290,7 @@ const Assistant = () => {
   };
 
   useEffect(() => {
-    // 如果 小當家 modal 關閉，清除 小當家先前回覆 和 先前辨識的句子 
+    // 如果 小當家 modal 關閉，清除 小當家先前回覆 和 先前辨識的句子
     if (!isAssistantModelOpen) {
       dispatch({
         type: actionTypes.SET_AI_RESPONSE,
@@ -311,6 +322,55 @@ const Assistant = () => {
   };
   const stopListening = async () => {
     sttFromMic({ mode: "stopListening" });
+  };
+
+  // 新增食材語音
+  const STT_add_Ingredient = async (entities) => {
+    const listenedFoodName = entities?.$instance.Foods[0].text;
+    // 透過 聽到的食材 搜尋 歷史紀錄（historyIngredients）
+    const allHistoryIngredients = await getAllHistoryIngredients(
+      listenedFoodName
+    );
+    if (!listenedFoodName || !user || !entities || !allHistoryIngredients) {
+      // 如果沒有結果，代表使用者從沒手動新增過這項食材，就說「請先手動新增一次，之後就可以透過語音新增喔」
+      speak("聽不懂欲加入的食材，請先手動新增一次，之後就可以透過語音新增喔");
+      return;
+    }
+    if (allHistoryIngredients) {
+      // 如果有，返回 第一個最新的物件（所有欄位自動帶入）
+      const historyItem = allHistoryIngredients[0];
+      const duration = historyItem?.duration;
+      // 將 endDate （截止日期） 改成 現在日期 + duration
+      historyItem.endDate = new Date(moment().add(duration, "days").format());
+
+      console.log("historyItem: ", historyItem);
+      await addDoc(collection(db, "users", `${user}`, "fridge"), historyItem);
+
+      // 新增成功說 “已新增「食材名稱」進冰箱！”
+      speak(`已幫您新增${listenedFoodName}至冰箱！`);
+      // 跳轉冰箱頁面檢視
+      // navigate("fridgePage");
+      return;
+    }
+
+    // 註：歷史紀錄（historyIngredients）透過  ”名稱“ 來辨識是否新增至 collection
+  };
+
+  // 查詢 collection (historyIngredient) 有同樣名字的食材
+  const getAllHistoryIngredients = async (name) => {
+    // 查詢 collection (historyIngredient) 有同樣名字的食材
+    if (!user) return;
+    let tempList = [];
+    const q = query(
+      collection(db, "users", `${user}`, "historyIngredients"),
+      where("name", "==", name)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      tempList.push({ id: doc.id, ...doc.data() });
+    });
+    console.log("tempList: ", tempList);
+    return tempList;
   };
   return (
     <div className="assistant">

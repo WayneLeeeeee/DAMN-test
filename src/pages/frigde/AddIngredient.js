@@ -36,9 +36,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { MobileDatePicker } from "@mui/lab";
-import algoliaSearch from "../../function/algoliaSearch";
-import speak from "../../function/speak";
-import useRecognize from "../../hooks/useRecognize";
+
 
 function AddIngredient() {
   //global state
@@ -53,7 +51,7 @@ function AddIngredient() {
   //Change用
   const [name, setName] = useState("");
 
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = useState(null);
 
   const ThumbnailInput = styled("input")({
     display: "none",
@@ -64,55 +62,12 @@ function AddIngredient() {
 
   //跳轉化面
   const navigate = useNavigate();
-  let STT_Commands = [
-    {
-      intent: "Fridge.Add",
-      callback: (entities) => {
-        STT_add_Ingredient(entities);
-      },
-    },
-  ];
-  const [intentInfo, topIntent, clearIntent] = useRecognize(
-    textFromMic,
-    STT_Commands
-  );
-  console.log("意圖: ", intentInfo);
-  // 新增食材語音
-  const STT_add_Ingredient = async (entities) => {
-    const food = entities?.$instance.Foods[0].text;
-    // 透過 聽到的食材 搜尋 歷史紀錄（historyIngredients）
-    const users = await algoliaSearch("historyIngredients", food, user);
-    if (!food || !user || !entities) {
-      // 如果沒有結果，代表使用者從沒手動新增過這項食材，就說「請先手動新增一次，之後就可以透過語音新增喔」
-      speak("聽不懂欲加入的食材，請先手動新增一次，之後就可以透過語音新增喔");
-      return;
-    }
-    if (users) {
-      // 如果有，返回 第一個最新的物件（所有欄位自動帶入）
-      const historyList = users[0].historyIngredients;
-      const historyItem = historyList.filter((e) => e.name === food)[0];
-      const duration = historyItem?.duration;
-      delete historyItem.objectID; // 清除 objectID
-      historyItem.endDate = new Date(moment().add(duration, "days").format()); // 將 endDate （截止日期） 改成 現在日期 + duration
 
-      console.log("historyItem: ", historyItem);
-      const docRef = await addDoc(
-        collection(db, "users", `${user}`, "fridge"),
-        historyItem
-      );
+ 
 
-      // 新增成功說 “已新增「食材名稱」進冰箱！”
-      speak(`已幫您新增${food}至冰箱！`);
-      // 跳轉冰箱頁面檢視
-      // navigate("fridgePage");
-      return;
-    }
-
-    // 註：歷史紀錄（historyIngredients）透過  ”名稱“ 來辨識是否新增至 collection
-  };
 
   // useEffect(() => {
-  //   STT_add_Ingredient();
+  //   getAllHistoryIngredients("雞蛋");
   // }, []);
 
   function navigatetoFridge() {
@@ -212,6 +167,7 @@ function AddIngredient() {
       ...ingredient,
       imageURL: await getRemoteThumbnailURL(),
     };
+
     // 註：歷史紀錄（historyIngredients），需要 duration (天數 = 有效期限 - 當天日期 )，用來預測之後語音輸入的有效期限
     result.duration = moment(result.endDate)
       .fromNow()
@@ -236,24 +192,27 @@ function AddIngredient() {
     navigate("/fridge");
   };
 
+  // 查詢 collection (historyIngredient) 有同樣名字的食材
+  const getAllHistoryIngredients = async (name) => {
+    // 查詢 collection (historyIngredient) 有同樣名字的食材
+    if (!user) return;
+    let tempList = [];
+    const q = query(
+      collection(db, "users", `${user}`, "historyIngredients"),
+      where("name", "==", name)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      tempList.push({ id: doc.id, ...doc.data() });
+    });
+    console.log("tempList: ", tempList);
+    return tempList;
+  };
+
   // 傳送至 firestore collection 歷史紀錄（historyIngredients）
   const sendDataToHistoryIngredients = async (data) => {
-    const getAllHistoryIngredients = async () => {
-      const q = query(
-        collection(db, "users", `${user}`, "historyIngredients"),
-        where("name", "==", data.name)
-      );
-      let tempList = [];
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-
-        tempList.push({ id: doc.id, ...doc.data() });
-      });
-      return tempList;
-    };
     let id = "";
-    const allHistoryIngredientsList = await getAllHistoryIngredients();
+    const allHistoryIngredientsList = await getAllHistoryIngredients(data.name);
     //查看 historyIngredients 有沒有同樣名稱的 Item
     const haveSameNameList = allHistoryIngredientsList.filter(
       (item) => item.name === data.name
@@ -290,6 +249,8 @@ function AddIngredient() {
     // 傳送至 fireStore
     const washingtonRef = doc(db, "users", `${user}`, "fridge", ingredient?.id);
     await setDoc(washingtonRef, result);
+    // 傳送至 firestore collection 歷史紀錄（historyIngredients）
+    sendDataToHistoryIngredients(result);
     // need to clear global state
     dispatch({
       type: actionTypes.SET_INGREDIENT,
