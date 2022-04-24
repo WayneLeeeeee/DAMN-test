@@ -46,74 +46,63 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Assistant = () => {
-  //使用者id
-  const user = localStorage.getItem("userUid");
+  const userId = localStorage.getItem("userUid"); //使用者id
   let navigate = useNavigate();
   const [playSound] = useSound(sound);
+  const [recipeResult, setRecipeResult] = useState(null);
+  const [ingredientsResult, setIngredientsResult] = useState(null);
+  const [isAllowSTTMicModalOpen, setIsAllowSTTMicModalOpen] = useToggle(true);
   //const [isDialogOpen, setIsDialogOpen] = useState(false); // need to set global state
   const [
     { isAssistantModelOpen, AIResponse, textFromMic, isSTTFromMicOpen },
     dispatch,
   ] = useStateValue();
-  const [recipeResult, setRecipeResult] = useState(null);
-  const [isAllowSTTMicModalOpen, setIsAllowSTTMicModalOpen] = useToggle(true);
+
   // 命令 stt => speech to text
   let STT_Commands = [
     {
+      // 語音食譜搜尋
       intent: "Recipe.Search",
       callback: (entities) => {
-        handleRecipeSearch(entities);
+        STT_handleRecipeSearch(entities);
       },
     },
     {
+      // 語音選定 特定編號
       intent: "Utilities.SelectItem",
-      callback: async (entities) => {
-        // 利用語音控制並開啟第幾道的食譜
-        const number = entities.ordinal[0];
-        const index = number - 1;
-        if (!recipeResult) {
-          displayAndSpeakResponse("您需要先講出查詢何種食譜，我才能為您開啟");
-          return;
-        }
-
-        await displayAndSpeakResponse(`幫您開啟第${number}道食譜`);
-        dispatch({
-          type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
-          isAssistantModelOpen: false,
-        });
-        /*
-        無法 navigating to a sibling
-        例如 從 /recipe/:recipeUUID_1 到 /recipe/:recipeUUID_2
-        是沒有作用的，目前找不到解決辦法
-        相似的 issue 
-        https://stackoverflow.com/questions/68825965/react-router-v6-usenavigate-doesnt-navigate-if-replacing-last-element-in-path
-        */
-        navigate(`/recipe/${recipeResult[index]?.objectID}`, { replace: true });
-
-        //window.location.reload();
+      callback: (entities) => {
+        STT_select_ListenedNumberItem(entities);
       },
     },
     {
+      // 語音新增 食材 至 冰箱
       intent: "Fridge.Add",
       callback: (entities) => {
         STT_add_Ingredient(entities);
       },
     },
     {
+      // 語音刪除冰箱食材
+      intent: "Fridge.DeleteIngredient",
+      callback: (entities) => {
+        STT_delete_Ingredient(entities);
+      },
+    },
+    {
+      // 語音辨別不出意圖時
       intent: "None",
       callback: () => {
-        // 如果意圖分辨不出來
         displayAndSpeakResponse("我聽不懂");
       },
     },
   ];
   const [intentInfo, topIntent, clearIntent] = useRecognize(
-    textFromMic,
+     textFromMic,
     STT_Commands
   );
 
   // 關鍵字喚醒
-  const AI_Awake = () => {
+  const AI_Awake = (text) => {
     /*
     清除先前資料（）
     發出 「我在！」語音
@@ -123,7 +112,7 @@ const Assistant = () => {
     */
     clearIntent();
     //setRecipeResult(null);
-    displayAndSpeakResponse("我在");
+    if (text) displayAndSpeakResponse(text);
     delayPlaySound();
     delaySTTFromMic();
     dispatch({
@@ -133,7 +122,7 @@ const Assistant = () => {
   };
 
   // 語音執行 Recipe.Search 意圖
-  const handleRecipeSearch = async (entities) => {
+  const STT_handleRecipeSearch = async (entities) => {
     const foods = entities.Foods;
     // const food = entities.Food;
     // const recipe = entities.Recipe;
@@ -153,6 +142,128 @@ const Assistant = () => {
     displayAndSpeakResponse(
       `幫您找到 ${result.length} 個關於${foods[0]} 的食譜`
     );
+  };
+
+  // 語音執行 Fridge.Add 意圖 -> 新增食材
+  const STT_add_Ingredient = async (entities) => {
+    const listenedFoodName = entities?.$instance.Foods[0].text;
+    // 透過 聽到的食材 搜尋 歷史紀錄（historyIngredients）
+    const allHistoryIngredients = await findIngredientsInHistoryIngredient(
+      listenedFoodName
+    );
+    if (!listenedFoodName || !userId || !entities || !allHistoryIngredients) {
+      // 如果沒有結果，代表使用者從沒手動新增過這項食材，就說「請先手動新增一次，之後就可以透過語音新增喔」
+      speak("聽不懂欲加入的食材，請先手動新增一次，之後就可以透過語音新增喔");
+      return;
+    }
+    if (allHistoryIngredients & listenedFoodName) {
+      // 如果有，返回 第一個最新的物件（所有欄位自動帶入）
+      const historyItem = allHistoryIngredients[0];
+      const duration = historyItem?.duration;
+      // 將 endDate （截止日期） 改成 現在日期 + duration
+      historyItem.endDate = new Date(moment().add(duration, "days").format());
+
+      console.log("historyItem: ", historyItem);
+      await addDoc(collection(db, "users", `${userId}`, "fridge"), historyItem);
+
+      // 新增成功說 “已新增「食材名稱」進冰箱！”
+      speak(`已幫您新增${listenedFoodName}至冰箱！`);
+      // 跳轉冰箱頁面檢視
+      // navigate("fridgePage");
+      return;
+    }
+
+    // 註：歷史紀錄（historyIngredients）透過  ”名稱“ 來辨識是否新增至 collection
+  };
+
+  //  語音執行 Fridge.delete 意圖 -> 刪除食材
+  const STT_delete_Ingredient = async (entities) => {
+    console.log("delete Ingredients");
+    /*
+        講完 「找到${fridgeIngredients.length}個相同食材，請問要刪除哪個？」
+        延遲 2 秒
+        喚醒AI (AI_wake) （continue listened mode）
+        說出 「刪除第 X 個」
+        呼叫 selectListenedNumberItem() 回傳數字 (這個要將 意圖 Select 那個 移出來)
+        透過 數字 - 1 選 fridgeIngredients 並刪除
+        stop continue listened mode
+        */
+
+    const listenedFoodName = entities?.$instance.Foods[0].text;
+    // 將 聽到的食材 從搜尋 Fridge (collection) 找出
+    const fridgeIngredients = await findIngredientsInFridge(listenedFoodName);
+    console.log(fridgeIngredients);
+
+    if (fridgeIngredients?.length === 0) {
+      // 如果 0 個，則 說：「未找到您說的食材，請從冰箱確認」
+      displayAndSpeakResponse("未找到您說的食材，請從冰箱確認");
+    }
+
+    if (fridgeIngredients?.length === 1) {
+      // 如果 0 個，則 說：「未找到您說的食材，請從冰箱確認」
+      displayAndSpeakResponse(`已從冰箱刪除${listenedFoodName}`);
+    }
+    if (fridgeIngredients?.length > 1) {
+      // 如果大於 1 個，就跳出 modal 讓使用者透過 編號 選擇
+      displayAndSpeakResponse(
+        `找到${fridgeIngredients.length}個相同食材，請問要刪除哪個？`
+      );
+      const delayAI_Awake = debounce(AI_Awake, 2000);
+      delayAI_Awake();
+    }
+  };
+
+  //  語音執行 Utilities.SelectItem 意圖
+  const STT_select_ListenedNumberItem = async (entities) => {
+    /* 
+    Actions:
+    1. 食譜選擇，利用語音控制並開啟第幾道的食譜
+      「開啟第一道食譜。」
+    2. 冰箱食材刪除(如果找到項目超過 1 個)
+      「刪除第一項」
+    3. 
+    */
+    const number = entities.ordinal[0];
+    const index = number - 1;
+
+    // if (!recipeResult) {
+    //   displayAndSpeakResponse("您需要先講出查詢何種食譜，我才能為您開啟");
+    //   return;
+    // }
+    // case1: 食譜選擇，利用語音控制並開啟第幾道的食譜
+    if (recipeResult & index) {
+      displayAndSpeakResponse(`幫您開啟第${number}道食譜`);
+      dispatch({
+        type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
+        isAssistantModelOpen: false,
+      });
+      setRecipeResult(null);
+      /*
+        無法 navigating to a sibling
+        例如 從 /recipe/:recipeUUID_1 到 /recipe/:recipeUUID_2
+        是沒有作用的，目前找不到解決辦法
+        相似的 issue 
+        https://stackoverflow.com/questions/68825965/react-router-v6-usenavigate-doesnt-navigate-if-replacing-last-element-in-path
+        */
+      navigate(`/recipe/${recipeResult[index]?.objectID}`, { replace: true });
+    }
+
+    // case2: 冰箱食材刪除(如果找到項目超過 1 個)
+    if ((ingredientsResult?.length > 1) & index) {
+      deleteIngredient(index);
+    }
+
+    //window.location.reload();
+
+    // return listened number
+  };
+
+  // 冰箱食材刪除
+  const deleteIngredient = (index) => {
+    displayAndSpeakResponse(`幫您刪除第${index + 1}個食材`);
+    console.log(`幫您刪除第${index + 1}個食材`);
+    // 執行刪除邏輯
+    setIngredientsResult(null);
   };
 
   // 麥克風語音辨識
@@ -197,7 +308,7 @@ const Assistant = () => {
           //   type: actionTypes.SET_TEXT_FROM_MIC,
           //   textFromMic: recognizedText,
           // });
-          AI_Awake();
+          AI_Awake("我在");
         }
       };
       // console.log("辨別出", text);
@@ -247,26 +358,46 @@ const Assistant = () => {
     playSound();
   }, 1200);
 
-  // 初始化元件
-  useEffect(() => {
-    // SpeechRecognition.startListening({ continuous: true, language: "zh-TW" });
+  // 顯示 AI 回覆 與 說出合成語音
+  const displayAndSpeakResponse = async (text) => {
+    speak(text);
+    dispatch({
+      type: actionTypes.SET_AI_RESPONSE,
+      AIResponse: text,
+    });
+  };
+
+  // 開始監聽
+  const startListening = () => {
     sttFromMic({ mode: "keywordRecognizer" });
-    // 一個 modal 初始化時顯示，提供給使用者 是否開啟語音助理
-  }, []);
+    setIsAllowSTTMicModalOpen();
+  };
+  // 停止監聽
+  const stopListening = () => {
+    sttFromMic({ mode: "stopListening" });
+  };
 
-  useEffect(() => {
-    if (!isAssistantModelOpen) {
-      setRecipeResult(null);
-    }
-  }, [isAssistantModelOpen]);
-
-  useEffect(() => {
-    if (!isSTTFromMicOpen) {
-      console.log("stop");
-      stopListening();
-      return;
-    }
-  }, [isSTTFromMicOpen]);
+  // 查詢 collection (historyIngredient 或 fridge) 有同樣名字的食材
+  const findIngredients = async (collectionName, ingredientName) => {
+    // 查詢 collection (historyIngredient) 有同樣名字的食材
+    if (!userId) return;
+    let tempList = [];
+    const q = query(
+      collection(db, "users", `${userId}`, collectionName),
+      where("name", "==", ingredientName)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      tempList.push({ id: doc.id, ...doc.data() });
+    });
+    console.log("tempList: ", tempList);
+    return tempList;
+  };
+  const findIngredientsInHistoryIngredient = findIngredients.bind(
+    this,
+    "historyIngredient"
+  );
+  const findIngredientsInFridge = findIngredients.bind(this, "fridge");
 
   // 小當家彈出視窗關閉
   const handleDialogClose = () => {
@@ -289,9 +420,27 @@ const Assistant = () => {
     setRecipeResult(null);
   };
 
+  // 初始化 渲染元件
+  useEffect(() => {
+    // SpeechRecognition.startListening({ continuous: true, language: "zh-TW" });
+    sttFromMic({ mode: "keywordRecognizer" });
+    // 一個 modal 初始化時顯示，提供給使用者 是否開啟語音助理
+  }, []);
+
+  // 當 isSTTFromMicOpen 變動
+  useEffect(() => {
+    if (!isSTTFromMicOpen) {
+      //console.log("stop");
+      stopListening();
+      return;
+    }
+  }, [isSTTFromMicOpen]);
+
+  // 當 isAssistantModelOpen 變動
   useEffect(() => {
     // 如果 小當家 modal 關閉，清除 小當家先前回覆 和 先前辨識的句子
     if (!isAssistantModelOpen) {
+      setRecipeResult(null);
       dispatch({
         type: actionTypes.SET_AI_RESPONSE,
         AIResponse: "",
@@ -303,75 +452,9 @@ const Assistant = () => {
     }
   }, [isAssistantModelOpen]);
 
-  // 顯示 AI 回覆 與 說出合成語音
-  const displayAndSpeakResponse = async (text) => {
-    speak(text);
-    dispatch({
-      type: actionTypes.SET_AI_RESPONSE,
-      AIResponse: text,
-    });
-  };
-
   console.log("意圖: ", intentInfo);
   console.log("第二監聽: ", textFromMic);
   //console.log(recipeResult);
-
-  const startListening = () => {
-    sttFromMic({ mode: "keywordRecognizer" });
-    setIsAllowSTTMicModalOpen();
-  };
-  const stopListening = async () => {
-    sttFromMic({ mode: "stopListening" });
-  };
-
-  // 新增食材語音
-  const STT_add_Ingredient = async (entities) => {
-    const listenedFoodName = entities?.$instance.Foods[0].text;
-    // 透過 聽到的食材 搜尋 歷史紀錄（historyIngredients）
-    const allHistoryIngredients = await getAllHistoryIngredients(
-      listenedFoodName
-    );
-    if (!listenedFoodName || !user || !entities || !allHistoryIngredients) {
-      // 如果沒有結果，代表使用者從沒手動新增過這項食材，就說「請先手動新增一次，之後就可以透過語音新增喔」
-      speak("聽不懂欲加入的食材，請先手動新增一次，之後就可以透過語音新增喔");
-      return;
-    }
-    if (allHistoryIngredients) {
-      // 如果有，返回 第一個最新的物件（所有欄位自動帶入）
-      const historyItem = allHistoryIngredients[0];
-      const duration = historyItem?.duration;
-      // 將 endDate （截止日期） 改成 現在日期 + duration
-      historyItem.endDate = new Date(moment().add(duration, "days").format());
-
-      console.log("historyItem: ", historyItem);
-      await addDoc(collection(db, "users", `${user}`, "fridge"), historyItem);
-
-      // 新增成功說 “已新增「食材名稱」進冰箱！”
-      speak(`已幫您新增${listenedFoodName}至冰箱！`);
-      // 跳轉冰箱頁面檢視
-      // navigate("fridgePage");
-      return;
-    }
-
-    // 註：歷史紀錄（historyIngredients）透過  ”名稱“ 來辨識是否新增至 collection
-  };
-
-  // 查詢 collection (historyIngredient) 有同樣名字的食材
-  const getAllHistoryIngredients = async (name) => {
-    // 查詢 collection (historyIngredient) 有同樣名字的食材
-    if (!user) return;
-    let tempList = [];
-    const q = query(
-      collection(db, "users", `${user}`, "historyIngredients"),
-      where("name", "==", name)
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      tempList.push({ id: doc.id, ...doc.data() });
-    });
-    console.log("tempList: ", tempList);
-    return tempList;
-  };
   return (
     <div className="assistant">
       <Dialog
