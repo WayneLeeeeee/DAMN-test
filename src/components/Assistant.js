@@ -5,6 +5,7 @@ import {
   doc,
   setDoc,
   updateDoc,
+  deleteDoc,
   query,
   where,
   getDocs,
@@ -39,6 +40,7 @@ import { useStateValue } from "../StateProvider";
 import { useNavigate } from "react-router-dom";
 import ChineseNumber from "chinese-numbers-converter";
 import useToggle from "../hooks/useToggle";
+import FridgeCard from "./fridge/FridgeCard";
 // import axios from "axios";
 const speechsdk = require("microsoft-cognitiveservices-speech-sdk");
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -97,7 +99,7 @@ const Assistant = () => {
     },
   ];
   const [intentInfo, topIntent, clearIntent] = useRecognize(
-     textFromMic,
+    textFromMic,
     STT_Commands
   );
 
@@ -187,12 +189,12 @@ const Assistant = () => {
         呼叫 selectListenedNumberItem() 回傳數字 (這個要將 意圖 Select 那個 移出來)
         透過 數字 - 1 選 fridgeIngredients 並刪除
         stop continue listened mode
-        */
+    */
 
     const listenedFoodName = entities?.$instance.Foods[0].text;
     // 將 聽到的食材 從搜尋 Fridge (collection) 找出
     const fridgeIngredients = await findIngredientsInFridge(listenedFoodName);
-    console.log(fridgeIngredients);
+    setIngredientsResult(fridgeIngredients);
 
     if (fridgeIngredients?.length === 0) {
       // 如果 0 個，則 說：「未找到您說的食材，請從冰箱確認」
@@ -230,6 +232,7 @@ const Assistant = () => {
     //   displayAndSpeakResponse("您需要先講出查詢何種食譜，我才能為您開啟");
     //   return;
     // }
+
     // case1: 食譜選擇，利用語音控制並開啟第幾道的食譜
     if (recipeResult & index) {
       displayAndSpeakResponse(`幫您開啟第${number}道食譜`);
@@ -249,7 +252,7 @@ const Assistant = () => {
     }
 
     // case2: 冰箱食材刪除(如果找到項目超過 1 個)
-    if ((ingredientsResult?.length > 1) & index) {
+    if (ingredientsResult?.length > 1) {
       deleteIngredient(index);
     }
 
@@ -259,10 +262,11 @@ const Assistant = () => {
   };
 
   // 冰箱食材刪除
-  const deleteIngredient = (index) => {
+  const deleteIngredient = async (index) => {
+    const ingredientId = ingredientsResult[index].id;
+    await deleteDoc(doc(db, "users", `${userId}`, "fridge", ingredientId));
     displayAndSpeakResponse(`幫您刪除第${index + 1}個食材`);
-    console.log(`幫您刪除第${index + 1}個食材`);
-    // 執行刪除邏輯
+    console.log(`幫您刪除第${index + 1}個食材, id: ${ingredientId}`);
     setIngredientsResult(null);
   };
 
@@ -479,6 +483,19 @@ const Assistant = () => {
               key={recipe.objectID}
               recipeData={recipe}
               index={index}
+            />
+          ))}
+        </Box>
+        
+        <Box
+        // sx={{ width: "100%", position: "absolute", top: 0, height: "100%" }}
+        >
+          {ingredientsResult?.map((ingredient, index) => (
+            <FridgeCard
+              item={ingredient}
+              index={index}
+              // openEditDialog={openEditDialog}
+              // openDeleteDialog={openDeleteDialog}
             />
           ))}
         </Box>

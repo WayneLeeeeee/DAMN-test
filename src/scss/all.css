@@ -1130,7 +1130,7 @@ body > iframe + iframe {
   padding: 10px;
 }
 
-.fridgePage .fridgePage__item {
+.fridgePage__item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1142,7 +1142,7 @@ body > iframe + iframe {
   border-radius: 20px;
 }
 
-.fridgePage .fridgePage__item .fridgePage__item__img {
+.fridgePage__item .fridgePage__item__img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1153,11 +1153,11 @@ body > iframe + iframe {
   height: 150px;
 }
 
-.fridgePage .fridgePage__item .fridgePage__item__img img {
+.fridgePage__item .fridgePage__item__img img {
   width: 150px;
 }
 
-.fridgePage .fridgePage__item .fridgePage__item__content {
+.fridgePage__item .fridgePage__item__content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1169,22 +1169,22 @@ body > iframe + iframe {
       justify-content: space-around;
 }
 
-.fridgePage .fridgePage__item .fridgePage__item__content > h4 {
+.fridgePage__item .fridgePage__item__content > h4 {
   color: #444545;
   font-size: 24px;
 }
 
-.fridgePage .fridgePage__item .fridgePage__item__content > h5 {
+.fridgePage__item .fridgePage__item__content > h5 {
   color: #444545;
   font-size: 20px;
 }
 
-.fridgePage .fridgePage__item .fridgePage__item__content > h6 {
+.fridgePage__item .fridgePage__item__content > h6 {
   color: red;
   font-size: 16px;
 }
 
-.fridgePage .fridgePage__item .fridgePage__item__edit {
+.fridgePage__item .fridgePage__item__edit {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

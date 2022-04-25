@@ -30,6 +30,7 @@ import {
 } from "@mui/material";
 import { actionTypes } from "../../reducer";
 import { TextField } from "@material-ui/core";
+import FridgeCard from "../../components/fridge/FridgeCard";
 
 function FridgePage() {
   //global state
@@ -53,12 +54,12 @@ function FridgePage() {
   const q = searchParams.get("query");
 
   //刪除相關變數
-  const [open, setOpen] = React.useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleted, setDeleted] = useState(0);
-  const [recordId, setRecordId] = React.useState("");
+  const [recordId, setRecordId] = useState("");
 
   //修改相關變數
-  const [open2, setOpen2] = React.useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedIngredient, setSelectedIngredient] = useState(null);
 
   //普通讀取
@@ -82,25 +83,25 @@ function FridgePage() {
 
   //關閉所有dialog
   const handleClose = () => {
-    setOpen(false);
-    setOpen2(false);
+    setIsDeleteDialogOpen(false);
+    setIsEditDialogOpen(false);
   };
 
   //開啟刪除dialog
-  const handleClickOpen = (id) => {
-    setOpen(true);
+  const openDeleteDialog = (id) => {
+    setIsDeleteDialogOpen(true);
     setRecordId(id);
   };
 
   //開啟修改dialog
-  const handleClickOpen2 = (data) => {
-    setOpen2(true);
+  const openEditDialog = (data) => {
+    setIsEditDialogOpen(true);
     setSelectedIngredient(data);
   };
 
   //跳轉至修改頁面
   const handleSwitchUpdate = () => {
-    setOpen2(false);
+    setIsEditDialogOpen(false);
     dispatch({
       type: actionTypes.SET_ISUPDATED,
       isUpdated: true,
@@ -117,7 +118,7 @@ function FridgePage() {
     try {
       await deleteDoc(doc(db, "users", `${user}`, "fridge", id));
       console.log(id);
-      setOpen(false);
+      setIsDeleteDialogOpen(false);
       setDeleted(deleted + 1);
     } catch (error) {
       console.log(error);
@@ -173,6 +174,7 @@ function FridgePage() {
   return (
     <div>
       <div className="fridgePage">
+        {/* 分類搜尋欄 */}
         <div className="fridgePage__bar">
           <ArrowBackIosIcon onClick={goToFridgePage} />
           <Autocomplete
@@ -187,71 +189,27 @@ function FridgePage() {
             renderInput={(params) => <TextField {...params} label={"類別"} />}
           />
         </div>
+        {/* 冰箱食材卡片清單 Card List */}
         {category
           ? ingredient3?.map((item, index) => (
-              <div className="fridgePage__item" key={index}>
-                <div className="fridgePage__item__img">
-                  <img src={item.imageURL?.url} alt="" />
-                </div>
-                <div className="fridgePage__item__content">
-                  <h4>{item.name}</h4>
-                  <h5>
-                    數量：
-                    {item.quantity}
-                    {item.unit}
-                  </h5>
-                  <h5>{item.isFrozen}</h5>
-                  <h5>
-                    {moment(item.endDate.seconds * 1000).format("YYYY/MM/DD")}
-                  </h5>
-                  <h6>
-                    距離到期日：剩
-                    {-moment(new Date()).diff(
-                      moment(item.endDate.seconds * 1000).format("YYYY/MM/DD"),
-                      "days"
-                    ) + 1}
-                    日
-                  </h6>
-                </div>
-                <div className="fridgePage__item__edit">
-                  <CloseIcon onClick={() => handleClickOpen(item?.id)} />
-                  <EditIcon onClick={() => handleClickOpen2(item)} />
-                </div>
-              </div>
+              <FridgeCard
+                item={item}
+                index={index}
+                openEditDialog={openEditDialog}
+                openDeleteDialog={openDeleteDialog}
+              />
             ))
           : ingredient2?.map((item, index) => (
-              <div className="fridgePage__item" key={index}>
-                <div className="fridgePage__item__img">
-                  <img src={item.imageURL?.url} alt="" />
-                </div>
-                <div className="fridgePage__item__content">
-                  <h4>{item.name}</h4>
-                  <h5>
-                    數量：
-                    {item.quantity}
-                    {item.unit}
-                  </h5>
-                  <h5>{item.isFrozen}</h5>
-                  <h5>
-                    {moment(item.endDate?.seconds * 1000).format("YYYY/MM/DD")}
-                  </h5>
-                  <h6>
-                    距離到期日：剩
-                    {-moment(new Date()).diff(
-                      moment(item.endDate?.seconds * 1000).format("YYYY/MM/DD"),
-                      "days"
-                    ) + 1}
-                    日
-                  </h6>
-                </div>
-                <div className="fridgePage__item__edit">
-                  <CloseIcon onClick={() => handleClickOpen(item?.id)} />
-                  <EditIcon onClick={() => handleClickOpen2(item)} />
-                </div>
-              </div>
+              <FridgeCard
+                item={item}
+                index={index}
+                openEditDialog={openEditDialog}
+                openDeleteDialog={openDeleteDialog}
+              />
             ))}
+        {/* 刪除 dialog */}
         <Dialog
-          open={open}
+          open={isDeleteDialogOpen}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -269,8 +227,9 @@ function FridgePage() {
             </Button>
           </DialogActions>
         </Dialog>
+        {/* 編輯 dialog */}
         <Dialog
-          open={open2}
+          open={isEditDialogOpen}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
