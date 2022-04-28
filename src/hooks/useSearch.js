@@ -99,7 +99,7 @@ function useSearch(index = "ingredients", value, userId) {
     只需執行一次(因為 Algolia 不會監聽之前在 fireStore 的資料)，
     之後 algolia 會監聽 fireStore 的新的變化(理論上是)
     */
-   moveDataToAlgolia();
+   //moveDataToAlgolia();
   }, []);
 
   // 每當 index 或是 value 有變動時，就重新 fetchData

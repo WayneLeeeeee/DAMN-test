@@ -16,10 +16,6 @@ import ButtomNav from "../../components/BottomNav";
 import { Typography } from "@mui/material";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 
-const user = {
-  id: "itjustauserid8888",
-  name: "cube",
-};
 
 export default function AddRecipeStepper() {
   const theme = useTheme();

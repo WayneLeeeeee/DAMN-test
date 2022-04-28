@@ -3,7 +3,13 @@ import moment from "moment";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 
-function FridgeCard({ item, index, openEditDialog, openDeleteDialog }) {
+function FridgeCard({
+  item,
+  index,
+  openEditDialog,
+  openDeleteDialog,
+  isDeleteAndUpdateButtonsHidden,
+}) {
   return (
     <div className="fridgePage__item" key={index}>
       <div className="fridgePage__item__img">
@@ -27,10 +33,12 @@ function FridgeCard({ item, index, openEditDialog, openDeleteDialog }) {
           日
         </h6>
       </div>
-      <div className="fridgePage__item__edit">
-        <CloseIcon onClick={() => openDeleteDialog(item?.id)} />
-        <EditIcon onClick={() => openEditDialog(item)} />
-      </div>
+      {!isDeleteAndUpdateButtonsHidden && (
+        <div className="fridgePage__item__edit">
+          <CloseIcon onClick={() => openDeleteDialog(item?.id)} />
+          <EditIcon onClick={() => openEditDialog(item)} />
+        </div>
+      )}
     </div>
   );
 }

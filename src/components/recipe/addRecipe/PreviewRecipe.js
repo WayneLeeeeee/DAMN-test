@@ -16,12 +16,14 @@ import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import { Paper } from "@mui/material";
 import Tabs from "../../../pages/recipe/Tabs";
 import ImageStepper from "../../ImageStepper";
+import client from "../../../sanity";
+import { basename } from "path";
+import { createReadStream } from "fs";
 const PreviewRecipe = () => {
   const navigate = useNavigate();
   const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
   const user = localStorage.getItem("user");
 
-  console.log();
   // 表單送出
   const handleSubmit = async () => {
     const result = {
@@ -29,7 +31,7 @@ const PreviewRecipe = () => {
       createdAt: Timestamp.now().toDate(),
       thumbnail: await getRemoteThumbnailURL(),
       steps: await getStepsWithRemoteImageURL(),
-      author: user,
+      // author: user,
     };
     dispatch({
       type: actionTypes.SET_NEWRECIPEDATA,
@@ -52,21 +54,42 @@ const PreviewRecipe = () => {
 
     // 傳送至 fireStore
     if (isUpdated) {
-      const washingtonRef = doc(db, "recipes", newRecipeData?.id);
-      await updateDoc(washingtonRef, {
-        name: result.name,
-        rating: result.rating,
-        likes: result.likes,
-        serving: result.serving,
-        ingredientsInfo: result.ingredientsInfo,
-        ingredientTags: result.ingredientTags,
-        steps: result.steps,
-        createdAt: Timestamp.now().toDate(),
-      });
+      // const washingtonRef = doc(db, "recipes", newRecipeData?.id);
+      // await updateDoc(washingtonRef, {
+      //   name: result.name,
+      //   rating: result.rating,
+      //   likes: result.likes,
+      //   serving: result.serving,
+      //   ingredientsInfo: result.ingredientsInfo,
+      //   ingredientTags: result.ingredientTags,
+      //   steps: result.steps,
+      //   createdAt: Timestamp.now().toDate(),
+      // });
+      // const doc = { ...result, _type: "recipe", _id: "" };
+      // client.createOrReplace(doc).then((res) => {
+      //   console.log(`Bike was created, document ID is ${res._id}`);
+      // });
     } else {
-      const docRef = await addDoc(collection(db, "recipes"), result);
-      console.log("Document written with ID: ", docRef.id);
+      // const docRef = await addDoc(collection(db, "recipes"), result);
+      // console.log("Document written with ID: ", docRef.id);
     }
+
+    const doc = {
+      _type: "recipes",
+      title: result.name,
+      likes: result.likes,
+      rating: result.rating,
+      serving: result.serving,
+      cookTime: result.cookTime,
+      user: { _type: "reference", _ref: user },
+      steps: result.steps,
+      ingredientRecommendTags: result.ingredientRecommendTags,
+      ingredientTags: result.ingredientTags,
+      thumbnail: await getURL(result.thumbnail), // need to fix
+    };
+    await client.create(doc).then((res) => {
+      console.log(`Recipe was created, document ID is ${res._id}`);
+    });
 
     // need to clear global state
     dispatch({
@@ -103,6 +126,35 @@ const PreviewRecipe = () => {
 
     return await getDownloadURL(recipesRef);
   };
+  // 取得遠端網址 sanity
+  const getURL = async (file) => {
+    if (!file) return;
+    const filePath = file?.url;
+    client.assets
+      .upload("image", createReadStream(filePath), {
+        filename: basename(filePath),
+      })
+      .then((imageAsset) => {
+        // Here you can decide what to do with the returned asset document.
+        // If you want to set a specific asset field you can to the following:
+        return client
+          .patch("some-document-id")
+          .set({
+            theImageField: {
+              _type: "image",
+              asset: {
+                _type: "reference",
+                _ref: imageAsset._id,
+              },
+            },
+          })
+          .commit();
+      })
+      .then(() => {
+        console.log("Done!");
+      });
+  };
+
   // 取得縮圖的遠端網址
   const getRemoteThumbnailURL = async () => {
     const temp = {
@@ -134,7 +186,7 @@ const PreviewRecipe = () => {
     <ThemeProvider theme={theme}>
       <Box sx={{ p: 4 }}>
         <h3>預覽食譜</h3>
-        <ThemeProvider theme={theme} sx={{}}>
+        <ThemeProvider theme={theme}>
           <Paper
             elevation={3}
             className="recipeItem__container"
@@ -155,7 +207,7 @@ const PreviewRecipe = () => {
           sx={{ mt: 2 }}
           variant="contained"
         >
-          {isUpdated === true ? "修改" : "發布"}食譜
+          {isUpdated ? "修改" : "發布"}食譜
         </Button>
       </Box>
     </ThemeProvider>

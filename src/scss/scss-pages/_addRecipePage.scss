@@ -32,7 +32,7 @@
   }
   .MuiPaper-root,
   .MuiButton-textPrimary {
-    padding-bottom: 100px;
+    //padding-bottom: 100px; // 這個沒包好， 在 addRecipePage 整個 navbar 彈跳起來
     color: $primary-color !important;
   }
 

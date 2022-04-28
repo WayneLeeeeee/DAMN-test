@@ -603,7 +603,6 @@ body > iframe + iframe {
 
 .add .MuiPaper-root,
 .add .MuiButton-textPrimary {
-  padding-bottom: 100px;
   color: #fe8b83 !important;
 }
 

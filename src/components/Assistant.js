@@ -91,7 +91,14 @@ const Assistant = () => {
       },
     },
     {
-      // 語音辨別不出意圖時
+      // 語音搜尋冰箱食材
+      intent: "Fridge.Search",
+      callback: (entities) => {
+        STT_search_Fridge(entities);
+      },
+    },
+    {
+      // 當語音辨別不出意圖時
       intent: "None",
       callback: () => {
         displayAndSpeakResponse("我聽不懂");
@@ -150,10 +157,16 @@ const Assistant = () => {
   const STT_add_Ingredient = async (entities) => {
     const listenedFoodName = entities?.$instance.Foods[0].text;
     // 透過 聽到的食材 搜尋 歷史紀錄（historyIngredients）
-    const allHistoryIngredients = await findIngredientsInHistoryIngredient(
+    const allHistoryIngredients = await searchIngredientsInHistoryIngredient(
       listenedFoodName
     );
-    if (!listenedFoodName || !userId || !entities || !allHistoryIngredients) {
+    console.log(allHistoryIngredients);
+    if (
+      !listenedFoodName ||
+      !userId ||
+      !entities ||
+      allHistoryIngredients?.length === 0
+    ) {
       // 如果沒有結果，代表使用者從沒手動新增過這項食材，就說「請先手動新增一次，之後就可以透過語音新增喔」
       speak("聽不懂欲加入的食材，請先手動新增一次，之後就可以透過語音新增喔");
       return;
@@ -193,7 +206,7 @@ const Assistant = () => {
 
     const listenedFoodName = entities?.$instance.Foods[0].text;
     // 將 聽到的食材 從搜尋 Fridge (collection) 找出
-    const fridgeIngredients = await findIngredientsInFridge(listenedFoodName);
+    const fridgeIngredients = await searchIngredientsInFridge(listenedFoodName);
     setIngredientsResult(fridgeIngredients);
 
     if (fridgeIngredients?.length === 0) {
@@ -221,17 +234,12 @@ const Assistant = () => {
     Actions:
     1. 食譜選擇，利用語音控制並開啟第幾道的食譜
       「開啟第一道食譜。」
-    2. 冰箱食材刪除(如果找到項目超過 1 個)
+    2. 冰箱食材刪除(如果找到項目大於 1 個)
       「刪除第一項」
     3. 
     */
     const number = entities.ordinal[0];
     const index = number - 1;
-
-    // if (!recipeResult) {
-    //   displayAndSpeakResponse("您需要先講出查詢何種食譜，我才能為您開啟");
-    //   return;
-    // }
 
     // case1: 食譜選擇，利用語音控制並開啟第幾道的食譜
     if (recipeResult & index) {
@@ -252,18 +260,29 @@ const Assistant = () => {
     }
 
     // case2: 冰箱食材刪除(如果找到項目超過 1 個)
-    if (ingredientsResult?.length > 1) {
+    if ((ingredientsResult?.length >= 1) & index) {
       deleteIngredient(index);
     }
+  };
 
-    //window.location.reload();
-
-    // return listened number
+  // 語音執行 Fridge.Search 意圖 -> 搜尋食材
+  const STT_search_Fridge = async (entities) => {
+    const listenedFoodName = entities?.$instance.Foods[0].text;
+    // 將 聽到的食材 從搜尋 Fridge (collection) 找出
+    const fridgeIngredients = await searchIngredientsInFridge(listenedFoodName);
+    setIngredientsResult(fridgeIngredients);
+    if (fridgeIngredients?.length === 0) {
+      displayAndSpeakResponse(`沒有找到相關食材`);
+      return;
+    }
+    displayAndSpeakResponse(`找到${fridgeIngredients?.length}個食材`);
+    return fridgeIngredients;
   };
 
   // 冰箱食材刪除
   const deleteIngredient = async (index) => {
     const ingredientId = ingredientsResult[index].id;
+    console.log("run delete ingredient func");
     await deleteDoc(doc(db, "users", `${userId}`, "fridge", ingredientId));
     displayAndSpeakResponse(`幫您刪除第${index + 1}個食材`);
     console.log(`幫您刪除第${index + 1}個食材, id: ${ingredientId}`);
@@ -382,7 +401,7 @@ const Assistant = () => {
   };
 
   // 查詢 collection (historyIngredient 或 fridge) 有同樣名字的食材
-  const findIngredients = async (collectionName, ingredientName) => {
+  const searchIngredients = async (collectionName, ingredientName) => {
     // 查詢 collection (historyIngredient) 有同樣名字的食材
     if (!userId) return;
     let tempList = [];
@@ -397,11 +416,11 @@ const Assistant = () => {
     console.log("tempList: ", tempList);
     return tempList;
   };
-  const findIngredientsInHistoryIngredient = findIngredients.bind(
+  const searchIngredientsInHistoryIngredient = searchIngredients.bind(
     this,
     "historyIngredient"
   );
-  const findIngredientsInFridge = findIngredients.bind(this, "fridge");
+  const searchIngredientsInFridge = searchIngredients.bind(this, "fridge");
 
   // 小當家彈出視窗關閉
   const handleDialogClose = () => {
@@ -486,7 +505,7 @@ const Assistant = () => {
             />
           ))}
         </Box>
-        
+
         <Box
         // sx={{ width: "100%", position: "absolute", top: 0, height: "100%" }}
         >
@@ -494,6 +513,7 @@ const Assistant = () => {
             <FridgeCard
               item={ingredient}
               index={index}
+              isDeleteAndUpdateButtonsHidden
               // openEditDialog={openEditDialog}
               // openDeleteDialog={openDeleteDialog}
             />

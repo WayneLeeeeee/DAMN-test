@@ -193,6 +193,7 @@ function FridgePage() {
         {category
           ? ingredient3?.map((item, index) => (
               <FridgeCard
+                key={index}
                 item={item}
                 index={index}
                 openEditDialog={openEditDialog}
