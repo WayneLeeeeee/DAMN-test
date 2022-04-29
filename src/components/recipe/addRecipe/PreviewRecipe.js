@@ -29,22 +29,22 @@ const PreviewRecipe = () => {
     const result = {
       ...newRecipeData,
       createdAt: Timestamp.now().toDate(),
-      thumbnail: await getRemoteThumbnailURL(),
+      //thumbnail: await getRemoteThumbnailURL(),
       steps: await getStepsWithRemoteImageURL(),
       // author: user,
     };
-    dispatch({
-      type: actionTypes.SET_NEWRECIPEDATA,
-      newRecipeData: {
-        name: "",
-        rating: 2,
-        likes: 0,
-        serving: 1,
-        ingredientsInfo: [],
-        ingredientTags: [],
-        steps: [],
-      },
-    });
+    // dispatch({
+    //   type: actionTypes.SET_NEWRECIPEDATA,
+    //   newRecipeData: {
+    //     name: "",
+    //     rating: 2,
+    //     likes: 0,
+    //     serving: 1,
+    //     ingredientsInfo: [],
+    //     ingredientTags: [],
+    //     steps: [],
+    //   },
+    // });
     dispatch({
       type: actionTypes.SET_ISUPDATED,
       isUpdated: false,
@@ -73,7 +73,7 @@ const PreviewRecipe = () => {
       // const docRef = await addDoc(collection(db, "recipes"), result);
       // console.log("Document written with ID: ", docRef.id);
     }
-
+    // console.log(URL.createObjectURL(newRecipeData?.thumbnail.file));
     const doc = {
       _type: "recipes",
       title: result.name,
@@ -85,17 +85,19 @@ const PreviewRecipe = () => {
       steps: result.steps,
       ingredientRecommendTags: result.ingredientRecommendTags,
       ingredientTags: result.ingredientTags,
-      thumbnail: await getURL(result.thumbnail), // need to fix
+      thumbnail: await getURL(newRecipeData?.thumbnail.file), // need to fix
     };
-    await client.create(doc).then((res) => {
-      console.log(`Recipe was created, document ID is ${res._id}`);
-    });
+    console.log("doc: ", doc);
+
+    // await client.create(doc).then((res) => {
+    //   console.log(`Recipe was created, document ID is ${res._id}`);
+    // });
 
     // need to clear global state
-    dispatch({
-      type: actionTypes.SET_NEWRECIPEDATA,
-      newRecipeData: {},
-    });
+    // dispatch({
+    //   type: actionTypes.SET_NEWRECIPEDATA,
+    //   newRecipeData: {},
+    // });
     // navigate to homepage page
     navigate("/");
   };
@@ -126,29 +128,34 @@ const PreviewRecipe = () => {
 
     return await getDownloadURL(recipesRef);
   };
+
   // 取得遠端網址 sanity
   const getURL = async (file) => {
     if (!file) return;
-    const filePath = file?.url;
+    // const filePath = file?.url;
+    console.log(file);
     client.assets
-      .upload("image", createReadStream(filePath), {
-        filename: basename(filePath),
+      .upload("image", file, {
+        filename: basename("sss"),
       })
       .then((imageAsset) => {
         // Here you can decide what to do with the returned asset document.
         // If you want to set a specific asset field you can to the following:
-        return client
-          .patch("some-document-id")
-          .set({
-            theImageField: {
-              _type: "image",
-              asset: {
-                _type: "reference",
-                _ref: imageAsset._id,
-              },
-            },
-          })
-          .commit();
+
+        console.log(imageAsset);
+
+        // return client
+        //   .patch("some-document-id")
+        //   .set({
+        //     theImageField: {
+        //       _type: "image",
+        //       asset: {
+        //         _type: "reference",
+        //         _ref: imageAsset._id,
+        //       },
+        //     },
+        //   })
+        //   .commit();
       })
       .then(() => {
         console.log("Done!");
