@@ -4,6 +4,7 @@ import BottomNav from "./components/BottomNav";
 import RecipeHomePage from "./pages/recipe";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 import ProfilePage from "./pages/ProfilePage";
 import RecipeItemPage from "./pages/recipe/RecipeItemPage";
@@ -50,6 +51,7 @@ function App() {
             <Route path="/">
               <Route index element={<LoginPage />} />
               <Route path="signup" element={<SignupPage />} />
+              <Route path="forgotpassword" element={<ForgotPasswordPage />} />
             </Route>
           ) : (
             <>

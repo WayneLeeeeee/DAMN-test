@@ -36,17 +36,25 @@ import Tab from '@mui/material/Tab';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EditIcon from '@mui/icons-material/Edit';
-import { db, auth } from '../firebase';
+import { Input } from '@mui/material';
+import ForgotPasswordPage from './ForgotPasswordPage';
+import NativeSelectDemo from '../components/Select';
+import StandardImageList from '../components/Content';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+//firebase
+import { db, auth, storage } from '../firebase';
 import {
   getFirestore,
   collection,
   getDocs,
   doc,
   getDoc,
+  addDocs,
+  addDoc
 } from 'firebase/firestore';
-import NativeSelectDemo from '../components/Select';
-import StandardImageList from '../components/Content';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import firebase from 'firebase/compat/app';
+import userEvent from '@testing-library/user-event';
 
 const ProfilePage = () => {
   const [users, setUsers] = useState([]);
@@ -57,6 +65,9 @@ const ProfilePage = () => {
     initializeApp(firebaseConfig);
   }
   const navigate = useNavigate();
+  const goToForgotpasswordPage = () => {
+    navigate("recipe/forgotpassword");
+  }
   const [message, setMessage] = useState('');
   // const [value, setValue] = React.useState(0);
   // const handleChange = (event, newValue) => {
@@ -140,6 +151,57 @@ const ProfilePage = () => {
     }
     readData();
   }, [db]);
+  //修改name input
+const [readOnly, setreadOnly] = useState('false');
+const handleReadOnly = function () {
+  setreadOnly(readOnly ? '' : '0');
+};
+
+//修改password input
+const [readOnly2, setreadOnly2] = useState('false');
+const handleReadOnly2 = function () {
+  setreadOnly2(readOnly2 ? '' : '0');
+};
+
+//修改email input
+const [readOnly3, setreadOnly3] = useState('false');
+const handleReadOnly3 = function () {
+  setreadOnly3(readOnly3 ? '' : '0');
+};
+
+//uplode image
+const upload = async function (e) {
+const imageRef = ref(storage, e.target.files[0].name);
+await uploadBytes(imageRef, e.target.files[0]);
+const url = await getDownloadURL(imageRef);
+setUsers({ ...users, imageURL: url });
+};
+async function addIMG() {
+const docRef = await addDoc(
+
+  collection(db, 'users', userUid),
+  {
+    imageURL: user.imageURL,
+  }
+);
+}
+const logoutAndNavigate = async () => {
+  try {
+    const auth = getAuth();
+    await signOut(auth);
+    setMessage('');
+    dispatch({
+      type: actionTypes.SET_USER,
+      user: null,
+    });
+    localStorage.removeItem('userUid');
+    navigate("/forgotpassword");
+    console.log('已登出');
+  } catch (error) {
+    setMessage('' + error);
+  }
+ 
+}  
 
   function hierarchy_f() {
     var quo = parseInt(users[0]?.progress / 100);
@@ -188,7 +250,7 @@ const ProfilePage = () => {
           </div>
 
           <Avatar className="profile__avatar" img src={profile} alt="Logo" />
-          <Typography className="profile__name">Apple</Typography>
+          <Typography className="profile__name"></Typography>
           <Button
             className="profile__button"
             sx={{ backgroundColor: `${medalColor} !important` }}
@@ -226,25 +288,37 @@ const ProfilePage = () => {
 
       <TabPanel value={value} index={1}>
         <Divider />
-        <div className="profile__tabpanel">
-          <Container sx={{ height: 320 }}>
-            <Typography
+        <Typography
               sx={{
                 fontSize: 26,
                 fontWeight: 'bold',
-                marginTop: 3,
+                marginTop: 2,
               }}
             >
-              姓名
+             姓名
             </Typography>
+
+        <div className="profile__tabpanel">
+          <Container sx={{ height: 320 }}>
+          <input
+              type="text"
+              name=""
+              disabled={readOnly ? 'disabled' : ''}
+              placeholder="徐博基"
+            />
+              
             <Divider />
             <Typography
               className="profile__typography"
               sx={{ fontSize: 18, marginTop: 1 }}
             >
-              Apple
+              
               <Button>
-                <EditIcon fontSize="small" sx={{ marginLeft: 30.5 }}></EditIcon>
+              <EditIcon
+                fontSize="small"
+                sx={{ marginLeft: 31 }}
+                onClick={handleReadOnly}
+              ></EditIcon>
               </Button>
             </Typography>
 
@@ -258,15 +332,16 @@ const ProfilePage = () => {
               電子郵件
             </Typography>
             <Divider />
-            <Typography
-              className="profile__typography"
-              sx={{ fontSize: 18, marginTop: 1 }}
-            >
-              apple@gmail.com
+            <input
+              type="text"
+              name=""
+              disabled={readOnly2 ? 'disabled' : ''}
+              placeholder="asdfgh6111517@gmail.com"
+            />
               <Button>
                 <EditIcon fontSize="small" sx={{ marginLeft: 17.8 }}></EditIcon>
               </Button>
-            </Typography>
+  
 
             <Typography
               sx={{
@@ -282,8 +357,7 @@ const ProfilePage = () => {
               className="profile__typography"
               sx={{ fontSize: 18, marginTop: 1 }}
             >
-              **********
-              <Button>
+              <Button onClick={logoutAndNavigate}>
                 <EditIcon
                   fontSize="small"
                   sx={{ marginLeft: 27, marginTop: -1 }}
@@ -291,7 +365,7 @@ const ProfilePage = () => {
               </Button>
             </Typography>
 
-            <Typography
+            {/* <Typography
               sx={{
                 fontSize: 26,
                 fontWeight: 'bold',
@@ -301,19 +375,21 @@ const ProfilePage = () => {
               編輯圖片
             </Typography>
             <Divider />
-            <Typography
-              className="profile__typography"
-              sx={{ fontSize: 18, marginTop: 1 }}
-            >
-              選擇圖片
-              <Button>
-                <EditIcon
-                  fontSize="small"
-                  sx={{ marginLeft: 26.5, marginTop: -1 }}
-                ></EditIcon>
-              </Button>
-            </Typography>
+            <Input
+              type="file"
+              accept="image/x-png,image/jpeg"
+              onChange={upload}
+            /> */}
             {/* 關閉小當家按鈕 */}
+            {/* <FormControlLabel
+              control={
+                <Switch
+                  checked={isSTTFromMicOpen}
+                  onChange={handleIsSTTFromMicOpen}
+                />
+              }
+              label="關閉小當家"
+            /> */}
             <FormControlLabel
               control={
                 <Switch

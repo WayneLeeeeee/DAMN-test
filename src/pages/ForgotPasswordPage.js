@@ -4,26 +4,27 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import googleIcon from "../../src/images/googleIcon.png";
+import { ArrowBack } from "@material-ui/icons";
+import { ArrowBackIos } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
+import LoginPage from "./LoginPage";
 import { Link } from "react-router-dom";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { actionTypes } from '../reducer';
 import { useStateValue } from '../StateProvider';
+import { Alert } from "@mui/material";
 
 
-const LoginPage = () => {
-    
+const ForgotPasswordPage = () => {
+  const navigate = useNavigate();
+  const goToLoginPage =  () => {
+    navigate("LoginPage");
+  } 
   const [account, setAccount] = useState({
     email: "",
-    password: "",
-    displayName: "",
   });
-  const navigate = useNavigate();
-  const goToForgotpasswordPage = () => {
-    navigate("recipe/forgotpassword");
-  }
 
   const [message, setMessage] = useState("");
 
@@ -36,10 +37,9 @@ const LoginPage = () => {
   const handleSubmit = async function () {
 
     try {
-      const res = await signInWithEmailAndPassword(
+      const res = await sendPasswordResetEmail(
         auth,
         account.email,
-        account.password
       );
 
       if (res) {
@@ -50,19 +50,26 @@ const LoginPage = () => {
         console.log(auth.currentUser.displayName);
       }
 
-      localStorage.setItem("userUid",auth.currentUser.uid);
+
 
       setMessage("");
+      setMessage("請到信箱確認重設密碼信件")
     } catch (error) {
-      setMessage("" + error);
+      setMessage("你並沒有使用這個Mail註冊喔!!!請再次確認");
     }
   };
 
 
   return (
     <div className="login-signup-Page">
+      <Button href="/" sx={{
+        color: "black"
+      }} >
+        <ArrowBackIos/>
+      </Button>
       <Grid className="box">
         <Card className="inputTextbox">
+          
           <input
             name="email"
             onChange={handleChange}
@@ -71,41 +78,21 @@ const LoginPage = () => {
             placeholder="Email"
           ></input>
           <br />
-          <input
-            name="password"
-            onChange={handleChange}
-            value={account.password}
-            type="password"
-            placeholder="Password"
-          ></input>
-          <br />
           {message}
           <br />
         </Card>
 
         <Card className="login-sugnup-Button">
           <Button fullWidth onClick={handleSubmit}>
-            登入
+            送出
           </Button>
+
         </Card>
 
-        <Card className="otherLoginOptions">
-          <div align="center">
-            {/* <Button>
-              <Avatar src={googleIcon}></Avatar>
-            </Button> */}
-            <Button href="/forgotpassword">
-              忘記密碼
-            </Button>
-            <Button href="signup">
-              註冊一個
-            </Button>
-          </div>
-        </Card>
       </Grid>
     </div>
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;
 
