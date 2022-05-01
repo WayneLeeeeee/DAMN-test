@@ -46,6 +46,9 @@ import {
 } from 'firebase/firestore';
 
 const ProfilePage = () => {
+  const [users, setUsers] = useState([]);
+  const [medalColor, setMedalColor] = useState('');
+  const [hierarchy, setHierarchy] = useState('');
   const [{ user, isSTTFromMicOpen }, dispatch] = useStateValue();
   if (getApps().length === 0) {
     initializeApp(firebaseConfig);
@@ -159,11 +162,14 @@ const ProfilePage = () => {
     }
   };
 
-  const [users, setUsers] = useState([]);
+  // const progress = users[0].progress
 
-  console.log(users);
+  console.log(users[0]?.progress);
 
   const userUid = localStorage.getItem('userUid');
+  useEffect(() => {
+    hierarchy_f();
+  }, [users]);
   useEffect(() => {
     async function readData() {
       const docRef = doc(db, 'users', `${userUid}`);
@@ -182,28 +188,63 @@ const ProfilePage = () => {
     }
     readData();
   }, [db]);
-  const percent = users.map((number) => number);
 
-  console.log(percent[0]);
+  function hierarchy_f() {
+    var quo = parseInt(users[0]?.progress / 100);
+    console.log(users[0]?.progress);
+    console.log(quo);
+    if (0 <= quo && quo < 1) {
+      setHierarchy('銅牌廚師');
+      setMedalColor('#b8860b');
+    } else if (1 <= quo && quo < 3) {
+      setHierarchy('銀牌廚師');
+      setMedalColor('#c0c0c0');
+    } else if (3 <= quo && quo < 5) {
+      setHierarchy('金牌廚師');
+      setMedalColor('#FFD700');
+    } else if (5 <= quo && quo < 7) {
+      setHierarchy('白金廚師');
+      setMedalColor('#f0ffff');
+    } else if (7 <= quo && quo < 9) {
+      setHierarchy('鑽石廚師');
+      setMedalColor('#00ced1');
+    } else {
+      setHierarchy('小當家');
+      setMedalColor('#dc143c');
+    }
+  }
+
+  function percent_f() {
+    return users[0]?.progress % 100;
+  }
+
+  const percent = percent_f();
+  console.log(percent);
+  console.log(~~(users[0]?.progress / 100));
+  console.log(hierarchy);
 
   return (
     <div className="ProfilePage">
-      <Card className="profile__card" sx={{ height: 400 }}>
-        {users.map((testuser) => (
+      {users.map((testuser) => (
+        <Card className="profile__card" sx={{ height: 400 }}>
           <div className="profile__progress">
             <Circle
-              percent={testuser.progress}
+              percent={percent}
               strokeWidth="6"
-              strokeColor="#FFD700"
+              strokeColor={`${medalColor}`}
             />
           </div>
-        ))}
-        <Avatar className="profile__avatar" img src={profile} alt="Logo" />
-        <Typography className="profile__name">Apple</Typography>
-        <Button className="profile__button">
-          <Typography className="profile__buttonName">金牌廚師</Typography>
-        </Button>
-      </Card>
+
+          <Avatar className="profile__avatar" img src={profile} alt="Logo" />
+          <Typography className="profile__name">Apple</Typography>
+          <Button
+            className="profile__button"
+            sx={{ backgroundColor: `${medalColor} !important` }}
+          >
+            <Typography className="profile__buttonName">{hierarchy}</Typography>
+          </Button>
+        </Card>
+      ))}
 
       <Tabs
         className="profile__tabs"
