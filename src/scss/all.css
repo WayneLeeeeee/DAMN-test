@@ -655,7 +655,6 @@ body > iframe + iframe {
 }
 
 .ProfilePage .profile__card .profile__button {
-  background-color: #FFD700;
   border-radius: 20px;
   width: 100px;
 }
