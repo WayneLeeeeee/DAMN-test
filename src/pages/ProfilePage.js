@@ -1,48 +1,48 @@
-import React from 'react';
-import BottomNav from '../components/BottomNav';
-import { useState, useEffect } from 'react';
-import { getApps, initializeApp } from 'firebase/app';
-import { getAuth, signOut } from 'firebase/auth';
-import { firebaseConfig } from '../../src/firebase';
-import { useStateValue } from '../../src/StateProvider';
-import { actionTypes } from '../../src/reducer';
-import { useNavigate } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import Divider from '@mui/material/Divider';
-import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+import React from "react";
+import BottomNav from "../components/BottomNav";
+import { useState, useEffect } from "react";
+import { getApps, initializeApp } from "firebase/app";
+import { getAuth, signOut } from "firebase/auth";
+import { firebaseConfig } from "../../src/firebase";
+import { useStateValue } from "../../src/StateProvider";
+import { actionTypes } from "../../src/reducer";
+import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import Divider from "@mui/material/Divider";
+import Container from "@mui/material/Container";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
 import {
   Button,
   CardActionArea,
   CardActions,
   FormControlLabel,
   Switch,
-} from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import profile from '../images/profile.jpg';
-import { margin } from '@mui/system';
-import { Padding } from '@material-ui/icons';
-import { Line, Circle } from 'rc-progress';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import SettingsIcon from '@mui/icons-material/Settings';
-import EditIcon from '@mui/icons-material/Edit';
-import { Input } from '@mui/material';
-import ForgotPasswordPage from './ForgotPasswordPage';
-import NativeSelectDemo from '../components/Select';
-import StandardImageList from '../components/Content';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import profile from "../images/profile.jpg";
+import { margin } from "@mui/system";
+import { Padding } from "@material-ui/icons";
+import { Line, Circle } from "rc-progress";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import SettingsIcon from "@mui/icons-material/Settings";
+import EditIcon from "@mui/icons-material/Edit";
+import { Input } from "@mui/material";
+import ForgotPasswordPage from "./ForgotPasswordPage";
+import NativeSelectDemo from "../components/Select";
+import StandardImageList from "../components/Content";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 //firebase
-import { db, auth, storage } from '../firebase';
+import { db, auth, storage } from "../firebase";
 import {
   getFirestore,
   collection,
@@ -50,16 +50,16 @@ import {
   doc,
   getDoc,
   addDocs,
-  addDoc
-} from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import firebase from 'firebase/compat/app';
-import userEvent from '@testing-library/user-event';
+  addDoc,
+} from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import firebase from "firebase/compat/app";
+import userEvent from "@testing-library/user-event";
 
 const ProfilePage = () => {
   const [users, setUsers] = useState([]);
-  const [medalColor, setMedalColor] = useState('');
-  const [hierarchy, setHierarchy] = useState('');
+  const [medalColor, setMedalColor] = useState("");
+  const [hierarchy, setHierarchy] = useState("");
   const [{ user, isSTTFromMicOpen }, dispatch] = useStateValue();
   if (getApps().length === 0) {
     initializeApp(firebaseConfig);
@@ -67,8 +67,8 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const goToForgotpasswordPage = () => {
     navigate("recipe/forgotpassword");
-  }
-  const [message, setMessage] = useState('');
+  };
+  const [message, setMessage] = useState("");
   // const [value, setValue] = React.useState(0);
   // const handleChange = (event, newValue) => {
   //   setValue(newValue);
@@ -88,26 +88,26 @@ const ProfilePage = () => {
     try {
       const auth = getAuth();
       await signOut(auth);
-      setMessage('');
+      setMessage("");
       dispatch({
         type: actionTypes.SET_USER,
         user: null,
       });
-      localStorage.removeItem('userUid');
-      navigate('/');
-      console.log('已登出');
+      localStorage.removeItem("userUid");
+      navigate("/");
+      console.log("已登出");
     } catch (error) {
-      setMessage('' + error);
+      setMessage("" + error);
     }
   };
 
   console.log(user);
 
   const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   }));
 
@@ -129,102 +129,97 @@ const ProfilePage = () => {
 
   console.log(users[0]?.progress);
 
-  const userUid = localStorage.getItem('userUid');
+  const userUid = localStorage.getItem("userUid");
   useEffect(() => {
     hierarchy_f();
   }, [users]);
   useEffect(() => {
     async function readData() {
-      const docRef = doc(db, 'users', `${userUid}`);
+      const docRef = doc(db, "users", `${userUid}`);
       const docSnap = await getDoc(docRef);
       const temp = [];
 
       if (docSnap.exists()) {
-        console.log('Document data:', docSnap.data());
+        console.log("Document data:", docSnap.data());
         temp.push({ ...docSnap.data() });
         console.log(temp);
         setUsers([...temp]);
       } else {
         // doc.data() will be undefined in this case
-        console.log('No such document!');
+        console.log("No such document!");
       }
     }
     readData();
   }, [db]);
   //修改name input
-const [readOnly, setreadOnly] = useState('false');
-const handleReadOnly = function () {
-  setreadOnly(readOnly ? '' : '0');
-};
+  const [readOnly, setreadOnly] = useState("false");
+  const handleReadOnly = function () {
+    setreadOnly(readOnly ? "" : "0");
+  };
 
-//修改password input
-const [readOnly2, setreadOnly2] = useState('false');
-const handleReadOnly2 = function () {
-  setreadOnly2(readOnly2 ? '' : '0');
-};
+  //修改password input
+  const [readOnly2, setreadOnly2] = useState("false");
+  const handleReadOnly2 = function () {
+    setreadOnly2(readOnly2 ? "" : "0");
+  };
 
-//修改email input
-const [readOnly3, setreadOnly3] = useState('false');
-const handleReadOnly3 = function () {
-  setreadOnly3(readOnly3 ? '' : '0');
-};
+  //修改email input
+  const [readOnly3, setreadOnly3] = useState("false");
+  const handleReadOnly3 = function () {
+    setreadOnly3(readOnly3 ? "" : "0");
+  };
 
-//uplode image
-const upload = async function (e) {
-const imageRef = ref(storage, e.target.files[0].name);
-await uploadBytes(imageRef, e.target.files[0]);
-const url = await getDownloadURL(imageRef);
-setUsers({ ...users, imageURL: url });
-};
-async function addIMG() {
-const docRef = await addDoc(
-
-  collection(db, 'users', userUid),
-  {
-    imageURL: user.imageURL,
-  }
-);
-}
-const logoutAndNavigate = async () => {
-  try {
-    const auth = getAuth();
-    await signOut(auth);
-    setMessage('');
-    dispatch({
-      type: actionTypes.SET_USER,
-      user: null,
+  //uplode image
+  const upload = async function (e) {
+    const imageRef = ref(storage, e.target.files[0].name);
+    await uploadBytes(imageRef, e.target.files[0]);
+    const url = await getDownloadURL(imageRef);
+    setUsers({ ...users, imageURL: url });
+  };
+  async function addIMG() {
+    const docRef = await addDoc(collection(db, "users", userUid), {
+      imageURL: user.imageURL,
     });
-    localStorage.removeItem('userUid');
-    navigate("/forgotpassword");
-    console.log('已登出');
-  } catch (error) {
-    setMessage('' + error);
   }
- 
-}  
+  const logoutAndNavigate = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      setMessage("");
+      dispatch({
+        type: actionTypes.SET_USER,
+        user: null,
+      });
+      localStorage.removeItem("userUid");
+      navigate("/forgotpassword");
+      console.log("已登出");
+    } catch (error) {
+      setMessage("" + error);
+    }
+  };
 
   function hierarchy_f() {
     var quo = parseInt(users[0]?.progress / 100);
     console.log(users[0]?.progress);
     console.log(quo);
     if (0 <= quo && quo < 1) {
-      setHierarchy('銅牌廚師');
-      setMedalColor('#b8860b');
+      setHierarchy("銅牌廚師");
+      setMedalColor("#b8860b");
     } else if (1 <= quo && quo < 3) {
-      setHierarchy('銀牌廚師');
-      setMedalColor('#c0c0c0');
+      setHierarchy("銀牌廚師");
+      setMedalColor("#c0c0c0");
     } else if (3 <= quo && quo < 5) {
-      setHierarchy('金牌廚師');
-      setMedalColor('#FFD700');
+      setHierarchy("金牌廚師");
+      setMedalColor("#FFD700");
     } else if (5 <= quo && quo < 7) {
-      setHierarchy('白金廚師');
-      setMedalColor('#f0ffff');
+      setHierarchy("白金廚師");
+      setMedalColor("#f0ffff");
     } else if (7 <= quo && quo < 9) {
-      setHierarchy('鑽石廚師');
-      setMedalColor('#00ced1');
+      setHierarchy("鑽石廚師");
+      setMedalColor("#00ced1");
     } else {
-      setHierarchy('小當家');
-      setMedalColor('#dc143c');
+      setHierarchy("小當家");
+      setMedalColor("#dc143c");
     }
   }
 
@@ -239,8 +234,8 @@ const logoutAndNavigate = async () => {
 
   return (
     <div className="ProfilePage">
-      {users.map((testuser) => (
-        <Card className="profile__card" sx={{ height: 400 }}>
+      {users.map((testuser, index) => (
+        <Card key={index} className="profile__card" sx={{ height: 400 }}>
           <div className="profile__progress">
             <Circle
               percent={percent}
@@ -249,7 +244,7 @@ const logoutAndNavigate = async () => {
             />
           </div>
 
-          <Avatar className="profile__avatar" img src={profile} alt="Logo" />
+          <Avatar className="profile__avatar" src={profile} alt="Logo" />
           <Typography className="profile__name"></Typography>
           <Button
             className="profile__button"
@@ -283,70 +278,69 @@ const logoutAndNavigate = async () => {
       <TabPanel value={value} index={0}>
         <Divider />
         {/* <NativeSelectDemo/> */}
-        <StandardImageList/>
+        <StandardImageList />
       </TabPanel>
 
       <TabPanel value={value} index={1}>
         <Divider />
         <Typography
-              sx={{
-                fontSize: 26,
-                fontWeight: 'bold',
-                marginTop: 2,
-              }}
-            >
-             姓名
-            </Typography>
+          sx={{
+            fontSize: 26,
+            fontWeight: "bold",
+            marginTop: 2,
+          }}
+        >
+          姓名
+        </Typography>
 
         <div className="profile__tabpanel">
           <Container sx={{ height: 320 }}>
-          <input
+            <Input
               type="text"
               name=""
-              disabled={readOnly ? 'disabled' : ''}
-              placeholder="徐博基"
+              disabled={readOnly ? true : false}
+              placeholder={users[0]?.name}
             />
-              
+
             <Divider />
             <Typography
               className="profile__typography"
               sx={{ fontSize: 18, marginTop: 1 }}
             >
-              
               <Button>
-              <EditIcon
-                fontSize="small"
-                sx={{ marginLeft: 31 }}
-                onClick={handleReadOnly}
-              ></EditIcon>
+                <EditIcon
+                  fontSize="small"
+                  sx={{ marginLeft: 31 }}
+                  onClick={handleReadOnly}
+                ></EditIcon>
               </Button>
             </Typography>
 
             <Typography
               sx={{
                 fontSize: 26,
-                fontWeight: 'bold',
+                fontWeight: "bold",
                 marginTop: 2,
               }}
             >
               電子郵件
             </Typography>
             <Divider />
-            <input
+            <Input
               type="text"
               name=""
-              disabled={readOnly2 ? 'disabled' : ''}
-              placeholder="asdfgh6111517@gmail.com"
+              disabled={readOnly2 ? true : false}
+              placeholder={users[0]?.email}
+              readOnly
             />
-              <Button>
-                <EditIcon fontSize="small" sx={{ marginLeft: 17.8 }}></EditIcon>
-              </Button>
-  
+            {/* <Button>
+              <EditIcon fontSize="small" sx={{ marginLeft: 17.8 }}></EditIcon>
+            </Button> */}
 
             <Typography
               sx={{
                 fontSize: 26,
-                fontWeight: 'bold',
+                fontWeight: "bold",
                 marginTop: 3,
               }}
             >
