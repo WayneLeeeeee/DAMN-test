@@ -14,6 +14,7 @@
     "@mui/material": "^5.5.1",
     "@mui/styled-engine": "^5.0.2",
     "@mui/x-data-grid": "^5.1.0",
+    "@sanity/client": "^3.3.0",
     "@speechly/speech-recognition-polyfill": "^1.1.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
