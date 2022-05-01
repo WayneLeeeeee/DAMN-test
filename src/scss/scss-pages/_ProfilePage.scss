@@ -54,16 +54,19 @@
             width: 50%;
         }
     }
-    
-
-    .profile__imagelist{
-        overflow:scroll;
-        &::-webkit-scrollbar{
-            display: none;
-        }
-        margin-left: -24px;
-        margin-right: -24px;
+    .bar{
+        display: flex;
+        align-items: center;
     }
+    .create{
+        margin-right: 4px;
+        position: absolute;
+        right: 0px;
+        span{
+            color: black;
+        }
+    }
+
 
     .profile__typography{
         color: #bab9b9 !important
