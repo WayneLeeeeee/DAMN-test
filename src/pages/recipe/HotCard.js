@@ -36,6 +36,7 @@ function HotCard({ data }) {
         doc(db, "users", `${userUid}`, "isLikedrecipes", `${data.id}`),
         {
           recipe: `${data.name}`,
+          image:`${data.thumbnail.url}`,
         }
       );
       setDataLikes(dataLikes + 1);
