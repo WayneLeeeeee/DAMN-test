@@ -22,33 +22,22 @@ import { createReadStream } from "fs";
 const PreviewRecipe = () => {
   const navigate = useNavigate();
   const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
-  const user = localStorage.getItem("user");
+  const userId = localStorage.getItem("userUid");
 
   // 表單送出
   const handleSubmit = async () => {
     const result = {
       ...newRecipeData,
-      createdAt: Timestamp.now().toDate(),
+      //createdAt: Timestamp.now().toDate(),
       //thumbnail: await getRemoteThumbnailURL(),
       steps: await getStepsWithRemoteImageURL(),
       // author: user,
     };
+
     // dispatch({
-    //   type: actionTypes.SET_NEWRECIPEDATA,
-    //   newRecipeData: {
-    //     name: "",
-    //     rating: 2,
-    //     likes: 0,
-    //     serving: 1,
-    //     ingredientsInfo: [],
-    //     ingredientTags: [],
-    //     steps: [],
-    //   },
+    //   type: actionTypes.SET_ISUPDATED,
+    //   isUpdated: false,
     // });
-    dispatch({
-      type: actionTypes.SET_ISUPDATED,
-      isUpdated: false,
-    });
     clearStepsBlankContent();
     console.log(result);
 
@@ -73,7 +62,8 @@ const PreviewRecipe = () => {
       // const docRef = await addDoc(collection(db, "recipes"), result);
       // console.log("Document written with ID: ", docRef.id);
     }
-    // console.log(URL.createObjectURL(newRecipeData?.thumbnail.file));
+    let doc_id = "";
+    console.log(userId)
     const doc = {
       _type: "recipes",
       title: result.name,
@@ -81,25 +71,44 @@ const PreviewRecipe = () => {
       rating: result.rating,
       serving: result.serving,
       cookTime: result.cookTime,
-      user: { _type: "reference", _ref: user },
+      user: { _type: "reference", _ref: userId },
       steps: result.steps,
       ingredientRecommendTags: result.ingredientRecommendTags,
       ingredientTags: result.ingredientTags,
-      thumbnail: await getURL(newRecipeData?.thumbnail.file), // need to fix
+      //thumbnail: await getURL(newRecipeData?.thumbnail.file), // need to fix
     };
+
     console.log("doc: ", doc);
 
-    // await client.create(doc).then((res) => {
-    //   console.log(`Recipe was created, document ID is ${res._id}`);
-    // });
+    // 創造資料進 sanity content lake（只有靜態資料，因為 image 需要綁定，需要先有 document _id）
+    await client.create(doc).then((res) => {
+      console.log(`Recipe was created, document ID is ${res._id}`);
+      doc_id = res._id;
+    });
 
-    // need to clear global state
-    // dispatch({
-    //   type: actionTypes.SET_NEWRECIPEDATA,
-    //   newRecipeData: {},
-    // });
+    await uploadImages(newRecipeData?.thumbnail.file, doc_id);
+
+    // 將 圖片上傳 並參考至該 document
+
+    initNewRecipeData(); // need to clear global state
+
     // navigate to homepage page
-    navigate("/");
+    //navigate("/");
+  };
+
+  const initNewRecipeData = () => {
+    dispatch({
+      type: actionTypes.SET_NEWRECIPEDATA,
+      newRecipeData: {
+        name: "",
+        rating: 2,
+        likes: 0,
+        serving: 1,
+        ingredientsInfo: [],
+        ingredientTags: [],
+        steps: [],
+      },
+    });
   };
 
   // 取得遠端網址的方法
@@ -129,33 +138,38 @@ const PreviewRecipe = () => {
     return await getDownloadURL(recipesRef);
   };
 
-  // 取得遠端網址 sanity
-  const getURL = async (file) => {
-    if (!file) return;
-    // const filePath = file?.url;
-    console.log(file);
+  // 上傳並取得遠端網址 sanity
+  const uploadImages = async (file, _id) => {
+    // 第一個參數  可以是 物件 或是 array
+    // 第二個參數 是 要綁定（參考）的文件 _id
+    if (!file || !_id) return console.log(`${_id} or ${file}`);
+    console.log(file, _id);
+
+    if (Array.isArray(file)) {
+      console.log("is a file array");
+      return;
+    }
+    // 如果是單一個檔案
     client.assets
       .upload("image", file, {
-        filename: basename("sss"),
+        filename: basename(file.name),
       })
       .then((imageAsset) => {
         // Here you can decide what to do with the returned asset document.
         // If you want to set a specific asset field you can to the following:
-
         console.log(imageAsset);
-
-        // return client
-        //   .patch("some-document-id")
-        //   .set({
-        //     theImageField: {
-        //       _type: "image",
-        //       asset: {
-        //         _type: "reference",
-        //         _ref: imageAsset._id,
-        //       },
-        //     },
-        //   })
-        //   .commit();
+        return client
+          .patch(_id)
+          .set({
+            "thumbnail": {
+              _type: "image",
+              asset: {
+                _type: "reference",
+                _ref: imageAsset._id,
+              },
+            },
+          })
+          .commit();
       })
       .then(() => {
         console.log("Done!");

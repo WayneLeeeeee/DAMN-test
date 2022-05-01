@@ -164,7 +164,6 @@ const Assistant = () => {
     if (
       !listenedFoodName ||
       !userId ||
-      !entities ||
       allHistoryIngredients?.length === 0
     ) {
       // 如果沒有結果，代表使用者從沒手動新增過這項食材，就說「請先手動新增一次，之後就可以透過語音新增喔」
@@ -403,7 +402,7 @@ const Assistant = () => {
   // 查詢 collection (historyIngredient 或 fridge) 有同樣名字的食材
   const searchIngredients = async (collectionName, ingredientName) => {
     // 查詢 collection (historyIngredient) 有同樣名字的食材
-    if (!userId) return;
+    if (!userId || !ingredientName) return;
     let tempList = [];
     const q = query(
       collection(db, "users", `${userId}`, collectionName),
@@ -413,7 +412,7 @@ const Assistant = () => {
     querySnapshot.forEach((doc) => {
       tempList.push({ id: doc.id, ...doc.data() });
     });
-    console.log("tempList: ", tempList);
+    console.log("tempList: ", tempList, ingredientName);
     return tempList;
   };
   const searchIngredientsInHistoryIngredient = searchIngredients.bind(
