@@ -161,22 +161,18 @@ const Assistant = () => {
       listenedFoodName
     );
     console.log(allHistoryIngredients);
-    if (
-      !listenedFoodName ||
-      !userId ||
-      allHistoryIngredients?.length === 0
-    ) {
+    if (!listenedFoodName || !userId || allHistoryIngredients?.length === 0) {
       // 如果沒有結果，代表使用者從沒手動新增過這項食材，就說「請先手動新增一次，之後就可以透過語音新增喔」
       speak("聽不懂欲加入的食材，請先手動新增一次，之後就可以透過語音新增喔");
       return;
     }
-    if (allHistoryIngredients & listenedFoodName) {
+    if (allHistoryIngredients && listenedFoodName) {
       // 如果有，返回 第一個最新的物件（所有欄位自動帶入）
       const historyItem = allHistoryIngredients[0];
       const duration = historyItem?.duration;
       // 將 endDate （截止日期） 改成 現在日期 + duration
       historyItem.endDate = new Date(moment().add(duration, "days").format());
-
+      delete historyItem.id;
       console.log("historyItem: ", historyItem);
       await addDoc(collection(db, "users", `${userId}`, "fridge"), historyItem);
 
@@ -184,7 +180,6 @@ const Assistant = () => {
       speak(`已幫您新增${listenedFoodName}至冰箱！`);
       // 跳轉冰箱頁面檢視
       // navigate("fridgePage");
-      return;
     }
 
     // 註：歷史紀錄（historyIngredients）透過  ”名稱“ 來辨識是否新增至 collection
@@ -228,7 +223,7 @@ const Assistant = () => {
   };
 
   //  語音執行 Utilities.SelectItem 意圖
-  const STT_select_ListenedNumberItem = async (entities) => {
+  const STT_select_ListenedNumberItem = (entities) => {
     /* 
     Actions:
     1. 食譜選擇，利用語音控制並開啟第幾道的食譜
@@ -239,9 +234,11 @@ const Assistant = () => {
     */
     const number = entities.ordinal[0];
     const index = number - 1;
-
+    console.log("the listened number is ", number);
+    console.log("recipeResult in stt select item func is ", recipeResult);
     // case1: 食譜選擇，利用語音控制並開啟第幾道的食譜
-    if (recipeResult & index) {
+    if (recipeResult && index) {
+      console.log("run recipe select");
       displayAndSpeakResponse(`幫您開啟第${number}道食譜`);
       dispatch({
         type: actionTypes.SET_IS_ASSISTANT_MODEL_OPEN,
@@ -259,7 +256,8 @@ const Assistant = () => {
     }
 
     // case2: 冰箱食材刪除(如果找到項目超過 1 個)
-    if ((ingredientsResult?.length >= 1) & index) {
+    if (ingredientsResult?.length >= 1 && index) {
+      console.log("run fridge select delete");
       deleteIngredient(index);
     }
   };
@@ -417,7 +415,7 @@ const Assistant = () => {
   };
   const searchIngredientsInHistoryIngredient = searchIngredients.bind(
     this,
-    "historyIngredient"
+    "historyIngredients"
   );
   const searchIngredientsInFridge = searchIngredients.bind(this, "fridge");
 
@@ -451,11 +449,11 @@ const Assistant = () => {
 
   // 當 isSTTFromMicOpen 變動
   useEffect(() => {
-    if (!isSTTFromMicOpen) {
-      //console.log("stop");
-      stopListening();
-      return;
-    }
+    // if (!isSTTFromMicOpen) {
+    //   //console.log("stop");
+    //   stopListening();
+    //   return;
+    // }
   }, [isSTTFromMicOpen]);
 
   // 當 isAssistantModelOpen 變動
@@ -463,6 +461,7 @@ const Assistant = () => {
     // 如果 小當家 modal 關閉，清除 小當家先前回覆 和 先前辨識的句子
     if (!isAssistantModelOpen) {
       setRecipeResult(null);
+      setIngredientsResult(null);
       dispatch({
         type: actionTypes.SET_AI_RESPONSE,
         AIResponse: "",
@@ -511,7 +510,7 @@ const Assistant = () => {
           {ingredientsResult?.map((ingredient, index) => (
             <FridgeCard
               item={ingredient}
-              index={index}
+              key={index}
               isDeleteAndUpdateButtonsHidden
               // openEditDialog={openEditDialog}
               // openDeleteDialog={openDeleteDialog}

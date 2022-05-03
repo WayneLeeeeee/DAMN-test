@@ -59,6 +59,8 @@ import userEvent from "@testing-library/user-event";
 const ProfilePage = () => {
   const [users, setUsers] = useState([]);
   const [medalColor, setMedalColor] = useState("");
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
   const [hierarchy, setHierarchy] = useState("");
   const [{ user, isSTTFromMicOpen }, dispatch] = useStateValue();
   if (getApps().length === 0) {
@@ -68,7 +70,7 @@ const ProfilePage = () => {
   const goToForgotpasswordPage = () => {
     navigate("recipe/forgotpassword");
   };
-  const [message, setMessage] = useState("");
+
   // const [value, setValue] = React.useState(0);
   // const handleChange = (event, newValue) => {
   //   setValue(newValue);
@@ -83,6 +85,10 @@ const ProfilePage = () => {
       <div {...other}>{value === index && <Box p={3}>{children}</Box>}</div>
     );
   }
+
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
 
   const handleSubmit = async function () {
     try {
@@ -100,8 +106,6 @@ const ProfilePage = () => {
       setMessage("" + error);
     }
   };
-
-  console.log(user);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -228,9 +232,6 @@ const ProfilePage = () => {
   }
 
   const percent = percent_f();
-  console.log(percent);
-  console.log(~~(users[0]?.progress / 100));
-  console.log(hierarchy);
 
   return (
     <div className="ProfilePage">
@@ -293,73 +294,75 @@ const ProfilePage = () => {
           姓名
         </Typography>
 
-        <div className="profile__tabpanel">
-          <Container sx={{ height: 320 }}>
-            <Input
-              type="text"
-              name=""
-              disabled={readOnly ? true : false}
-              placeholder={users[0]?.name}
-            />
+        <form className="profile__tabpanel">
+          {/* <Container sx={{ height: 320 }}> */}
+          <Input
+            type="text"
+            name=""
+            disabled={readOnly ? true : false}
+            placeholder={users[0]?.name}
+            value={name}
+            onChange={handleName}
+          />
 
-            <Divider />
-            <Typography
-              className="profile__typography"
-              sx={{ fontSize: 18, marginTop: 1 }}
-            >
-              <Button>
-                <EditIcon
-                  fontSize="small"
-                  sx={{ marginLeft: 31 }}
-                  onClick={handleReadOnly}
-                ></EditIcon>
-              </Button>
-            </Typography>
+          <Divider />
+          <Typography
+            className="profile__typography"
+            sx={{ fontSize: 18, marginTop: 1 }}
+          >
+            <Button>
+              <EditIcon
+                fontSize="small"
+                sx={{ marginLeft: 31 }}
+                onClick={handleReadOnly}
+              ></EditIcon>
+            </Button>
+          </Typography>
 
-            <Typography
-              sx={{
-                fontSize: 26,
-                fontWeight: "bold",
-                marginTop: 2,
-              }}
-            >
-              電子郵件
-            </Typography>
-            <Divider />
-            <Input
-              type="text"
-              name=""
-              disabled={readOnly2 ? true : false}
-              placeholder={users[0]?.email}
-              readOnly
-            />
-            {/* <Button>
+          <Typography
+            sx={{
+              fontSize: 26,
+              fontWeight: "bold",
+              marginTop: 2,
+            }}
+          >
+            電子郵件
+          </Typography>
+          <Divider />
+          <Input
+            type="text"
+            name=""
+            disabled={readOnly2 ? true : false}
+            placeholder={users[0]?.email}
+            readOnly
+          />
+          {/* <Button>
               <EditIcon fontSize="small" sx={{ marginLeft: 17.8 }}></EditIcon>
             </Button> */}
 
-            <Typography
-              sx={{
-                fontSize: 26,
-                fontWeight: "bold",
-                marginTop: 3,
-              }}
-            >
-              重設密碼
-            </Typography>
-            <Divider />
-            <Typography
-              className="profile__typography"
-              sx={{ fontSize: 18, marginTop: 1 }}
-            >
-              <Button onClick={logoutAndNavigate}>
-                <EditIcon
-                  fontSize="small"
-                  sx={{ marginLeft: 27, marginTop: -1 }}
-                ></EditIcon>
-              </Button>
-            </Typography>
+          <Typography
+            sx={{
+              fontSize: 26,
+              fontWeight: "bold",
+              marginTop: 3,
+            }}
+          >
+            重設密碼
+          </Typography>
+          <Divider />
+          <Typography
+            className="profile__typography"
+            sx={{ fontSize: 18, marginTop: 1 }}
+          >
+            <Button onClick={logoutAndNavigate}>
+              <EditIcon
+                fontSize="small"
+                sx={{ marginLeft: 27, marginTop: -1 }}
+              ></EditIcon>
+            </Button>
+          </Typography>
 
-            {/* <Typography
+          {/* <Typography
               sx={{
                 fontSize: 26,
                 fontWeight: 'bold',
@@ -374,8 +377,8 @@ const ProfilePage = () => {
               accept="image/x-png,image/jpeg"
               onChange={upload}
             /> */}
-            {/* 關閉小當家按鈕 */}
-            {/* <FormControlLabel
+          {/* 關閉小當家按鈕 */}
+          {/* <FormControlLabel
               control={
                 <Switch
                   checked={isSTTFromMicOpen}
@@ -384,28 +387,28 @@ const ProfilePage = () => {
               }
               label="關閉小當家"
             /> */}
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isSTTFromMicOpen}
-                  onChange={handleIsSTTFromMicOpen}
-                />
-              }
-              label="關閉小當家"
-            />
-            <form>
-              <Button
-                className="profile__logout"
-                variant="contained"
-                onClick={handleSubmit}
-                color="inherit"
-              >
-                登出
-              </Button>
-              {message}
-            </form>
-          </Container>
-        </div>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isSTTFromMicOpen}
+                onChange={handleIsSTTFromMicOpen}
+              />
+            }
+            label="關閉小當家"
+          />
+          <form>
+            <Button
+              className="profile__logout"
+              variant="contained"
+              onClick={handleSubmit}
+              color="inherit"
+            >
+              登出
+            </Button>
+            {message}
+          </form>
+          {/* </Container> */}
+        </form>
       </TabPanel>
 
       <BottomNav />

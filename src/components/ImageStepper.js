@@ -106,10 +106,13 @@ function ImageStepper({ data }) {
         let listenedNumber = parseInt(
           new ChineseNumber(entities.Number[0][0]).toArabicString()
         );
-        swiper.slideTo(listenedNumber);
-        //console.log(displayList[listenedNumber]?.content);
+
         const recipeStepContent = displayList[listenedNumber]?.content;
+        console.log(displayList);
+        console.log(listenedNumber);
+        console.log(displayList[listenedNumber]?.content);
         speakAndCloseModel(recipeStepContent);
+        swiper.slideTo(listenedNumber);
       },
     },
   ];

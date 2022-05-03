@@ -26,7 +26,7 @@ export default async function getTokenOrRefresh() {
       return { authToken: null, error: err.response.data };
     }
   } else {
-    console.log("Token fetched from cookie: " + speechToken);
+    //console.log("Token fetched from cookie: " + speechToken);
     const idx = speechToken.indexOf(":");
     return {
       authToken: speechToken.slice(idx + 1),

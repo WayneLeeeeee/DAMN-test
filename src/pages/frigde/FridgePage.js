@@ -202,6 +202,7 @@ function FridgePage() {
             ))
           : ingredient2?.map((item, index) => (
               <FridgeCard
+                key={index}
                 item={item}
                 index={index}
                 openEditDialog={openEditDialog}

@@ -37,7 +37,6 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { MobileDatePicker } from "@mui/lab";
 
-
 function AddIngredient() {
   //global state
   const [{ ingredient, isUpdated, textFromMic }, dispatch] = useStateValue();
@@ -62,9 +61,6 @@ function AddIngredient() {
 
   //跳轉化面
   const navigate = useNavigate();
-
- 
-
 
   // useEffect(() => {
   //   getAllHistoryIngredients("雞蛋");
@@ -167,6 +163,7 @@ function AddIngredient() {
       ...ingredient,
       imageURL: await getRemoteThumbnailURL(),
     };
+    delete result.id;
 
     // 註：歷史紀錄（historyIngredients），需要 duration (天數 = 有效期限 - 當天日期 )，用來預測之後語音輸入的有效期限
     result.duration = moment(result.endDate)

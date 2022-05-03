@@ -86,6 +86,7 @@ function RecipeItem({ propsData }) {
   // }, [db]);
 
   const userUid = localStorage.getItem('userUid');
+  
   const update = async function () {
     const db = getFirestore();
     try {
@@ -131,42 +132,34 @@ function RecipeItem({ propsData }) {
           <CheckCircleOutlineIcon
             sx={{ color: 'red' }}
             onClick={() => {
-              if (data?.rating == 0.5) {
+              if (data?.rating === 0.5) {
                 update();
-              } else if (data?.rating == 1) {
-                update();
-                update();
-              } else if (data?.rating == 1.5) {
+              } else if (data?.rating === 1) {
                 update();
                 update();
-                update();
-              } else if (data?.rating == 2) {
+              } else if (data?.rating === 1.5) {
                 update();
                 update();
                 update();
-                update();
-              } else if (data?.rating == 2.5) {
+              } else if (data?.rating === 2) {
                 update();
                 update();
                 update();
                 update();
-                update();
-              } else if (data?.rating == 3) {
+              } else if (data?.rating === 2.5) {
                 update();
                 update();
                 update();
                 update();
                 update();
-                update();
-              } else if (data?.rating == 3.5) {
+              } else if (data?.rating === 3) {
                 update();
                 update();
                 update();
                 update();
                 update();
                 update();
-                update();
-              } else if (data?.rating == 4) {
+              } else if (data?.rating === 3.5) {
                 update();
                 update();
                 update();
@@ -174,8 +167,7 @@ function RecipeItem({ propsData }) {
                 update();
                 update();
                 update();
-                update();
-              } else if (data?.rating == 4.5) {
+              } else if (data?.rating === 4) {
                 update();
                 update();
                 update();
@@ -184,8 +176,17 @@ function RecipeItem({ propsData }) {
                 update();
                 update();
                 update();
+              } else if (data?.rating === 4.5) {
                 update();
-              } else if (data?.rating == 5) {
+                update();
+                update();
+                update();
+                update();
+                update();
+                update();
+                update();
+                update();
+              } else if (data?.rating === 5) {
                 update();
                 update();
                 update();
