@@ -34,9 +34,9 @@ function IndexTop() {
     });
   }
 
-  function onResultSelect(e, { result }) {
+  function onResultSelect() {
     console.log(query);
-    //setSearchParams(query);
+    setSearchParams(query);
     navigate(`/recipe/search/?query=${query}`);
   }
 
@@ -48,10 +48,10 @@ function IndexTop() {
 
     setRecipeResults(newResults);
   }, [results]);
+
   console.log("recipeResults: ", recipeResults);
 
-
-  const [age, setAge] = React.useState('');
+  const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -72,22 +72,18 @@ function IndexTop() {
       </div>
       <div className="recipeIndexTop__title">
         <h4>你今天想要煮什麼？</h4>
-        <NotificationsIcon />
+        {/* <NotificationsIcon /> */}
       </div>
       <div className="recipeIndexTop__search">
         <Search
+          placeholder="搜尋食譜"
           value={query}
           onSearchChange={(e) => setQuery(e.target.value)}
           results={recipeResults}
           noResultsMessage="找不到相關食譜"
-          onResultSelect={onResultSelect}
+          // onResultSelect={}
         />
-        {/* <input onChange={
-            (e)=> setQuery(e.target.value)
-          }/> */}
-        <Button onClick={onResultSelect}>
-          <SearchIcon />
-        </Button>
+        <SearchIcon onClick={onResultSelect} />
       </div>
     </div>
   );

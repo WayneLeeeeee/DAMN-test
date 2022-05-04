@@ -1,62 +1,15 @@
-.recipeSearchBar{
-    .MuiPaper-root{
-        padding-bottom: 0;
-    }
-    .appBar {
-        color: #F5F5F5 !important;
-        background-color: #FE8B83 !important;
-      };
-    .toolBar {
-        height: 90px;
-        margin-top: 35px;
-        .header{
-            display: none;
-        }
-        input{
-            border-radius: 20px;
-            border: none;
-        }
-        .search{
-        margin-top: 4px;
-        .prompt{
-            width: 200px;
-            height:20px;
-            padding-left: 10px;
-          }
-          .content{
-            color:black;
-            display: block;
-            background-color: white;
-            width: 100%;
-            padding:4px;
-        }
-        }
-      };
-    .stack {
-        margin-top: 14px;
-        margin-bottom :15px;
-        margin-left :18px;
-        overflow:scroll;
-        &::-webkit-scrollbar{
-            display: none;
-        }
-    };
-    .iconBar {
-        margin-left: 12px;
-        color: #F5F5F5 !important;
-    };
-    .inputBase{
-        width:380px;
-        font-size: large !important;
-        margin-left: 15px;
-        background-color: aliceblue !important;
-        border-radius: 20px;
-    };
-    .chip {
-        color: rgb(112, 112, 112) !important; 
-        font-size: large !important;
-        font-weight: bolder !important;
-        background-color: #e2e2e2 !important;
-    }
-    
+.recipeSearchBar {
+  display: flex;
+  align-items: center; 
+  justify-content: space-around;
+  background-color: $primary-color;
+  padding: 30px;
+  .header{
+      display: none;
+  }
+  input{
+      border: none;
+      border-radius: 20px;
+      padding: 8px;
+  }
 }

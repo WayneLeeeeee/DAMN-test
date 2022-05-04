@@ -223,14 +223,16 @@ body > iframe + iframe {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 
 .recipe__index .recipeIndexTop .recipeIndexTop__search .search {
   width: 80%;
   padding-left: 10px;
+  margin-right: 20px;
+  z-index: 2;
 }
 
 .recipe__index .recipeIndexTop .recipeIndexTop__search input {
@@ -239,7 +241,7 @@ body > iframe + iframe {
   border-radius: 20px;
   color: #444545;
   width: 100%;
-  padding: 0px 6px;
+  padding: 0px 8px;
   outline: none;
 }
 
@@ -735,11 +737,7 @@ body > iframe + iframe {
 }
 
 .recipeCardlist .MuiPaper-root {
-  padding-bottom: 0;
-}
-
-.recipeCardlist .block {
-  margin-top: 120px;
+  padding-bottom: 50px;
 }
 
 .recipeCardlist .area {
@@ -776,76 +774,27 @@ body > iframe + iframe {
   vertical-align: -4px;
 }
 
-.recipeSearchBar .MuiPaper-root {
-  padding-bottom: 0;
+.recipeSearchBar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  background-color: #fe8b83;
+  padding: 30px;
 }
 
-.recipeSearchBar .appBar {
-  color: #F5F5F5 !important;
-  background-color: #FE8B83 !important;
-}
-
-.recipeSearchBar .toolBar {
-  height: 90px;
-  margin-top: 35px;
-}
-
-.recipeSearchBar .toolBar .header {
+.recipeSearchBar .header {
   display: none;
 }
 
-.recipeSearchBar .toolBar input {
-  border-radius: 20px;
+.recipeSearchBar input {
   border: none;
-}
-
-.recipeSearchBar .toolBar .search {
-  margin-top: 4px;
-}
-
-.recipeSearchBar .toolBar .search .prompt {
-  width: 200px;
-  height: 20px;
-  padding-left: 10px;
-}
-
-.recipeSearchBar .toolBar .search .content {
-  color: black;
-  display: block;
-  background-color: white;
-  width: 100%;
-  padding: 4px;
-}
-
-.recipeSearchBar .stack {
-  margin-top: 14px;
-  margin-bottom: 15px;
-  margin-left: 18px;
-  overflow: scroll;
-}
-
-.recipeSearchBar .stack::-webkit-scrollbar {
-  display: none;
-}
-
-.recipeSearchBar .iconBar {
-  margin-left: 12px;
-  color: #F5F5F5 !important;
-}
-
-.recipeSearchBar .inputBase {
-  width: 380px;
-  font-size: large !important;
-  margin-left: 15px;
-  background-color: aliceblue !important;
   border-radius: 20px;
-}
-
-.recipeSearchBar .chip {
-  color: #707070 !important;
-  font-size: large !important;
-  font-weight: bolder !important;
-  background-color: #e2e2e2 !important;
+  padding: 8px;
 }
 
 .contributeRecipe {

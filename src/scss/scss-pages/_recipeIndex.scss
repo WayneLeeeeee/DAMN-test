@@ -41,10 +41,12 @@
     .recipeIndexTop__search {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       .search {
         width: 80%;
         padding-left: 10px;
+        margin-right: 20px;
+        z-index: 2;
       }
       input {
         width: 80%;
@@ -52,7 +54,7 @@
         border-radius: 20px;
         color: #444545;
         width: 100%;
-        padding: 0px 6px;
+        padding: 0px 8px;
         outline: none;
       }
       .header {
@@ -61,12 +63,15 @@
       .MuiSvgIcon-root {
         color: #fff;
       }
-      .content{
+      .content {
         display: block;
         background-color: white;
         width: 100%;
-        padding:4px;
-    }
+        padding: 4px;
+      }
+      .results {
+       
+      }
     }
   }
   //IndexMiddle
