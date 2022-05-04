@@ -210,6 +210,7 @@ const Assistant = () => {
 
     if (fridgeIngredients?.length === 1) {
       // 如果 0 個，則 說：「未找到您說的食材，請從冰箱確認」
+      deleteIngredient(0);
       displayAndSpeakResponse(`已從冰箱刪除${listenedFoodName}`);
     }
     if (fridgeIngredients?.length > 1) {
