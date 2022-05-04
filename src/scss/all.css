@@ -667,6 +667,7 @@ body > iframe + iframe {
 
 .ProfilePage .profile__tabpanel {
   overflow: auto;
+  margin-left: 20px;
 }
 
 .ProfilePage .profile__tabpanel::-webkit-scrollbar {
@@ -715,7 +716,7 @@ body > iframe + iframe {
   color: #FE8B83;
   font-size: larger;
   font-weight: bolder;
-  margin-top: 50px;
+  margin-top: 25px;
   margin-bottom: 20px;
   margin-left: 35%;
 }

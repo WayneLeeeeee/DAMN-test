@@ -298,7 +298,8 @@ const ProfilePage = () => {
           姓名
           <Divider/>
         </Typography>
-          <Input
+          <Input className="nameInput"
+          sx = {{width:250}}
             type="text"
             name=""
             disabled={readOnly ? true : false}
@@ -309,16 +310,18 @@ const ProfilePage = () => {
 
           <Typography
             className="profile__typography"
-            sx={{ fontSize: 18, marginTop: 1 }}
+            sx={{ fontSize: 18, marginTop: -2 }}
           >
             <Button>
-                <EditIcon
+                {/* <EditIcon
                   sx={{ 
                   marginLeft: 56,
                   position:"absolute",
                   top:-45,
                     
-                 }}/>
+                 }}
+                 onClick = {handleReadOnly}
+                 /> */}
             </Button>
           </Typography>
 
@@ -332,7 +335,8 @@ const ProfilePage = () => {
             電子郵件
           </Typography>
           <Divider />
-          <Input
+          <Input className="emailInput"
+            sx = {{width:250}}
             type="text"
             name=""
             disabled={readOnly2 ? true : false}
@@ -347,21 +351,25 @@ const ProfilePage = () => {
             sx={{
               fontSize: 26,
               fontWeight: "bold",
-              marginTop: 3,
+              marginTop: 2,
             }}
           >
             重設密碼
+            <Button onClick={logoutAndNavigate}>
+              <EditIcon
+                sx={{
+                  
+                    marginTop: -1 }}
+              ></EditIcon>
+            </Button>
           </Typography>
+        
           <Divider />
           <Typography
             className="profile__typography"
             sx={{ fontSize: 18, marginTop: 1 }}
           >
-            <Button onClick={logoutAndNavigate}>
-              <EditIcon
-                sx={{ marginLeft: 30, marginTop: 1 }}
-              ></EditIcon>
-            </Button>
+            
           </Typography>
 
           {/* <Typography
@@ -389,7 +397,7 @@ const ProfilePage = () => {
               }
               label="關閉小當家"
             /> */}
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Switch
                 checked={isSTTFromMicOpen}
@@ -397,7 +405,7 @@ const ProfilePage = () => {
               />
             }
             label="關閉小當家"
-          />
+          /> */}
           <form>
             <Button
               className="profile__logout"
