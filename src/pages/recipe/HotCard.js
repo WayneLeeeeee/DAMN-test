@@ -5,7 +5,15 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
-import { doc, updateDoc, getDoc, deleteDoc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  deleteDoc,
+  setDoc,
+  getDocs,
+  collection,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -15,7 +23,7 @@ import FlatwareIcon from "@mui/icons-material/Flatware";
 function HotCard({ data }) {
   const userUid = localStorage.getItem("userUid");
   const recipesLikes = doc(db, "recipes", data.id);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState([]);
   const [dataLikes, setDataLikes] = useState(data.likes);
 
   const handleLike = async () => {
@@ -36,11 +44,10 @@ function HotCard({ data }) {
         doc(db, "users", `${userUid}`, "isLikedrecipes", `${data.id}`),
         {
           recipe: `${data.name}`,
-          image:`${data.thumbnail.url}`,
+          image: `${data.thumbnail.url}`,
         }
       );
       setDataLikes(dataLikes + 1);
-      setIsLiked(true);
     } else {
       await updateDoc(recipesLikes, {
         likes: dataLikes - 1,
@@ -49,9 +56,26 @@ function HotCard({ data }) {
         doc(db, "users", `${userUid}`, "isLikedrecipes", `${data.id}`)
       );
       setDataLikes(dataLikes - 1);
-      setIsLiked(false);
     }
   };
+
+  useEffect(() => {
+    async function readData() {
+      const querySnapshot = await getDocs(
+        collection(db, "users", `${userUid}`, "isLikedrecipes")
+      );
+      const temp = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        temp.push(doc.id);
+      });
+      console.log(temp);
+      setIsLiked(...[temp]);
+    }
+
+    readData();
+  }, [dataLikes]);
 
   //跳轉
   let navigate = useNavigate();
@@ -83,7 +107,7 @@ function HotCard({ data }) {
           <span></span>
           <div className="hotCard__items">
             <div className="hotCard__item">
-              {isLiked ? (
+              {isLiked.indexOf(data.id) > -1 ? (
                 <FavoriteIcon
                   sx={{
                     color: "#FE8B83",
@@ -103,7 +127,7 @@ function HotCard({ data }) {
                   onClick={handleLike}
                 />
               )}
-              {isLiked ? <h4>已說讚</h4> : <h4>讚</h4>}
+              {isLiked.indexOf(data.id) > -1 ? <h4>已說讚</h4> : <h4>讚</h4>}
               {/* <h4>{dataLikes}</h4> */}
             </div>
             <div className="hotCard__item">

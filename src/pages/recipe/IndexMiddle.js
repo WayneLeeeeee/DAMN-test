@@ -36,10 +36,10 @@ function IndexMiddle() {
     <div className="recipeIndexMiddle">
       <div className="recipeIndexMiddle__title">
         <h4>熱門討論</h4>
-        <div className="recipeIndexMiddle__more">
+        {/* <div className="recipeIndexMiddle__more">
           <span>更多</span>
           <ArrowForwardIosIcon />
-        </div>
+        </div> */}
       </div>
       <div className="recipeIndexMiddle__cards">
         {hitoRecipes?.map((item) => (
@@ -50,14 +50,13 @@ function IndexMiddle() {
       <ContributeRecipe />
 
       <div className="recipeIndexMiddle__title">
-        <h4>新手上菜囉！</h4>
+        <h4>推薦食譜</h4>
       </div>
       <div className="recipeIndexMiddle__cards-1">
         <RecommendCard />
-        {/* <RecommendCard /> */}
       </div>
 
-      <div
+      {/* <div
         className="recipeIndexMiddle__recommend__recipes-container"
         
       >
@@ -65,7 +64,7 @@ function IndexMiddle() {
         <div className="recipeIndexMiddle__recommend__recipes" onClick={handleRouteToItemPage}>
           <TipsAndUpdatesIcon />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

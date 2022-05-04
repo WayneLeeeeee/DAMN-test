@@ -1,16 +1,81 @@
-import React from "react";
-import hamburger from "../../images/hamburger.png";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../firebase";
+// import hamburger from "../../images/hamburger.png";
 
-function RecommendCard({recommend}) {
+function RecommendCard() {
+  const userId = localStorage.getItem("userUid");
+  const [ingredient, setIngrendient] = useState([]);
+  const [recommend, setRecommend] = useState([]);
+  const [champion, setChampion] = useState([]);
+
+  useEffect(() => {
+    async function readData() {
+      //找有的食材
+      const querySnapshot = await getDocs(
+        collection(db, "users", userId, "fridge")
+      );
+      const temp = [];
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        temp.push(doc.data().name);
+      });
+      // console.log(temp);
+      setIngrendient(...[temp]);
+
+      var result = ingredient.filter((item, index, arr) => {
+        return arr.indexOf(item) === index;
+      });
+
+      console.log(result);
+
+      //找食材能做的食譜
+      const querySnapshot2 = await getDocs(collection(db, "recipes"));
+      const temp2 = [];
+      querySnapshot2.forEach((doc) => {
+        console.log(doc.id, "=>", doc.data().ingredientRecommendTags);
+        const data = { ...doc.data(), id: doc.id };
+        temp2.push([data, doc.data().ingredientRecommendTags, 0]);
+      });
+      console.log(temp2);
+      setRecommend(...[temp2]);
+
+      const temp3 = [];
+      for (let i = 0; i <= recommend?.length - 1; i++) {
+        for (let j = 0; j <= recommend[i][1]?.length - 1; j++) {
+          console.log(recommend[i][1][j]?.name);
+          if (result.indexOf(recommend[i][1][j]?.name)) {
+            recommend[i][2] = recommend[i][2] + 1;
+          }
+          console.log(recommend[i]);
+        }
+        if (recommend[i][2] >= 2) {
+          temp3.push(recommend[i][0]);
+        }
+      }
+      console.log(temp3);
+
+      setChampion(...[temp3]);
+    }
+
+    readData();
+  }, []);
+
+  let navigate = useNavigate();
+
   return (
     <div className="recommendCard">
-      <div className="recommendCard__img">
-        <img src={hamburger} alt="" />
-      </div>
-      <div className="recommendCard__content">
-        <h4>burger</h4>
-        <span>good!</span>
-      </div>
+      {champion.map((item, index) => (
+        <div
+          className="recommendCard__img"
+          key={index}
+          onClick={() => navigate(`/recipe/${item.id}`)}
+        >
+          <img src={item.thumbnail.url} alt="" />
+          <h4>{item.name}</h4>
+        </div>
+      ))}
     </div>
   );
 }
