@@ -23,11 +23,11 @@ function FridgeCard({
           {item.unit}
         </h5>
         <h5>{item.isFrozen}</h5>
-        <h5>{moment(item.endDate.seconds * 1000).format("YYYY/MM/DD")}</h5>
+        <h5>{moment(item.endDate?.seconds * 1000).format("YYYY/MM/DD")}</h5>
         <h6>
           距離到期日：剩
           {-moment(new Date()).diff(
-            moment(item.endDate.seconds * 1000).format("YYYY/MM/DD"),
+            moment(item.endDate?.seconds * 1000).format("YYYY/MM/DD"),
             "days"
           ) + 1}
           日

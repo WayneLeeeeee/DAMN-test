@@ -40,7 +40,9 @@
         overflow: auto;  
         &::-webkit-scrollbar{
             display: none;
+
         }
+        margin-left: 20px;
     }
     .profile__tabs{
         margin-bottom: -25px;
@@ -76,7 +78,7 @@
         color: #FE8B83;
         font-size: larger;
         font-weight: bolder;
-        margin-top: 50px;
+        margin-top: 25px;
         margin-bottom: 20px;
         margin-left: 35%;
     }
