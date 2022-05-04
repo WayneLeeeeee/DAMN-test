@@ -284,7 +284,11 @@ const ProfilePage = () => {
 
       <TabPanel value={value} index={1}>
         <Divider />
-        <Typography
+        
+
+        <form className="profile__tabpanel">
+          {/* <Container sx={{ height: 320 }}> */}
+          <Typography
           sx={{
             fontSize: 26,
             fontWeight: "bold",
@@ -292,10 +296,8 @@ const ProfilePage = () => {
           }}
         >
           姓名
+          <Divider/>
         </Typography>
-
-        <form className="profile__tabpanel">
-          {/* <Container sx={{ height: 320 }}> */}
           <Input
             type="text"
             name=""
@@ -305,17 +307,18 @@ const ProfilePage = () => {
             onChange={handleName}
           />
 
-          <Divider />
           <Typography
             className="profile__typography"
             sx={{ fontSize: 18, marginTop: 1 }}
           >
             <Button>
-              <EditIcon
-                fontSize="small"
-                sx={{ marginLeft: 31 }}
-                onClick={handleReadOnly}
-              ></EditIcon>
+                <EditIcon
+                  sx={{ 
+                  marginLeft: 56,
+                  position:"absolute",
+                  top:-45,
+                    
+                 }}/>
             </Button>
           </Typography>
 
@@ -356,8 +359,7 @@ const ProfilePage = () => {
           >
             <Button onClick={logoutAndNavigate}>
               <EditIcon
-                fontSize="small"
-                sx={{ marginLeft: 27, marginTop: -1 }}
+                sx={{ marginLeft: 30, marginTop: 1 }}
               ></EditIcon>
             </Button>
           </Typography>
