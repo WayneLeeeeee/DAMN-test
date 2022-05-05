@@ -204,7 +204,7 @@ const RecipeIngredients = () => {
         />
       </FormControl>
       {/*  料理時間  */}
-      <FormControl fullWidth sx={{ margin: "20px 0px" }} required>
+      <FormControl fullWidth sx={{ margin: "20px 12x" }} required>
         <InputLabel htmlFor="outlined-adornment-amount">料理時間</InputLabel>
         <OutlinedInput
           type="number"

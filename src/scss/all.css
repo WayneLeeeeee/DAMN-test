@@ -588,9 +588,6 @@ body > iframe + iframe {
 }
 
 .add .addRecipePage .deleteStepBtn {
-  position: absolute;
-  right: 0;
-  top: 0;
   border-radius: 50% !important;
 }
 

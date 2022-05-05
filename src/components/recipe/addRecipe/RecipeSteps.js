@@ -1,5 +1,6 @@
 import { Button, Divider, Fab, IconButton, TextField } from "@material-ui/core";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -87,33 +88,40 @@ const RecipeSteps = () => {
             value={stepsList[id]?.content}
             onChange={(e) => handleStepContent(e, id)}
           />
-          {/* 步驟圖片顯示 */}
-          <label htmlFor="icon-button-file">
-            {/* 不要用 Input 會有問題 */}
-            <input
-              accept="image/*"
-              id="icon-button-file"
-              type="file"
-              onChange={(e) => showStepImage(e, id)}
-            />
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <PhotoCamera />
-            </IconButton>
-          </label>
+          {/*  步驟圖片 */}
           <img src={stepsList[id]?.imageURL} alt="" loading="lazy" />
-          <Fab
-            className="deleteStepBtn"
-            onClick={() => deleteStepInputField(id)}
-            variant="circular"
-            size="small"
-          >
-            <RemoveIcon />
-          </Fab>
-          <Divider variant="middle" />
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            {/* 步驟圖片按鈕 */}
+            <label htmlFor="icon-button-file">
+              {/* 不要用 Input 會有問題 */}
+              <input
+                accept="image/*"
+                id="icon-button-file"
+                type="file"
+                style={{ display: "none" }}
+                onChange={(e) => showStepImage(e, id)}
+              />
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <PhotoCamera color={"success"} />
+              </IconButton>
+            </label>
+
+            {/* 刪除按鈕 */}
+            <IconButton
+              className="deleteStepBtn"
+              onClick={() => deleteStepInputField(id)}
+              variant="circular"
+              size="small"
+            >
+              <DeleteIcon color={"error"} />
+            </IconButton>
+          </div>
+
+          {/* <Divider variant="middle" /> */}
         </Box>
       ))}
       {/* 新增食譜步驟按鈕 */}
