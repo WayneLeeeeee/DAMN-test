@@ -703,10 +703,6 @@ body > iframe + iframe {
   right: 0px;
 }
 
-.ProfilePage .create span {
-  color: black;
-}
-
 .ProfilePage .profile__typography {
   color: #bab9b9 !important;
 }
@@ -1451,9 +1447,5 @@ body > iframe + iframe {
 
 .color-primary {
   color: #fe8b83 !important;
-}
-
-span {
-  color: black;
 }
 /*# sourceMappingURL=all.css.map */
