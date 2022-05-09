@@ -32,20 +32,6 @@ exports.sanityWebhookHandler = functions.https.onRequest(async (req, res) => {
 
 const getSanityData = async (result) => {
   const item = JSON.parse(result);
-  // console.log("Setting up client", body?.projectId);
-  // const id = body._id;
-  // console.log("id", id);
-  //for (const id of body.ids.all) {
-  // https://f2w81k10.api.sanity.io/v1/data/query/production?query=*[_id=="1d904871-9a2f-4a50-a0b1-8206389e0ba9"]
-  // https://f2w81k10.api.sanity.io/v1/data/query/production?query=*[_id%20==%20$id]&$id="1d904871-9a2f-4a50-a0b1-8206389e0ba9"
-  // const url = `https://${body.projectId}.api.sanity.io/v2021-06-07/data/query/${body.dataset}?query=*[_id==${id}]`;
-  // // `https://${body.projectId}.api.sanity.io/v2021-06-07/data/query/${body.dataset}?query=*[_id==${id}]`
-  // console.log(url);
-  // const resp = await (await fetch(url)).json();
-  // console.log("res: ", resp);
-  // const { result } = resp;
-  // //console.log("下面是 result");
-  // console.log("fetch result", result);
   console.log("item: ", item);
   console.log("Updating", `${item._type}/${item._id}`);
   console.log("run the func");
@@ -54,13 +40,4 @@ const getSanityData = async (result) => {
     .collection(`${item._type}`)
     .doc(`${item._id}`)
     .set(item.data, { merge: true });
-  // for (const item of result) {
-  //   console.log("Updating", `${item._type}/${item._id}`);
-  //   console.log("run the func");
-  //   await db
-  //     .collection(`${item._type}`)
-  //     .doc(`${item._id}`)
-  //     .set(item, { merge: true });
-  // }
-  //}
 };

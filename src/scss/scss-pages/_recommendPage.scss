@@ -1,18 +1,40 @@
-.recommend__recipe {
-  .recommendCard {
-    padding-top: 20px;
+
+  .recommendCardList {
+   
     display: flex;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 0;
+    flex-wrap: wrap;
+    // padding-top: 20px;
+    // padding-left: 20px;
+    // padding-right: 20px;
+    // padding-bottom: 0;
     .recommendCard__img {
-      width: 100px;
-      height: 100px;
-      border-radius: 20px;
-      padding-right: 20px;
+      position: relative;
+      border-radius: 10px;
+      // padding-right: 20px;
+     background-color: #eee;
+      //background: linear-gradient($primary-color,$primary-color 5%, #fff 95%);
+     
       img {
-        border-radius: 20px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+      }
+      .content{
+        color: #444545;
+        font-weight: bolder;
+        display: flex;
+        flex-direction: column;
+      justify-content:space-between;
+      .css-ryrseu-MuiRating-root{
+        color: $primary-color;
+      }
+      }
+      .ArrowCircleRightOutlinedIcon{
+        position:absolute;
+        right: 20px;
+        bottom: 10px;
+         color: $primary-color;
       }
     }
   }
-}
+

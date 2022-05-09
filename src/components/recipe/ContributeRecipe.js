@@ -1,13 +1,12 @@
 import React from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 
 // import required modules
-import { Parallax, Pagination, Navigation } from "swiper";
+import { Parallax, Pagination, Navigation, Autoplay } from "swiper";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -20,16 +19,19 @@ export default function ContributeRecipe() {
           "--swiper-pagination-color": "#fff",
         }}
         speed={600}
-        parallax={true}
+        //parallax={true}
         pagination={{
           clickable: true,
         }}
-
+        centeredSlides={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         navigation={true}
-        modules={[Navigation, Parallax, Pagination]}
+        modules={[Autoplay, Navigation, Parallax, Pagination]}
         className="contributeRecipe__swiper"
-      
-        onSlideChange={() => console.log("slide change")}
+        //onSlideChange={() => console.log("slide change")}
       >
         <div
           slot="container-start"
@@ -51,19 +53,14 @@ export default function ContributeRecipe() {
             提升經驗值！
           </div>
         </SwiperSlide>
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <div className="title" data-swiper-parallax="-300">
             有什麼好處？
           </div>
           <div className="subtitle" data-swiper-parallax="-200">
             獎牌、名氣、＄＄？
           </div>
-          {/* <div className="text" data-swiper-parallax="-100">
-            <p>
-              小當家致力於 食譜分享活動
-            </p>
-          </div> */}
-        </SwiperSlide>
+        </SwiperSlide> */}
         <SwiperSlide className="contributeRecipe__swiperSlide">
           <div className="title" data-swiper-parallax="-300">
             開始貢獻！

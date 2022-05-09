@@ -1,9 +1,13 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { db } from '../../firebase';
-// import hamburger from "../../images/hamburger.png";
 
+import { Box } from "@material-ui/core";
+import { Grid, Paper, Rating } from "@mui/material";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../firebase";
+
+// import hamburger from "../../images/hamburger.png";
+import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 function RecommendCard() {
   const userId = localStorage.getItem('userUid');
   const [ingredient, setIngrendient] = useState([]);
@@ -65,18 +69,29 @@ function RecommendCard() {
   let navigate = useNavigate();
 
   return (
-    <div className="recommendCard">
-      {champion.map((item, index) => (
-        <div
-          className="recommendCard__img"
-          key={index}
-          onClick={() => navigate(`/recipe/${item.id}`)}
-        >
-          <img src={item.thumbnail.url} alt="" />
-          <h4>{item.name}</h4>
-        </div>
-      ))}
-    </div>
+    <Box className="recommendCardList" sx={{ flexGrow: 1, padding: "0 20px" }}>
+      <Grid container spacing={2}>
+        {champion.map((item, index) => (
+          // need to check  RWD xs ={6} change to xs={12}
+          <Grid item xs={12}>
+            <Paper
+              className="recommendCard__img"
+              key={index}
+              sx={{ display: "flex", padding: "10px" }}
+              onClick={() => navigate(`/recipe/${item.id}`)}
+            >
+              <img src={item.thumbnail.url} alt="" />
+              <div className="content">
+                <h4>{item.name}</h4>
+                <Rating value={4} readOnly />
+              </div>
+              {/* > btn */}
+              <ArrowCircleRightOutlinedIcon className="ArrowCircleRightOutlinedIcon" />
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 }
 

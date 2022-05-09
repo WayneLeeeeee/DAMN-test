@@ -386,26 +386,6 @@ body > iframe + iframe {
   padding-bottom: 80px;
 }
 
-.recipe__index .recipeIndexMiddle .recipeIndexMiddle__cards-1 .recommendCard {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 0;
-}
-
-.recipe__index .recipeIndexMiddle .recipeIndexMiddle__cards-1 .recommendCard .recommendCard__img {
-  width: 100px;
-  height: 100px;
-  border-radius: 20px;
-  padding-right: 20px;
-}
-
-.recipe__index .recipeIndexMiddle .recipeIndexMiddle__cards-1 .recommendCard .recommendCard__img img {
-  border-radius: 20px;
-}
-
 .recipe__index .recipeIndexMiddle__recommend__recipes-container {
   position: fixed;
   bottom: 100px;
@@ -878,25 +858,50 @@ body > iframe + iframe {
   line-height: 1.3;
 }
 
-.recommend__recipe .recommendCard {
-  padding-top: 20px;
+.recommendCardList {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 0;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-.recommend__recipe .recommendCard .recommendCard__img {
+.recommendCardList .recommendCard__img {
+  position: relative;
+  border-radius: 10px;
+  background-color: #eee;
+}
+
+.recommendCardList .recommendCard__img img {
   width: 100px;
   height: 100px;
-  border-radius: 20px;
-  padding-right: 20px;
+  border-radius: 50%;
 }
 
-.recommend__recipe .recommendCard .recommendCard__img img {
-  border-radius: 20px;
+.recommendCardList .recommendCard__img .content {
+  color: #444545;
+  font-weight: bolder;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.recommendCardList .recommendCard__img .content .css-ryrseu-MuiRating-root {
+  color: #fe8b83;
+}
+
+.recommendCardList .recommendCard__img .ArrowCircleRightOutlinedIcon {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  color: #fe8b83;
 }
 
 .fridge__index {

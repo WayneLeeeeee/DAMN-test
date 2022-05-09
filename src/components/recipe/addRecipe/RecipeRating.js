@@ -5,16 +5,16 @@ import StarIcon from "@mui/icons-material/Star";
 import { actionTypes } from "../../../reducer";
 import { useStateValue } from "../../../StateProvider";
 const labels = {
-  0.5: "嬰兒",
-  1: "木牌",
-  1.5: "鐵牌",
+  0.5: "入門",
+  1: "新手",
+  1.5: "進階",
   2: "銅牌",
   2.5: "銀牌",
   3: "金牌",
   3.5: "白金",
   4: "鑽石",
   4.5: "大師",
-  5: "特級大師",
+  5: "小當家",
 };
 export default function RecipeRating() {
   const [value, setValue] = useState(2);
