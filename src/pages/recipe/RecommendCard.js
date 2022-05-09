@@ -50,7 +50,7 @@ function RecommendCard() {
         for (let j = 0; j <= temp2[i][1]?.length - 1; j++) {
           console.log(temp2[i][1][j]?.name);
           if (result.indexOf(temp2[i][1][j]?.name)) {
-            temp2[i][2] = temp2[i][2] + 1;
+            temp2[i][2] = temp2[i][2] + 1;  
           }
           console.log(temp2[i]);
         }
