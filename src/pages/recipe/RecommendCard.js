@@ -73,7 +73,7 @@ function RecommendCard() {
       <Grid container spacing={2}>
         {champion.map((item, index) => (
           // need to check  RWD xs ={6} change to xs={12}
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <Paper
               className="recommendCard__img"
               key={index}
