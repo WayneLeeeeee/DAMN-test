@@ -260,6 +260,10 @@ body > iframe + iframe {
   padding: 4px;
 }
 
+.recipe__index .rnc__base {
+  position: unset !important;
+}
+
 .recipe__index .recipeIndexMiddle .recipeIndexMiddle__title {
   display: -webkit-box;
   display: -ms-flexbox;

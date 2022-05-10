@@ -93,7 +93,7 @@ const PreviewRecipe = () => {
     initNewRecipeData(); // need to clear global state
 
     // navigate to homepage page
-    //navigate("/");
+    navigate("/");
   };
 
   const initNewRecipeData = () => {

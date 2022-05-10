@@ -101,7 +101,7 @@ function HotCard({ data }) {
             <h3>{data.name}</h3>
             <div className="hotCard__title-2">
               <h4>{data.author}</h4>
-              <h4>{dataLikes}說讚</h4>
+              {/* <h4>{dataLikes}說讚</h4> */}
             </div>
           </div>
           <span></span>
@@ -127,7 +127,8 @@ function HotCard({ data }) {
                   onClick={handleLike}
                 />
               )}
-              {isLiked.indexOf(data.id) > -1 ? <h4>已說讚</h4> : <h4>讚</h4>}
+              {/* {isLiked.indexOf(data.id) > -1 ? <h4>已說讚</h4> : <h4>讚</h4>} */}
+              {dataLikes}
               {/* <h4>{dataLikes}</h4> */}
             </div>
             <div className="hotCard__item">
@@ -136,8 +137,8 @@ function HotCard({ data }) {
               <h5>人</h5>
             </div>
             <div className="hotCard__item">
-              <h4>{data.rating}</h4>
               <StarIcon sx={{ color: "gold", paddingRight: "5px" }} />
+              <h4>{data.rating}</h4>
             </div>
           </div>
         </div>
