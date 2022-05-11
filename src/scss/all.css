@@ -325,9 +325,9 @@ body > iframe + iframe {
   bottom: 12px;
   left: 32px;
   width: 215px;
-  height: 120px;
-  background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(75%, #fff));
-  background: linear-gradient(180deg, transparent, #fff 75%);
+  height: 80px;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(40%, transparent), color-stop(60%, #fff));
+  background: linear-gradient(180deg, transparent 40%, #fff 60%);
   padding: 20px;
   border-radius: 20px;
   -webkit-box-shadow: -4px 4px 8px gray;
@@ -336,7 +336,7 @@ body > iframe + iframe {
 
 .recipe__index .recipeIndexMiddle .recipeIndexMiddle__cards .hotCard .hotCard__content .hotCard__title h3 {
   font-size: 28px;
-  color: #444545;
+  color: #fefefe;
   padding-bottom: 5px;
 }
 

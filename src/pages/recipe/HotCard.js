@@ -98,9 +98,9 @@ function HotCard({ data }) {
       <div>
         <div className="hotCard__content">
           <div className="hotCard__title">
-            <h3>{data.name}</h3>
+            {/* <h3>{data.name}</h3> */}
             <div className="hotCard__title-2">
-              <h4>{data.author}</h4>
+              <h3>{data.name}</h3>
               {/* <h4>{dataLikes}說讚</h4> */}
             </div>
           </div>

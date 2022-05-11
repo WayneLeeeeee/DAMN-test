@@ -27,7 +27,7 @@ import AddIngredient from "./pages/frigde/AddIngredient";
 import AddIngredient2 from "./pages/frigde/shoppingList/AddIngredient2";
 import ShoppingListPage from "./pages/frigde/shoppingList/shoppingListPage";
 import FinalSendIngredient from "./pages/frigde/shoppingList/FinalSendIngredient";
-import { ReactNotifications, Store } from "react-notifications-component";
+import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
 function App() {
@@ -43,20 +43,6 @@ function App() {
         user: userUid,
       });
     }
-
-    Store.addNotification({
-      title: "Wonderful!",
-      message: "teodosii@react-notifications-component",
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animate__animated", "animate__fadeIn"],
-      animationOut: ["animate__animated", "animate__fadeOut"],
-      dismiss: {
-        duration: 5000,
-        onScreen: true,
-      },
-    });
   }, []);
 
   return (
@@ -99,7 +85,7 @@ function App() {
         </Routes>
         <ReactNotifications />
         {/* 想用的，可以打開註解 */}
-        <Assistant />
+        {user && <Assistant />}
       </Router>
     </div>
   );

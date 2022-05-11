@@ -19,7 +19,7 @@ export default async function getTokenOrRefresh() {
         path: "/",
       });
 
-      console.log("Token fetched from back-end: " + token);
+      // console.log("Token fetched from back-end: " + token);
       return { authToken: token, region: region };
     } catch (err) {
       console.log(err.response.data);

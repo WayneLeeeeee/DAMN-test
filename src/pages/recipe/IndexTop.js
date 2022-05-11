@@ -136,7 +136,7 @@ function IndexTop() {
       <div className="recipeIndexTop__title">
         <h4>你今天想要煮什麼？</h4>
         <Button onClick={handleClickOpen("paper")}>
-          <NotificationsIcon />
+          <NotificationsIcon sx={{ color: "#fff" }} />
         </Button>
       </div>
       <div className="recipeIndexTop__search">
@@ -179,7 +179,7 @@ function IndexTop() {
         <DialogActions>
           <Button
             onClick={() =>
-              sendNotice({ type: "error", title: "hello", message: "幹" })
+              sendNotice({ type: "warning", title: "he2llo", message: "test" })
             }
           >
             send notice

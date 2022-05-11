@@ -6,6 +6,7 @@ const sendNotice = async (data) => {
   /*
     data={
         type: string ("warning" | "error" | "info" | "success")
+        title: string
         message: string (要傳送的字串)
     }
 
