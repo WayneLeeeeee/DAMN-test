@@ -23,7 +23,7 @@ import {
   query as firebaseQuery,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-
+import { sortBy } from "lodash";
 function IndexTop() {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userUid");
@@ -111,6 +111,7 @@ function IndexTop() {
       // console.log(doc.id, " => ", doc.data());
       temp.push({ id: doc.id, ...doc.data() });
     });
+    temp = sortBy(temp, ["createdAt.seconds"]).reverse()
     console.log("temp: ", temp);
     setNotifications(temp);
   };
@@ -177,13 +178,18 @@ function IndexTop() {
         </DialogContent>
 
         <DialogActions>
-          <Button
+          {/* test 用按鈕 */}
+          {/* <Button
             onClick={() =>
-              sendNotice({ type: "warning", title: "he2llo", message: "test" })
+              sendNotice({
+                type: "error",
+                title: "error test",
+                message: "test",
+              })
             }
           >
             send notice
-          </Button>
+          </Button> */}
           <Button onClick={handleClose}>關閉</Button>
         </DialogActions>
       </Dialog>

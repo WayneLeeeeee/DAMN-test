@@ -19,6 +19,7 @@ import ImageStepper from "../../ImageStepper";
 import client from "../../../sanity";
 import { basename } from "path";
 import { createReadStream } from "fs";
+import sendNotice from "../../../function/sendNotice";
 const PreviewRecipe = () => {
   const navigate = useNavigate();
   const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
@@ -63,7 +64,7 @@ const PreviewRecipe = () => {
       // console.log("Document written with ID: ", docRef.id);
     }
     let doc_id = "";
-    console.log(userId)
+    console.log(userId);
     const doc = {
       _type: "recipes",
       title: result.name,
@@ -84,10 +85,15 @@ const PreviewRecipe = () => {
     await client.create(doc).then((res) => {
       console.log(`Recipe was created, document ID is ${res._id}`);
       doc_id = res._id;
+      // 傳送成功通知
     });
 
     await uploadImages(newRecipeData?.thumbnail.file, doc_id);
-
+    await sendNotice({
+      type: "success",
+      title: "食譜貢獻成功",
+      message: "審核通過即可看見您貢獻的食譜！！",
+    });
     // 將 圖片上傳 並參考至該 document
 
     initNewRecipeData(); // need to clear global state
@@ -161,7 +167,7 @@ const PreviewRecipe = () => {
         return client
           .patch(_id)
           .set({
-            "thumbnail": {
+            thumbnail: {
               _type: "image",
               asset: {
                 _type: "reference",

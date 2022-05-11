@@ -1,7 +1,7 @@
 import { db } from "../firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { Store } from "react-notifications-component";
-
+import { Timestamp } from "firebase/firestore";
 const sendNotice = async (data) => {
   /*
     data={
@@ -11,6 +11,7 @@ const sendNotice = async (data) => {
     }
 
     */
+  console.log(`send message ${data.message}`);
   let { type, message, title } = data;
   let reactNotificationsType = type;
   if (!message) return console.error("param: (message) lost");
@@ -21,6 +22,7 @@ const sendNotice = async (data) => {
     title: title,
     message: message,
     isChecked: false,
+    createdAt: Timestamp.now().toDate(),
   };
 
   // 將通知傳送到資料庫 notifications
