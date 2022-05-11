@@ -14,10 +14,11 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import {
   getFirestore,
-  collection,
-  addDoc,
-  getDocs,
   updateDoc,
+  deleteDoc,
+  setDoc,
+  getDocs,
+  collection,
   increment,
 } from 'firebase/firestore';
 
@@ -41,9 +42,11 @@ function RecipeItem({ propsData }) {
     }
   };
 
-  const handleComplete = () => {
-    setIscompleted(true);
-  };
+  console.log(data);
+
+  // const handleComplete = () => {
+  //   setIscompleted(true);
+  // };
 
   useEffect(() => {
     if (params.id) {
@@ -86,7 +89,48 @@ function RecipeItem({ propsData }) {
   // }, [db]);
 
   const userUid = localStorage.getItem('userUid');
-  
+  // const recipesCompleted = doc(db, 'recipes', data.id);
+  const [isCompleted, setIsCompleted] = useState([]);
+
+  const handleCompleted = async () => {
+    const docRef = doc(
+      db,
+      'users',
+      `${userUid}`,
+      'isCompletedrecipes',
+      `${params.id}`
+    );
+    const docSnap = await getDoc(docRef);
+    //不存在代表沒完成
+    if (!docSnap.exists()) {
+      await setDoc(
+        doc(db, 'users', `${userUid}`, 'isCompletedrecipes', `${params.id}`),
+        {
+          recipe: `${data.name}`,
+          image: `${data.thumbnail.url}`,
+        }
+      );
+    }
+  };
+
+  useEffect(() => {
+    async function readData() {
+      const querySnapshot = await getDocs(
+        collection(db, 'users', `${userUid}`, 'isCompletedrecipes')
+      );
+      const temp = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, ' => ', doc.data());
+        temp.push(doc.id);
+      });
+      console.log(temp);
+      setIsCompleted(...[temp]);
+    }
+
+    readData();
+  }, [isCompleted]);
+
   const update = async function () {
     const db = getFirestore();
     try {
@@ -122,7 +166,7 @@ function RecipeItem({ propsData }) {
         {/* 食材 或 步驟 選項 */}
         <Tabs data={data} />
       </Paper>
-      {iscompleted ? (
+      {isCompleted.indexOf(params.id) > -1 ? (
         <div className="recipeItem__checkIcon">
           <CheckCircleIcon sx={{ color: 'green' }} />
           <h4>已完成</h4>
@@ -198,7 +242,7 @@ function RecipeItem({ propsData }) {
                 update();
                 update();
               }
-              handleComplete();
+              handleCompleted();
             }}
           />
           <h4>未完成</h4>
