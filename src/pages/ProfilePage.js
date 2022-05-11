@@ -235,7 +235,7 @@ const ProfilePage = () => {
 
   return (
     <div className="ProfilePage">
-      {users.map((testuser, index) => (
+      {users.map((user, index) => (
         <Card key={index} className="profile__card" sx={{ height: 400 }}>
           <div className="profile__progress">
             <Circle
@@ -245,7 +245,7 @@ const ProfilePage = () => {
             />
           </div>
 
-          <Avatar className="profile__avatar" src={profile} alt="Logo" />
+          <Avatar className="profile__avatar" src={user?.imageURL} alt="Logo" />
           <Typography className="profile__name"></Typography>
           <Button
             className="profile__button"
@@ -284,22 +284,22 @@ const ProfilePage = () => {
 
       <TabPanel value={value} index={1}>
         <Divider />
-        
 
         <form className="profile__tabpanel">
           {/* <Container sx={{ height: 320 }}> */}
           <Typography
-          sx={{
-            fontSize: 26,
-            fontWeight: "bold",
-            marginTop: 2,
-          }}
-        >
-          姓名
-          <Divider/>
-        </Typography>
-          <Input className="nameInput"
-          sx = {{width:250}}
+            sx={{
+              fontSize: 26,
+              fontWeight: "bold",
+              marginTop: 2,
+            }}
+          >
+            姓名
+          </Typography>
+          <Divider />
+          <Input
+            className="nameInput"
+            sx={{ width: 250 }}
             type="text"
             name=""
             disabled={readOnly ? true : false}
@@ -313,7 +313,7 @@ const ProfilePage = () => {
             sx={{ fontSize: 18, marginTop: -2 }}
           >
             <Button>
-                {/* <EditIcon
+              {/* <EditIcon
                   sx={{ 
                   marginLeft: 56,
                   position:"absolute",
@@ -335,8 +335,9 @@ const ProfilePage = () => {
             電子郵件
           </Typography>
           <Divider />
-          <Input className="emailInput"
-            sx = {{width:250}}
+          <Input
+            className="emailInput"
+            sx={{ width: 250 }}
             type="text"
             name=""
             disabled={readOnly2 ? true : false}
@@ -358,19 +359,17 @@ const ProfilePage = () => {
             <Button onClick={logoutAndNavigate}>
               <EditIcon
                 sx={{
-                  
-                    marginTop: -1 }}
+                  marginTop: -1,
+                }}
               ></EditIcon>
             </Button>
           </Typography>
-        
+
           <Divider />
           <Typography
             className="profile__typography"
             sx={{ fontSize: 18, marginTop: 1 }}
-          >
-            
-          </Typography>
+          ></Typography>
 
           {/* <Typography
               sx={{
@@ -406,17 +405,17 @@ const ProfilePage = () => {
             }
             label="關閉小當家"
           /> */}
-          <form>
-            <Button
-              className="profile__logout"
-              variant="contained"
-              onClick={handleSubmit}
-              color="inherit"
-            >
-              登出
-            </Button>
-            {message}
-          </form>
+
+          <Button
+            className="profile__logout"
+            variant="contained"
+            onClick={handleSubmit}
+            color="inherit"
+          >
+            登出
+          </Button>
+          {message}
+
           {/* </Container> */}
         </form>
       </TabPanel>

@@ -1,4 +1,3 @@
-
 import { Box } from "@material-ui/core";
 import { Grid, Paper, Rating } from "@mui/material";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -9,7 +8,7 @@ import { db } from "../../firebase";
 // import hamburger from "../../images/hamburger.png";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 function RecommendCard() {
-  const userId = localStorage.getItem('userUid');
+  const userId = localStorage.getItem("userUid");
   const [ingredient, setIngrendient] = useState([]);
   const [recommend, setRecommend] = useState([]);
   const [champion, setChampion] = useState([]);
@@ -18,11 +17,11 @@ function RecommendCard() {
     async function readData() {
       //找有的食材
       const querySnapshot = await getDocs(
-        collection(db, 'users', userId, 'fridge')
+        collection(db, "users", userId, "fridge")
       );
       const temp = [];
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, ' => ', doc.data());
+        console.log(doc.id, " => ", doc.data());
         temp.push(doc.data().name);
       });
       // console.log(temp);
@@ -35,10 +34,10 @@ function RecommendCard() {
       console.log(result);
 
       //找食材能做的食譜
-      const querySnapshot2 = await getDocs(collection(db, 'recipes'));
+      const querySnapshot2 = await getDocs(collection(db, "recipes"));
       const temp2 = [];
       querySnapshot2.forEach((doc) => {
-        console.log(doc.id, '=>', doc.data().ingredientRecommendTags);
+        console.log(doc.id, "=>", doc.data().ingredientRecommendTags);
         const data = { ...doc.data(), id: doc.id };
         temp2.push([data, doc.data().ingredientRecommendTags, 0]);
       });
@@ -50,7 +49,7 @@ function RecommendCard() {
         for (let j = 0; j <= temp2[i][1]?.length - 1; j++) {
           console.log(temp2[i][1][j]?.name);
           if (result.indexOf(temp2[i][1][j]?.name)) {
-            temp2[i][2] = temp2[i][2] + 1;  
+            temp2[i][2] = temp2[i][2] + 1;
           }
           console.log(temp2[i]);
         }
@@ -73,10 +72,9 @@ function RecommendCard() {
       <Grid container spacing={2}>
         {champion.map((item, index) => (
           // need to check  RWD xs ={6} change to xs={12}
-          <Grid item xs={12} md={6}>
+          <Grid item key={index} xs={12} md={6}>
             <Paper
               className="recommendCard__img"
-              key={index}
               sx={{ display: "flex", padding: "10px" }}
               onClick={() => navigate(`/recipe/${item.id}`)}
             >

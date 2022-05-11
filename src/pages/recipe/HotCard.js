@@ -115,7 +115,6 @@ function HotCard({ data }) {
                     cursor: "pointer",
                   }}
                   onClick={handleLike}
-                  link
                 />
               ) : (
                 <FavoriteBorderIcon
