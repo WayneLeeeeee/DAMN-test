@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Tabs from './Tabs';
-import { useNavigate, useParams } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { Box, ThemeProvider } from '@mui/system';
-import { Paper } from '@mui/material';
-import theme from '../../function/theme';
-import ImageIcon from '@mui/icons-material/Image';
-import ImageStepper from '../../components/ImageStepper';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import React, { useEffect, useState } from "react";
+import Tabs from "./Tabs";
+import { useNavigate, useParams } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+import { Box, ThemeProvider } from "@mui/system";
+import { Paper } from "@mui/material";
+import theme from "../../function/theme";
+import ImageIcon from "@mui/icons-material/Image";
+import ImageStepper from "../../components/ImageStepper";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DinnerDiningIcon from "@mui/icons-material/DinnerDining";
 import {
   getFirestore,
   updateDoc,
@@ -20,25 +20,25 @@ import {
   getDocs,
   collection,
   increment,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 function RecipeItem({ propsData }) {
   const [data, setData] = useState(null);
   const [iscompleted, setIscompleted] = useState(false);
   let params = useParams();
   let navigate = useNavigate();
-  const handleGoBackToHomePage = () => navigate('/');
+  const handleGoBackToHomePage = () => navigate("/");
 
   // fetch recipe detail data from fireStore
   const fetchData = async () => {
-    const docRef = doc(db, 'recipes', params.id);
+    const docRef = doc(db, "recipes", params.id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
+      console.log("Document data:", docSnap.data());
       setData(docSnap.data());
     } else {
       // doc.data() will be undefined in this case
-      console.log('No such document!');
+      console.log("No such document!");
     }
   };
 
@@ -52,7 +52,7 @@ function RecipeItem({ propsData }) {
     if (params.id) {
       // 如果有路徑帶 uid 就 fetchData
       fetchData();
-      setData(null);
+      // setData(null);
       return;
     } else {
       // 如果有 props 就設定 data 為傳入資料
@@ -88,54 +88,68 @@ function RecipeItem({ propsData }) {
   //   Rating();
   // }, [db]);
 
-  const userUid = localStorage.getItem('userUid');
+  const userUid = localStorage.getItem("userUid");
   // const recipesCompleted = doc(db, 'recipes', data.id);
   const [isCompleted, setIsCompleted] = useState([]);
 
   const handleCompleted = async () => {
     const docRef = doc(
       db,
-      'users',
+      "users",
       `${userUid}`,
-      'isCompletedrecipes',
+      "isCompletedrecipes",
       `${params.id}`
     );
     const docSnap = await getDoc(docRef);
     //不存在代表沒完成
     if (!docSnap.exists()) {
       await setDoc(
-        doc(db, 'users', `${userUid}`, 'isCompletedrecipes', `${params.id}`),
+        doc(db, "users", `${userUid}`, "isCompletedrecipes", `${params.id}`),
         {
-          recipe: `${data.name}`,
-          image: `${data.thumbnail.url}`,
+          name: `${data.name}`,
+          imageURL: `${data.thumbnail.url}`,
         }
       );
     }
   };
 
   useEffect(() => {
-    async function readData() {
+    async function getCompletedRecipes() {
       const querySnapshot = await getDocs(
-        collection(db, 'users', `${userUid}`, 'isCompletedrecipes')
+        collection(db, "users", `${userUid}`, "isCompletedrecipes")
       );
       const temp = [];
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
+        // console.log(doc.id, " => ", doc.data());
         temp.push(doc.id);
       });
-      console.log(temp);
-      setIsCompleted(...[temp]);
+
+      const checkIsRecipeIdInList = (list) => {
+        if (list.indexOf(params.id) === -1) {
+          setIsCompleted(false);
+          return;
+        }
+        setIsCompleted(true);
+      };
+      console.log(checkIsRecipeIdInList(temp));
+
+     
     }
 
-    readData();
-  }, [isCompleted]);
+    getCompletedRecipes();
+  }, []);
+  console.log(isCompleted);
+  const getRecipeExp = async function () {
+    await plusExp(data?.rating * 10);
+    setIsCompleted(true);
+    handleCompleted();
+  };
 
-  const update = async function () {
-    const db = getFirestore();
+  const plusExp = async (number) => {
     try {
-      await updateDoc(doc(db, 'users', `${userUid}`), {
-        progress: increment(5),
+      await updateDoc(doc(db, "users", `${userUid}`), {
+        progress: increment(number),
       });
     } catch (e) {
       console.log(e);
@@ -146,16 +160,16 @@ function RecipeItem({ propsData }) {
     <ThemeProvider theme={theme}>
       <div className="recipeItem__title">
         <ArrowBackIosIcon
-          sx={{ color: '#ffffff' }}
+          sx={{ color: "#ffffff" }}
           onClick={handleGoBackToHomePage}
         />
         <h3>{data?.name}</h3>
-        <DinnerDiningIcon sx={{ paddingLeft: '10px', fontSize: '32px' }} />
+        <DinnerDiningIcon sx={{ paddingLeft: "10px", fontSize: "32px" }} />
       </div>
       <Paper
         elevation={3}
         className="recipeItem__container"
-        sx={{ color: 'text.normal' }}
+        sx={{ color: "text.normal" }}
       >
         <div className="recipeItem__wrap">
           {data?.thumbnail?.url && <ImageStepper data={data} />}
@@ -166,84 +180,16 @@ function RecipeItem({ propsData }) {
         {/* 食材 或 步驟 選項 */}
         <Tabs data={data} />
       </Paper>
-      {isCompleted.indexOf(params.id) > -1 ? (
+      {isCompleted ? (
         <div className="recipeItem__checkIcon">
-          <CheckCircleIcon sx={{ color: 'green' }} />
+          <CheckCircleIcon sx={{ color: "green" }} />
           <h4>已完成</h4>
         </div>
       ) : (
         <div className="recipeItem__checkIcon">
           <CheckCircleOutlineIcon
-            sx={{ color: 'red' }}
-            onClick={() => {
-              if (data?.rating === 0.5) {
-                update();
-              } else if (data?.rating === 1) {
-                update();
-                update();
-              } else if (data?.rating === 1.5) {
-                update();
-                update();
-                update();
-              } else if (data?.rating === 2) {
-                update();
-                update();
-                update();
-                update();
-              } else if (data?.rating === 2.5) {
-                update();
-                update();
-                update();
-                update();
-                update();
-              } else if (data?.rating === 3) {
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-              } else if (data?.rating === 3.5) {
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-              } else if (data?.rating === 4) {
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-              } else if (data?.rating === 4.5) {
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-              } else if (data?.rating === 5) {
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-                update();
-              }
-              handleCompleted();
-            }}
+            sx={{ color: "red" }}
+            onClick={getRecipeExp}
           />
           <h4>未完成</h4>
         </div>
