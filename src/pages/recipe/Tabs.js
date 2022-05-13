@@ -39,6 +39,7 @@ export default function CustomTabs({ data }) {
       <Box
         sx={{
           minHeight: "470px",
+          // backgroundColor: "#f5f5f5",
           pt: 2,
           fontSize: "24px",
         }}
@@ -84,7 +85,12 @@ export default function CustomTabs({ data }) {
               </div>
             ))}
           </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
+          <TabPanel
+            value={value}
+            index={1}
+            dir={theme.direction}
+            sx={{ backgroundColor: "#f5f5f5" }}
+          >
             {data?.steps?.map((step, id) => (
               <li key={id} className={id === activeStepId ? "activeStep" : ""}>
                 <h3>{`步驟 ${id + 1}`}</h3>

@@ -16,7 +16,6 @@ import ButtomNav from "../../components/BottomNav";
 import { Typography } from "@mui/material";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 
-
 export default function AddRecipeStepper() {
   const theme = useTheme();
 
@@ -54,48 +53,57 @@ export default function AddRecipeStepper() {
           <LocalDiningIcon />
         </div>
         {/* 子頁面 元件 */}
-        <div className="addRecipePage">{steps[activeStep].component}</div>
-        {/* 上一步 下一步 */}
-        <MobileStepper
+        <Box
           sx={{
-            position: "fixed",
-            bottom: "80px",
-            width: "100%",
-            bgcolor: "transparent",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
-          variant="text"
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-              sx={{ color: "primary.main" }}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-              sx={{ color: "primary.main" }}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
-            </Button>
-          }
-        />
+        >
+          <div className="addRecipePage">{steps[activeStep].component}</div>
+          {/* 上一步 下一步 */}
+          <MobileStepper
+            sx={{
+              position: "fixed",
+              bottom: "80px",
+              width: "100%",
+              bgcolor: "transparent",
+            }}
+            variant="text"
+            steps={maxSteps}
+            position="static"
+            activeStep={activeStep}
+            nextButton={
+              <Button
+                size="small"
+                onClick={handleNext}
+                disabled={activeStep === maxSteps - 1}
+                sx={{ color: "primary.main" }}
+              >
+                {theme.direction === "rtl" ? (
+                  <KeyboardArrowLeft />
+                ) : (
+                  <KeyboardArrowRight />
+                )}
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={handleBack}
+                disabled={activeStep === 0}
+                sx={{ color: "primary.main" }}
+              >
+                {theme.direction === "rtl" ? (
+                  <KeyboardArrowRight />
+                ) : (
+                  <KeyboardArrowLeft />
+                )}
+              </Button>
+            }
+          />
+        </Box>
+
         <ButtomNav />
       </ThemeProvider>
     </div>

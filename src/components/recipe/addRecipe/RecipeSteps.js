@@ -73,7 +73,7 @@ const RecipeSteps = () => {
   console.log("stepsList: ", stepsList);
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 2, paddingBottom: 10 }}>
       {/* map 所有步驟 透過按鈕新增刪除 inputField */}
       {stepsList.map((_, id) => (
         <Box className="stepInputFieldContainer" key={id}>
@@ -130,7 +130,7 @@ const RecipeSteps = () => {
           display: "flex",
           justifyContent: "flex-end",
           p: 1,
-          m: 1,
+          mb: 5,
           bgcolor: "background.paper",
         }}
       >

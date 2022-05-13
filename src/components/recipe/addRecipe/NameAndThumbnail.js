@@ -10,12 +10,11 @@ import CustomIcon from "../../Icon";
 import RecipeRating from "../../../components/recipe/addRecipe/RecipeRating";
 import { Typography } from "@mui/material";
 
-
 const NameAndThumbnail = ({ recipeData, setRecipeData, recipes }) => {
   const Input = styled("input")({
     display: "none",
   });
-  
+
   const [{ newRecipeData, isUpdated }, dispatch] = useStateValue();
   const [name, setName] = useState("");
 
@@ -48,8 +47,7 @@ const NameAndThumbnail = ({ recipeData, setRecipeData, recipes }) => {
 
   return (
     <ThemeProvider theme={theme}>
-     
-      <Box sx={{ p: 2, color: "text.normal" }}>
+      <Box sx={{ p: 1, color: "text.normal" }}>
         {/* 食譜名稱 */}
         <Typography variant="h6" gutterBottom component="div">
           食譜名稱
@@ -75,7 +73,7 @@ const NameAndThumbnail = ({ recipeData, setRecipeData, recipes }) => {
             sx={{
               p: 2,
               border: "1px dashed grey",
-              minHeight: "300px",
+              minHeight: "200px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",

@@ -7,6 +7,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import ContributeRecipe from "../../components/recipe/ContributeRecipe";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 function IndexMiddle() {
   const [hitoRecipes, setHitoRecipes] = useState([]);
@@ -45,6 +46,21 @@ function IndexMiddle() {
         {hitoRecipes?.map((item) => (
           <HotCard key={item.id} data={item} />
         ))}
+        {hitoRecipes.length === 0 &&
+          [...new Array(3)].map((item) => (
+            <div className="hotCard">
+              <Skeleton
+                sx={{ width: 280, height: 240, borderRadius: 5 }}
+                animation="wave"
+                variant="rectangular"
+              />
+              <Skeleton
+                className="hotCard__content"
+                variant="rectangular"
+                sx={{ width: 215, height: 80 }}
+              />
+            </div>
+          ))}
       </div>
 
       <ContributeRecipe />
@@ -55,16 +71,6 @@ function IndexMiddle() {
       <div className="recipeIndexMiddle__cards-1">
         <RecommendCard />
       </div>
-
-      {/* <div
-        className="recipeIndexMiddle__recommend__recipes-container"
-        
-      >
-        <h5>推薦食譜</h5>
-        <div className="recipeIndexMiddle__recommend__recipes" onClick={handleRouteToItemPage}>
-          <TipsAndUpdatesIcon />
-        </div>
-      </div> */}
     </div>
   );
 }

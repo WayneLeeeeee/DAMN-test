@@ -1,5 +1,5 @@
-import { Box } from "@material-ui/core";
-import { Grid, Paper, Rating } from "@mui/material";
+import { Box, Typography } from "@material-ui/core";
+import { Grid, Paper, Rating, Skeleton, Stack } from "@mui/material";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -80,14 +80,30 @@ function RecommendCard() {
             >
               <img src={item.thumbnail.url} alt="" />
               <div className="content">
-                <h4>{item.name}</h4>
-                <Rating value={4} readOnly />
+                <Typography variant={"h6"}>{item.name}</Typography>
+                <Rating value={item.rating} readOnly />
               </div>
               {/* > btn */}
               <ArrowCircleRightOutlinedIcon className="ArrowCircleRightOutlinedIcon" />
             </Paper>
           </Grid>
         ))}
+        {/* loading  card skelton */}
+        {champion.length === 0 &&
+          [...new Array(3)].map((item) => (
+            <Grid item xs={12} md={6}>
+              <Paper
+                className="recommendCard__img"
+                sx={{ display: "flex", padding: "10px" }}
+              >
+                <Skeleton variant="circular" width={100} height={100} />
+                <div className="content">
+                  <Skeleton variant="h4" width={100} />
+                  <Skeleton variant="text" />
+                </div>
+              </Paper>
+            </Grid>
+          ))}
       </Grid>
     </Box>
   );

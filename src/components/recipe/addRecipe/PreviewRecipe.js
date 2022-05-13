@@ -13,7 +13,7 @@ import { actionTypes } from "../../../reducer";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
-import { Paper } from "@mui/material";
+import { Paper, Skeleton } from "@mui/material";
 import Tabs from "../../../pages/recipe/Tabs";
 import ImageStepper from "../../ImageStepper";
 import client from "../../../sanity";
@@ -211,15 +211,32 @@ const PreviewRecipe = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ p: 4 }}>
+      <Box sx={{ p: 4, mb: 12 }}>
         <h3>預覽食譜</h3>
         <ThemeProvider theme={theme}>
           <Paper
             elevation={3}
             className="recipeItem__container"
-            sx={{ color: "text.normal", height: "350px", overflow: "auto" }}
+            sx={{ color: "text.normal" }}
           >
             <div className="recipeItem__wrap">
+              {!newRecipeData?.thumbnail?.url && (
+                <Box
+                  sx={{
+                    bgcolor: "gray",
+                    p: 8,
+                    height: "100px",
+                  }}
+                >
+                  {/* <Skeleton
+                    sx={{ bgcolor: "grey.900" }}
+                    variant="rectangular"
+                    width={210}
+                    height={118}
+                  /> */}
+                </Box>
+              )}
+
               <img src={newRecipeData?.thumbnail?.url} alt="" />
             </div>
             {/* 食材 或 步驟 選項 */}
@@ -227,15 +244,16 @@ const PreviewRecipe = () => {
           </Paper>
         </ThemeProvider>
         {/* submit button */}
-        <Button
-          className="addRecipePage__submitBtn"
-          onClick={handleSubmit}
-          fullWidth
-          sx={{ mt: 2 }}
-          variant="contained"
-        >
-          {isUpdated ? "修改" : "發布"}食譜
-        </Button>
+        <Box sx={{ mt: 3 }}>
+          <Button
+            className="addRecipePage__submitBtn"
+            onClick={handleSubmit}
+            fullWidth
+            variant="contained"
+          >
+            {isUpdated ? "修改" : "發布"}食譜
+          </Button>
+        </Box>
       </Box>
     </ThemeProvider>
   );
